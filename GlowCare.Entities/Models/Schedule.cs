@@ -8,7 +8,8 @@ public class Schedule
     public int Id { get; set; }
 
     [Required]
-    public string DayOfWeek { get; set; } = null!;
+    public List<Enum> DayOfWeek { get; set; } 
+        = new List<Enum>();
 
     [Required]
     public string StartTime { get; set; } = null!;

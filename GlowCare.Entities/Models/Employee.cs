@@ -5,7 +5,7 @@ namespace GlowCare.Entities.Models;
 public class Employee : GlowUser
 {
     [Required]
-    public string Specialization { get; set; } = null!;
+    public string Occupation { get; set; } = null!;
 
     [Required]
     public int ExperienceYears { get; set; }

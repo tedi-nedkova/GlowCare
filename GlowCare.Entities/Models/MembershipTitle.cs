@@ -2,8 +2,9 @@
 
 public enum MembershipTitle
 {
-    GlowEntry = 0,
-    GlowPlus = 1,
-    GlowElite = 2
+    Welcome = 0,
+    GlowEntry = 1,
+    GlowPlus = 2,
+    GlowElite = 3
 }
 
