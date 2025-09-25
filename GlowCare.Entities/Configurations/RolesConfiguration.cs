@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using GlowCare.Entities.Models;
 using Newtonsoft.Json;
 
 namespace GlowCare.Entities.Configurations;
@@ -10,7 +9,7 @@ public class RolesConfiguration : IEntityTypeConfiguration<IdentityRole>
 {
     public void Configure(EntityTypeBuilder<IdentityRole> builder)
     {
-        builder.HasData(GetRoles());
+        builder.HasData(this.GetRoles());
     }
 
     private List<IdentityRole> GetRoles()

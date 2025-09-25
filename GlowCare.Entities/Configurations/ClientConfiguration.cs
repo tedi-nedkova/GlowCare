@@ -5,21 +5,23 @@ using Newtonsoft.Json;
 
 namespace GlowCare.Entities.Configurations;
 
-public class ApplicationUserConfiguration : IEntityTypeConfiguration<GlowUser>
+public class ClientConfiguration : IEntityTypeConfiguration<Client>
 {
-    public void Configure(EntityTypeBuilder<GlowUser> builder)
+    public void Configure(EntityTypeBuilder<Client> builder)
     {
-        builder.HasData(this.GetUsers());
+        builder.HasData(this.GetClients());
     }
-    public IEnumerable<GlowUser> GetUsers()
+
+    public IEnumerable<Client> GetClients()
     {
         var workingDirectory = Environment.CurrentDirectory;
         var projectDirectory = Directory.GetParent(workingDirectory);
-        var json = File.ReadAllText($"{projectDirectory}/GlowCare.Entities/Data/users.json");
+        var json = File.ReadAllText($"{projectDirectory}/GlowCare.Entities/Data/clients.json");
 
-        var users = JsonConvert.DeserializeObject<List<GlowUser>>(json)
+        var clients = JsonConvert.DeserializeObject<List<Client>>(json)
             ?? throw new Exception("Invalid json file path");
 
-        return users;
+        return clients;
     }
 }
+

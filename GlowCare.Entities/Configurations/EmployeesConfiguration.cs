@@ -1,7 +1,6 @@
 ﻿using GlowCare.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace GlowCare.Entities.Configurations;
