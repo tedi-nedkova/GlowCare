@@ -1,0 +1,182 @@
+﻿[
+  {
+    "Id": 1,
+    "CategoryId": 1,
+    "Name": "Facial Treatment",
+    "Description": "A relaxing facial treatment to cleanse, exfoliate, and nourish the skin, improving overall complexion and hydration.",
+    "DurationInMinutes": 60,
+    "Price": 50.00,
+    "Points": 50
+  },
+  {
+    "Id": 2,
+    "CategoryId": 2,
+    "Name": "Laser Hair Removal - Full Legs",
+    "Description": "Effective laser hair removal treatment for full legs, providing smooth, hair-free skin with minimal discomfort.",
+    "DurationInMinutes": 90,
+    "Price": 120.00,
+    "Points": 120
+  },
+  {
+    "Id": 3,
+    "CategoryId": 3,
+    "Name": "Swedish Massage",
+    "Description": "A full-body Swedish massage to relax muscles, improve circulation, and reduce stress.",
+    "DurationInMinutes": 60,
+    "Price": 70.00,
+    "Points": 70
+  },
+  {
+    "Id": 4,
+    "CategoryId": 1,
+    "Name": "Chemical Peel",
+    "Description": "A skin-resurfacing procedure that improves texture and tone by removing damaged outer layers of skin.",
+    "DurationInMinutes": 45,
+    "Price": 80.00,
+    "Points": 80
+  },
+  {
+    "Id": 5,
+    "CategoryId": 1,
+    "Name": "Microdermabrasion",
+    "Description": "A minimally invasive exfoliation treatment that refreshes skin tone and reduces fine lines and scars.",
+    "DurationInMinutes": 40,
+    "Price": 70,
+    "Points": 70
+  },
+  {
+    "Id": 6,
+    "CategoryId": 4,
+    "Name": "Botox Injections",
+    "Description": "Botulinum toxin injections to reduce the appearance of fine lines and wrinkles by temporarily relaxing facial muscles.",
+    "DurationInMinutes": 30,
+    "Price": 250.00,
+    "Points": 250
+  },
+  {
+    "Id": 7,
+    "CategoryId": 4,
+    "Name": "Dermal Fillers",
+    "Description": "Injectable fillers to restore volume, smooth lines, and enhance facial contours.",
+    "DurationInMinutes": 45,
+    "Price": 300.00,
+    "Points": 300
+  },
+  {
+    "Id": 8,
+    "CategoryId": 2,
+    "Name": "Laser Hair Removal - Underarms",
+    "Description": "Quick and effective laser treatment for long-lasting hair reduction in the underarm area.",
+    "DurationInMinutes": 20,
+    "Price": 60.00,
+    "Points": 60
+  },
+  {
+    "Id": 9,
+    "CategoryId": 2,
+    "Name": "Laser Hair Removal - Bikini Line",
+    "Description": "Safe and precise laser hair removal for the bikini area, ensuring smooth and comfortable results.",
+    "DurationInMinutes": 30,
+    "Price": 80.00,
+    "Points": 80
+  },
+  {
+    "Id": 10,
+    "CategoryId": 2,
+    "Name": "Laser Hair Removal - Full Arms",
+    "Description": "Laser hair removal treatment for both arms, providing smooth, hair-free skin with minimal discomfort.",
+    "DurationInMinutes": 60,
+    "Price": 110.00,
+    "Points": 110
+  },
+  {
+    "Id": 11,
+    "CategoryId": 2,
+    "Name": "Laser Hair Removal - Face",
+    "Description": "Targeted laser treatment for facial hair, including upper lip, chin, and cheeks.",
+    "DurationInMinutes": 30,
+    "Price": 70.00,
+    "Points": 70
+  },
+  {
+    "Id": 12,
+    "CategoryId": 2,
+    "Name": "Laser Hair Removal - Back",
+    "Description": "Comprehensive laser hair removal treatment for the full back area.",
+    "DurationInMinutes": 90,
+    "Price": 150.00,
+    "Points": 150
+  },
+  {
+    "Id": 13,
+    "CategoryId": 2,
+    "Name": "Laser Hair Removal - Full Body",
+    "Description": "Complete full-body laser hair removal package for smooth, hair-free skin.",
+    "DurationInMinutes": 180,
+    "Price": 450.00,
+    "Points": 450
+  },
+  {
+    "Id": 14,
+    "CategoryId": 5,
+    "Name": "Deep Cleansing Facial",
+    "Description": "A purifying facial designed to deeply cleanse, exfoliate, and remove impurities from the skin.",
+    "DurationInMinutes": 60,
+    "Price": 65.00,
+    "Points": 65
+  },
+  {
+    "Id": 15,
+    "CategoryId": 5,
+    "Name": "Anti-Aging Facial",
+    "Description": "A rejuvenating treatment that targets fine lines and wrinkles, promoting firmer and youthful-looking skin.",
+    "DurationInMinutes": 75,
+    "Price": 120.00,
+    "Points": 120
+  },
+  {
+    "Id": 16,
+    "CategoryId": 5,
+    "Name": "Acne Treatment Facial",
+    "Description": "A specialized facial to reduce acne, clear clogged pores, and minimize inflammation with professional-grade products.",
+    "DurationInMinutes": 70,
+    "Price": 90.00,
+    "Points": 90
+  },
+  {
+    "Id": 17,
+    "CategoryId": 5,
+    "Name": "Hydrating Facial",
+    "Description": "A moisture-boosting facial designed to restore hydration, plumpness, and radiance to dry or dull skin.",
+    "DurationInMinutes": 50,
+    "Price": 75.00,
+    "Points": 75
+  },
+  {
+    "Id": 18,
+    "CategoryId": 5,
+    "Name": "Brightening Facial",
+    "Description": "A skin-brightening treatment that reduces pigmentation, evens skin tone, and restores natural glow.",
+    "DurationInMinutes": 60,
+    "Price": 95.00,
+    "Points": 95
+  },
+  {
+    "Id": 19,
+    "CategoryId": 5,
+    "Name": "Collagen Facial",
+    "Description": "A treatment that boosts collagen production to improve elasticity and smoothness of the skin.",
+    "DurationInMinutes": 70,
+    "Price": 140.00,
+    "Points": 140
+  },
+  {
+    "Id": 20,
+    "CategoryId": 3,
+    "Name": "Aromatherapy Massage",
+    "Description": "A relaxing massage using essential oils to reduce stress, improve mood, and promote overall well-being.",
+    "DurationInMinutes": 60,
+    "Price": 85.00,
+    "Points": 85
+  }
+]

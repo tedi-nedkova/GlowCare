@@ -1,0 +1,22 @@
+﻿[
+  {
+    "Id": 1,
+    "StartTime": "09:00",
+    "EndTime": "18:00"
+  },
+  {
+    "Id": 2,
+    "StartTime": "10:00",
+    "EndTime": "16:00"
+  },
+  {
+    "Id": 3,
+    "StartTime": "9:00",
+    "EndTime": "16:00"
+  },
+  {
+    "Id": 4,
+    "StartTime": "11:00",
+    "EndTime": "15:00"
+  }
+]

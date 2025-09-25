@@ -1,0 +1,85 @@
+﻿[
+  {
+    "ScheduleId": 1,
+    "DayOfWeekId": 1
+  },
+  {
+    "ScheduleId": 1,
+    "DayOfWeekId": 2
+  },
+  {
+    "ScheduleId": 1,
+    "DayOfWeekId": 3
+  },
+  {
+    "ScheduleId": 1,
+    "DayOfWeekId": 4
+  },
+  {
+    "ScheduleId": 1,
+    "DayOfWeekId": 5
+  },
+
+  {
+    "ScheduleId": 2,
+    "DayOfWeekId": 1
+  },
+  {
+    "ScheduleId": 2,
+    "DayOfWeekId": 2
+  },
+  {
+    "ScheduleId": 2,
+    "DayOfWeekId": 3
+  },
+  {
+    "ScheduleId": 2,
+    "DayOfWeekId": 4
+  },
+  {
+    "ScheduleId": 2,
+    "DayOfWeekId": 5
+  },
+
+  {
+    "ScheduleId": 3,
+    "DayOfWeekId": 1
+  },
+  {
+    "ScheduleId": 3,
+    "DayOfWeekId": 2
+  },
+  {
+    "ScheduleId": 3,
+    "DayOfWeekId": 3
+  },
+  {
+    "ScheduleId": 3,
+    "DayOfWeekId": 4
+  },
+  {
+    "ScheduleId": 3,
+    "DayOfWeekId": 5
+  },
+
+  {
+    "ScheduleId": 4,
+    "DayOfWeekId": 1
+  },
+  {
+    "ScheduleId": 4,
+    "DayOfWeekId": 2
+  },
+  {
+    "ScheduleId": 4,
+    "DayOfWeekId": 3
+  },
+  {
+    "ScheduleId": 4,
+    "DayOfWeekId": 4
+  },
+  {
+    "ScheduleId": 4,
+    "DayOfWeekId": 5
+  }
+]

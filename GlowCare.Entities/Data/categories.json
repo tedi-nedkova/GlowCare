@@ -1,0 +1,22 @@
+﻿[
+  {
+    "Id": 1,
+    "Name": "Skin Care"
+  },
+  {
+    "Id": 2,
+    "Name": "Laser Treatments"
+  },
+  {
+    "Id": 3,
+    "Name": "Massage"
+  },
+  {
+    "Id": 4,
+    "Name": "Aesthetic Medicine"
+  },
+  {
+    "Id": 5,
+    "Name": "Facial Treatments"
+  }
+]

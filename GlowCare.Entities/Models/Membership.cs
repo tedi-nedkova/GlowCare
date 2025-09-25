@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using GlowCare.Entities.Models.Enums;
 
 namespace GlowCare.Entities.Models;
 
@@ -13,6 +14,9 @@ public class Membership
 
     [Required]
     public int DiscountPercentage { get; set; }
+
+    [Required]
+    public int Points { get; set; }
 
     public ICollection<Client> Clients { get; set; }
         = new List<Client>();

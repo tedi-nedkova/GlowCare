@@ -1,0 +1,31 @@
+﻿[
+  {
+    "Id": "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+    "UserId": "a7d3c5e2-9b41-4f12-8f34-123456789abc",
+    "Occupation": "Dermatologist",
+    "ExperienceYears": 5,
+    "Biography": "I am a licensed dermatologist with 5 years of experience helping patients achieve healthier skin. My expertise includes treating conditions such as acne, eczema, and pigmentation disorders, as well as performing advanced laser and cosmetic procedures. I am passionate about educating my patients and creating personalized treatment plans that combine proven medical methods with modern skin care innovations."
+  },
+  {
+    "Id": "b75e8e37-95e4-44ef-a32c-10aebaff55b3",
+    "UserId": "ac31b0bb-d05a-438d-be06-9bfe3323cf08",
+    "Occupation": "Esthetician",
+    "ExperienceYears": 10,
+    "Biography": "I am a certified esthetician with 10 years of experience providing skin care treatments, facials, and anti-aging therapies. My goal is to help clients achieve glowing, healthy skin using both modern techniques and natural methods."
+  },
+  {
+    "Id": "1dccdb69-fbd1-43c4-8c17-95796b5aa95e",
+    "UserId": "29965aaa-46cf-4829-93b8-e38401be7547",
+    "Occupation": "Laser Technician",
+    "ExperienceYears": 6,
+    "Biography": "I am a licensed laser removal specialist with 7 years of experience in hair removal, tattoo removal, and skin resurfacing treatments. My focus is on providing safe, effective, and customized solutions for each client to achieve smooth and healthy skin."
+  },
+  {
+    "Id": "a0617bdf-80af-4316-a9c9-c2fd77170f7f",
+    "UserId": "c9f4e7b1-2d33-4a11-8f56-abcdef123456",
+    "1dccdb69-fbd1-43c4-8c17-95796b5aa95e": null,
+    "Occupation": "Massage Therapist",
+    "ExperienceYears": 6,
+    "Biography": "I am a certified massage therapist with 6 years of experience in Swedish, deep tissue, and therapeutic massage. My goal is to help clients relax, relieve stress, and improve overall well-being through personalized treatments."
+  }
+]
