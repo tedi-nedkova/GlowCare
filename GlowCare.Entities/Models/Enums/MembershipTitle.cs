@@ -1,4 +1,4 @@
-﻿namespace GlowCare.Entities.Models;
+﻿namespace GlowCare.Entities.Models.Enums;
 
 public enum MembershipTitle
 {

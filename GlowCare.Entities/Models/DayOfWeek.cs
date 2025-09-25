@@ -1,10 +1,17 @@
-﻿namespace GlowCare.Entities.Models;
-public enum DayOfWeek
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GlowCare.Entities.Models;
+
+public class DayOfWeek
 {
-    Monday = 0,
-    Tuesday = 1,
-    Wednesday = 2,
-    Thursday = 3,
-    Friday = 4,
-    Saturday = 5,
+    [Key]
+    [Required]
+    public int Id { get; set; }
+
+    [Required]
+    public string Name { get; set; } = null!;
+
+    public List<ScheduleDayOfWeek> ScheduleDaysOfWeek { get; set; }
+        = new List<ScheduleDayOfWeek>();
 }
+

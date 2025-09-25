@@ -11,7 +11,7 @@ public class EmployeesConfiguration
 {
     public void Configure(EntityTypeBuilder<Employee> builder)
     {
-       
+        builder.HasData(this.GetEmployees());
     }
 
     public IEnumerable<Employee> GetEmployees()

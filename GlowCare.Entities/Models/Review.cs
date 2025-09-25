@@ -23,6 +23,10 @@ public class Review
     public string Comment { get; set; } = null!;
 
     [Required]
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public int ProcedureId { get; set; } 
+    [ForeignKey(nameof(ProcedureId))]
+    public Procedure? Procedure { get; set; }
 }
 

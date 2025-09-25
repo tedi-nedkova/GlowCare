@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using GlowCare.Entities.Models.Enums;
 using Microsoft.AspNetCore.Identity;
 
 namespace GlowCare.Entities.Models;

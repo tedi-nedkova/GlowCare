@@ -5,11 +5,11 @@ namespace GlowCare.Entities.Models;
 public class Schedule
 {
     [Key]
+    [Required]
     public int Id { get; set; }
 
-    [Required]
-    public List<Enum> DayOfWeek { get; set; } 
-        = new List<Enum>();
+    public List<ScheduleDayOfWeek> ScheduleDaysOfWeek { get; set; } 
+        = new List<ScheduleDayOfWeek>();
 
     [Required]
     public string StartTime { get; set; } = null!;

@@ -20,12 +20,13 @@ public class GlowCareDbContext
     public DbSet<Client> Clients { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<EmployeeSchedule> EmployeesSchedules { get; set; }
-    public DbSet<GlowUser> GlowUsers { get; set; }
     public DbSet<Membership> Memberships { get; set; }
     public DbSet<Procedure> Procedures { get; set; }
     public DbSet<Review> Reviews { get; set; }
     public DbSet<Schedule> Schedules { get; set; }
     public DbSet<Service> Service { get; set; }
+
+    public DbSet<Category> Categories { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

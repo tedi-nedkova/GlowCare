@@ -1,25 +1,21 @@
 ﻿[
   {
     "Id": 1,
-    "DayOfWeek": [ 1, 2, 3, 4, 5 ],
     "StartTime": "09:00",
     "EndTime": "18:00"
   },
   {
     "Id": 2,
-    "DayOfWeek": [ 1, 3, 5 ],
     "StartTime": "10:00",
     "EndTime": "16:00"
   },
   {
     "Id": 3,
-    "DayOfWeek": [ 2, 4 ],
     "StartTime": "9:00",
     "EndTime": "16:00"
   },
   {
     "Id": 4,
-    "DayOfWeek": [ 6 ],
     "StartTime": "11:00",
     "EndTime": "15:00"
   }
