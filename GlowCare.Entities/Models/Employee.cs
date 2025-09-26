@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Security.Principal;
+using static GlowCare.Common.Constants.EmployeeConstants;
 
 namespace GlowCare.Entities.Models;
 
@@ -15,9 +15,12 @@ public class Employee
     public GlowUser User { get; set; } = null!;
 
     [Required]
+    [MinLength(OccupationMinLength)]
+    [MaxLength(OccupationMaxLength)]
     public string Occupation { get; set; } = null!;
 
     [Required]
+    [Range(MinExperienceYears, MaxExperienceYears)]
     public int ExperienceYears { get; set; }
 
     public string? Biography { get; set; }

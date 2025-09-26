@@ -31,11 +31,7 @@ public class GlowCareDbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder
-                .UseSqlServer("Server=DESKTOP-6VQ6QDR\\SQLEXPRESS;Database=GlowCare;Integrated Security=true;TrustServerCertificate=true;");
-        }
+      
     }
     protected override void OnModelCreating(ModelBuilder builder)
     {

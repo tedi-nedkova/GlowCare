@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static GlowCare.Common.Constants.ReviewConstants;
 
 namespace GlowCare.Entities.Models;
 
@@ -17,9 +18,12 @@ public class Review
     [ForeignKey(nameof(EmployeeId))]
     public Employee? Employee { get; set; }
 
+    [Range(MinRating, MaxRating)]
     public int? Rating { get; set; }
 
     [Required]
+    [MinLength(CommentMinLength)]
+    [MaxLength(CommentMaxLength)]
     public string Comment { get; set; } = null!;
 
     [Required]
