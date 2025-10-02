@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GlowCare.Core\GlowCare.Core.csproj" />
     <ProjectReference Include="..\GlowCare.Entities\GlowCare.Entities.csproj" />
   </ItemGroup>
 

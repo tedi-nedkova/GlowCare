@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlowCare.Entities.Migrations
 {
     [DbContext(typeof(GlowCareDbContext))]
-    [Migration("20250925203831_InitialMigration")]
+    [Migration("20250930061004_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -35,7 +35,8 @@ namespace GlowCare.Entities.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 
@@ -133,7 +134,8 @@ namespace GlowCare.Entities.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.HasKey("Id");
 
@@ -190,7 +192,8 @@ namespace GlowCare.Entities.Migrations
 
                     b.Property<string>("Occupation")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -425,14 +428,16 @@ namespace GlowCare.Entities.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -485,7 +490,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "a7d3c5e2-9b41-4f12-8f34-123456789abc",
                             AccessFailedCount = 0,
                             Age = 32,
-                            ConcurrencyStamp = "93b6d7a5-fb45-423e-a1f7-a127b43b7c6d",
+                            ConcurrencyStamp = "3fb5bfef-9ff5-4a3f-a470-568768ec75fc",
                             Email = "elena.dimitrova@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Elena",
@@ -494,9 +499,10 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ELENA.DIMITROVA@EXAMPLE.COM",
                             NormalizedUserName = "ELENA.DIMITROVA",
+                            PasswordHash = "AQAAAAIAAYagAAAAENXHEW8ym7r6xAK2C+l1j+0RqrrV0hKbQBMZIMrB9BOArCdlYa8tXj0RfB1ynF0JVA==",
                             PhoneNumber = "0888123456",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "27158a89-93b0-4091-9814-ab893f0076f6",
+                            SecurityStamp = "b9cf3dde-ef3d-42df-b143-748d8afa5969",
                             TwoFactorEnabled = true,
                             UserName = "elena.dimitrova"
                         },
@@ -505,7 +511,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "ac31b0bb-d05a-438d-be06-9bfe3323cf08",
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "c4afcafb-5e2b-4050-bfc6-cdcb5107d7ef",
+                            ConcurrencyStamp = "58ce0ae5-35a7-4c90-9b74-f58b308d87f2",
                             Email = "johndoe@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -514,9 +520,10 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHNDOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKWmwNQ7E6pQ6tgILD/e/Orf6RltrsXcwARXCAOGnwZM3Onaq5c/Q0Ew+CacBDZPIQ==",
                             PhoneNumber = "0875757574",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "cbcc94c9-0b1d-41b5-b834-52aacd77d44f",
+                            SecurityStamp = "e7ca3caf-b5a0-432b-8483-ad7e7ba4abc1",
                             TwoFactorEnabled = true,
                             UserName = "john.doe"
                         },
@@ -525,7 +532,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "29965aaa-46cf-4829-93b8-e38401be7547",
                             AccessFailedCount = 0,
                             Age = 38,
-                            ConcurrencyStamp = "ac713d17-709a-4d57-8df5-8d72138ad308",
+                            ConcurrencyStamp = "8503b15c-3c35-448b-abe1-b1ca4055c3c7",
                             Email = "maria.petrova@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Maria",
@@ -534,9 +541,10 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MARIA.PETROVA@EXAMPLE.COM",
                             NormalizedUserName = "MARIA.PETROVA",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJ4cKfFhAAgZmxcXLx3G4ueaVMsoH2Ii221oXtagZBVZ/RvtUbOmmjW/LBcmCv9sqg==",
                             PhoneNumber = "0899123456",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "a64bf4db-bc02-4b56-a1d0-2f0c269aab7f",
+                            SecurityStamp = "d7c4fdc8-ef94-4902-82fb-37366c0914a1",
                             TwoFactorEnabled = true,
                             UserName = "maria.petrova"
                         },
@@ -545,7 +553,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "c9f4e7b1-2d33-4a11-8f56-abcdef123456",
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "493657fd-770a-446a-93cf-48f1bd90fb2b",
+                            ConcurrencyStamp = "d751c031-cf8a-4bc7-b83c-4fd7f562ae11",
                             Email = "ivana.koleva@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Ivana",
@@ -554,9 +562,10 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "IVANA.KOLEVA@EXAMPLE.COM",
                             NormalizedUserName = "IVANA.KOLEVA",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPnTxtFSeaa9vA4wrn91CkBaqeGnCo3XoaDXALGF8cTDfYxTkq7xEwV+JTz5qW9gaQ==",
                             PhoneNumber = "0888234567",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "8240f8eb-6267-4060-b626-00fb9041f997",
+                            SecurityStamp = "a7b3345a-472e-4ee9-a29f-2ac6fbf68ffa",
                             TwoFactorEnabled = true,
                             UserName = "ivana.koleva"
                         },
@@ -565,7 +574,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "e5c2g9b3-4a67-4f89-8d23-556677889900",
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "1a281c2a-9d1a-4f22-9964-ac330405b2a2",
+                            ConcurrencyStamp = "5c0c09a4-5cdf-4bae-86ee-25e0569c09a0",
                             Email = "nikol.georgieva@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Nikol",
@@ -574,11 +583,33 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "NIKOL.GEORGIEVA@EXAMPLE.COM",
                             NormalizedUserName = "NIKOL.GEORGIEVA",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHmKM6UlJ6YXYupkqZHSPaUUEwNW4Il7WZhIc9uIckdHwizx3AWfwXuXZrBTH8iDzA==",
                             PhoneNumber = "0855123456",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "2db7e367-bbca-411b-a785-86147247a468",
+                            SecurityStamp = "32479571-54d4-46f5-a3e2-716e31cf3f11",
                             TwoFactorEnabled = true,
                             UserName = "nikol.georgieva"
+                        },
+                        new
+                        {
+                            Id = "fc95b3fa-f342-4172-ac8b-5b35951ad760",
+                            AccessFailedCount = 0,
+                            Age = 18,
+                            ConcurrencyStamp = "6e79136e-1327-4503-b422-2d2e4bd6cf26",
+                            Email = "teodora_nedkova@abv.bg",
+                            EmailConfirmed = true,
+                            FirstName = "Teodora",
+                            Gender = 1,
+                            LastName = "Nedkova",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "TEODORA_NEDKOVA@ABV.BG",
+                            NormalizedUserName = "TEODORA.NEDKOVA",
+                            PasswordHash = "AQAAAAIAAYagAAAAECQdJXvBzkCEsJdIOQwkf1vGZ0xfR5x0IYt5AIfRps2Hq8VZy7SYub6AskSLJ6nC5Q==",
+                            PhoneNumber = "0878654562",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "671b8182-ffee-4324-aef4-b6f29ac8db72",
+                            TwoFactorEnabled = true,
+                            UserName = "teodora.nedkova"
                         });
                 });
 
@@ -719,7 +750,8 @@ namespace GlowCare.Entities.Migrations
 
                     b.Property<string>("Comment")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -750,7 +782,7 @@ namespace GlowCare.Entities.Migrations
                             Id = 1,
                             ClientId = "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4",
                             Comment = "Excellent service! The procedure was professional and I felt very comfortable.",
-                            CreatedAt = new DateTime(2025, 9, 25, 20, 38, 30, 726, DateTimeKind.Utc).AddTicks(893),
+                            CreatedAt = new DateTime(2025, 9, 30, 6, 10, 3, 811, DateTimeKind.Utc).AddTicks(6248),
                             EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
                             ProcedureId = 1,
                             Rating = 5
@@ -767,11 +799,13 @@ namespace GlowCare.Entities.Migrations
 
                     b.Property<string>("EndTime")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
 
                     b.Property<string>("StartTime")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
 
                     b.HasKey("Id");
 
@@ -858,7 +892,6 @@ namespace GlowCare.Entities.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DurationInMinutes")
@@ -866,7 +899,8 @@ namespace GlowCare.Entities.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
 
                     b.Property<int>("Points")
                         .HasColumnType("int");

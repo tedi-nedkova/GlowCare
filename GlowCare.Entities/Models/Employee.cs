@@ -25,6 +25,8 @@ public class Employee
 
     public string? Biography { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public ICollection<Certificate> Certificates { get; set; }
         = new List<Certificate>();
 

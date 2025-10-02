@@ -11,7 +11,6 @@
     "TwoFactorEnabled": true,
     "UserName": "elena.dimitrova",
     "NormalizedUserName": "ELENA.DIMITROVA",
-    "Password": "Employee_123",
     "Age": 32,
     "Gender": 1
   },
@@ -27,7 +26,6 @@
     "TwoFactorEnabled": true,
     "UserName": "john.doe",
     "NormalizedUserName": "JOHN.DOE",
-    "Password": "Employee_123",
     "Age": 30,
     "Gender": 0
   },
@@ -44,7 +42,6 @@
     "TwoFactorEnabled": true,
     "UserName": "maria.petrova",
     "NormalizedUserName": "MARIA.PETROVA",
-    "Password": "Employee_123",
     "Age": 38,
     "Gender": 1
   },
@@ -60,7 +57,6 @@
     "TwoFactorEnabled": true,
     "UserName": "ivana.koleva",
     "NormalizedUserName": "IVANA.KOLEVA",
-    "Password": "Employee_123",
     "Age": 30,
     "Gender": 1
   },
@@ -76,8 +72,24 @@
     "TwoFactorEnabled": true,
     "UserName": "nikol.georgieva",
     "NormalizedUserName": "NIKOL.GEORGIEVA",
-    "Password": "Client_123",
+    "PasswordHash": "Client_123",
     "Age": 30,
+    "Gender": 1
+  },
+  {
+    "Id": "fc95b3fa-f342-4172-ac8b-5b35951ad760",
+    "FirstName": "Teodora",
+    "LastName": "Nedkova",
+    "Email": "teodora_nedkova@abv.bg",
+    "NormalizedEmail": "TEODORA_NEDKOVA@ABV.BG",
+    "EmailConfirmed": true,
+    "PhoneNumber": "0878654562",
+    "PhoneNumberConfirmed": true,
+    "TwoFactorEnabled": true,
+    "UserName": "teodora.nedkova",
+    "NormalizedUserName": "TEODORA.NEDKOVA",
+    "PasswordHash": "Admin_123",
+    "Age": 18,
     "Gender": 1
   }
 ]

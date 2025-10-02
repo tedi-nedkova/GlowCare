@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GlowCare.Entities\GlowCare.Entities.csproj" />
+    <ProjectReference Include="..\GlowCare.ViewModels\GlowCare.ViewModels.csproj" />
+  </ItemGroup>
+
 </Project>

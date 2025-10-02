@@ -28,6 +28,8 @@ public class Procedure
 
     public string? Notes { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public ICollection<Review> Reviews { get; set; }
          = new List<Review>();
 }

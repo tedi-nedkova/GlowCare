@@ -32,8 +32,8 @@ namespace GlowCare.Entities.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -62,7 +62,7 @@ namespace GlowCare.Entities.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,7 +75,7 @@ namespace GlowCare.Entities.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -103,8 +103,8 @@ namespace GlowCare.Entities.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StartTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EndTime = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    StartTime = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    EndTime = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -223,7 +223,7 @@ namespace GlowCare.Entities.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Occupation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Occupation = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ExperienceYears = table.Column<int>(type: "int", nullable: false),
                     Biography = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -245,8 +245,8 @@ namespace GlowCare.Entities.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DurationInMinutes = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Points = table.Column<int>(type: "int", nullable: false)
@@ -423,7 +423,7 @@ namespace GlowCare.Entities.Migrations
                     ClientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: true),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ProcedureId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -462,11 +462,12 @@ namespace GlowCare.Entities.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Age", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "29965aaa-46cf-4829-93b8-e38401be7547", 0, 38, "ac713d17-709a-4d57-8df5-8d72138ad308", "maria.petrova@gmail.com", true, "Maria", 1, "Petrova", false, null, "MARIA.PETROVA@EXAMPLE.COM", "MARIA.PETROVA", null, "0899123456", true, "a64bf4db-bc02-4b56-a1d0-2f0c269aab7f", true, "maria.petrova" },
-                    { "a7d3c5e2-9b41-4f12-8f34-123456789abc", 0, 32, "93b6d7a5-fb45-423e-a1f7-a127b43b7c6d", "elena.dimitrova@gmail.com", true, "Elena", 1, "Dimitrova", false, null, "ELENA.DIMITROVA@EXAMPLE.COM", "ELENA.DIMITROVA", null, "0888123456", true, "27158a89-93b0-4091-9814-ab893f0076f6", true, "elena.dimitrova" },
-                    { "ac31b0bb-d05a-438d-be06-9bfe3323cf08", 0, 30, "c4afcafb-5e2b-4050-bfc6-cdcb5107d7ef", "johndoe@gmail.com", true, "John", 0, "Doe", false, null, "JOHNDOE@EXAMPLE.COM", "JOHN.DOE", null, "0875757574", true, "cbcc94c9-0b1d-41b5-b834-52aacd77d44f", true, "john.doe" },
-                    { "c9f4e7b1-2d33-4a11-8f56-abcdef123456", 0, 30, "493657fd-770a-446a-93cf-48f1bd90fb2b", "ivana.koleva@gmail.com", true, "Ivana", 1, "Koleva", false, null, "IVANA.KOLEVA@EXAMPLE.COM", "IVANA.KOLEVA", null, "0888234567", true, "8240f8eb-6267-4060-b626-00fb9041f997", true, "ivana.koleva" },
-                    { "e5c2g9b3-4a67-4f89-8d23-556677889900", 0, 30, "1a281c2a-9d1a-4f22-9964-ac330405b2a2", "nikol.georgieva@gmail.com", true, "Nikol", 1, "Georgieva", false, null, "NIKOL.GEORGIEVA@EXAMPLE.COM", "NIKOL.GEORGIEVA", null, "0855123456", true, "2db7e367-bbca-411b-a785-86147247a468", true, "nikol.georgieva" }
+                    { "29965aaa-46cf-4829-93b8-e38401be7547", 0, 38, "8503b15c-3c35-448b-abe1-b1ca4055c3c7", "maria.petrova@gmail.com", true, "Maria", 1, "Petrova", false, null, "MARIA.PETROVA@EXAMPLE.COM", "MARIA.PETROVA", "AQAAAAIAAYagAAAAEJ4cKfFhAAgZmxcXLx3G4ueaVMsoH2Ii221oXtagZBVZ/RvtUbOmmjW/LBcmCv9sqg==", "0899123456", true, "d7c4fdc8-ef94-4902-82fb-37366c0914a1", true, "maria.petrova" },
+                    { "a7d3c5e2-9b41-4f12-8f34-123456789abc", 0, 32, "3fb5bfef-9ff5-4a3f-a470-568768ec75fc", "elena.dimitrova@gmail.com", true, "Elena", 1, "Dimitrova", false, null, "ELENA.DIMITROVA@EXAMPLE.COM", "ELENA.DIMITROVA", "AQAAAAIAAYagAAAAENXHEW8ym7r6xAK2C+l1j+0RqrrV0hKbQBMZIMrB9BOArCdlYa8tXj0RfB1ynF0JVA==", "0888123456", true, "b9cf3dde-ef3d-42df-b143-748d8afa5969", true, "elena.dimitrova" },
+                    { "ac31b0bb-d05a-438d-be06-9bfe3323cf08", 0, 30, "58ce0ae5-35a7-4c90-9b74-f58b308d87f2", "johndoe@gmail.com", true, "John", 0, "Doe", false, null, "JOHNDOE@EXAMPLE.COM", "JOHN.DOE", "AQAAAAIAAYagAAAAEKWmwNQ7E6pQ6tgILD/e/Orf6RltrsXcwARXCAOGnwZM3Onaq5c/Q0Ew+CacBDZPIQ==", "0875757574", true, "e7ca3caf-b5a0-432b-8483-ad7e7ba4abc1", true, "john.doe" },
+                    { "c9f4e7b1-2d33-4a11-8f56-abcdef123456", 0, 30, "d751c031-cf8a-4bc7-b83c-4fd7f562ae11", "ivana.koleva@gmail.com", true, "Ivana", 1, "Koleva", false, null, "IVANA.KOLEVA@EXAMPLE.COM", "IVANA.KOLEVA", "AQAAAAIAAYagAAAAEPnTxtFSeaa9vA4wrn91CkBaqeGnCo3XoaDXALGF8cTDfYxTkq7xEwV+JTz5qW9gaQ==", "0888234567", true, "a7b3345a-472e-4ee9-a29f-2ac6fbf68ffa", true, "ivana.koleva" },
+                    { "e5c2g9b3-4a67-4f89-8d23-556677889900", 0, 30, "5c0c09a4-5cdf-4bae-86ee-25e0569c09a0", "nikol.georgieva@gmail.com", true, "Nikol", 1, "Georgieva", false, null, "NIKOL.GEORGIEVA@EXAMPLE.COM", "NIKOL.GEORGIEVA", "AQAAAAIAAYagAAAAEHmKM6UlJ6YXYupkqZHSPaUUEwNW4Il7WZhIc9uIckdHwizx3AWfwXuXZrBTH8iDzA==", "0855123456", true, "32479571-54d4-46f5-a3e2-716e31cf3f11", true, "nikol.georgieva" },
+                    { "fc95b3fa-f342-4172-ac8b-5b35951ad760", 0, 18, "6e79136e-1327-4503-b422-2d2e4bd6cf26", "teodora_nedkova@abv.bg", true, "Teodora", 1, "Nedkova", false, null, "TEODORA_NEDKOVA@ABV.BG", "TEODORA.NEDKOVA", "AQAAAAIAAYagAAAAECQdJXvBzkCEsJdIOQwkf1vGZ0xfR5x0IYt5AIfRps2Hq8VZy7SYub6AskSLJ6nC5Q==", "0878654562", true, "671b8182-ffee-4324-aef4-b6f29ac8db72", true, "teodora.nedkova" }
                 });
 
             migrationBuilder.InsertData(
@@ -625,7 +626,7 @@ namespace GlowCare.Entities.Migrations
             migrationBuilder.InsertData(
                 table: "Reviews",
                 columns: new[] { "Id", "ClientId", "Comment", "CreatedAt", "EmployeeId", "ProcedureId", "Rating" },
-                values: new object[] { 1, "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4", "Excellent service! The procedure was professional and I felt very comfortable.", new DateTime(2025, 9, 25, 20, 38, 30, 726, DateTimeKind.Utc).AddTicks(893), "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 1, 5 });
+                values: new object[] { 1, "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4", "Excellent service! The procedure was professional and I felt very comfortable.", new DateTime(2025, 9, 30, 6, 10, 3, 811, DateTimeKind.Utc).AddTicks(6248), "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 1, 5 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
