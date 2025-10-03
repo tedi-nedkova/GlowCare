@@ -1,8 +1,6 @@
-﻿using GlowCare.Common.Helpers;
-using GlowCare.Core.Contracts;
+﻿using GlowCare.Core.Contracts;
 using GlowCare.Entities.Models;
 using GlowCare.ViewModels.Procedures;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

@@ -4,9 +4,7 @@ using GlowCare.Entities.Models;
 using GlowCare.ViewModels.Procedures;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using static GlowCare.Common.Constants.ProcedureConstants;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace GlowCare.Core.Implementations;
 

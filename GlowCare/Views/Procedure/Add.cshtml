@@ -1,1 +1,30 @@
-﻿
+﻿@model GlowCare.ViewModels.Procedures.ProcedureAddViewModel;
+
+<form asp-action="Add" method="post">
+    <div class="form-group">
+        <label asp-for="EmployeeId"></label>
+        <input asp-for="EmployeeId" class="form-control" />
+        <span asp-validation-for="EmployeeId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ServiceId"></label>
+        <input asp-for="ServiceId" class="form-control" />
+        <span asp-validation-for="ServiceId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AppointmentDate"></label>
+        <input asp-for="AppointmentDate" class="form-control" type="datetime-local"/>
+        <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Notes"></label>
+        <textarea asp-for="Notes" class="form-control"></textarea>
+        <span asp-validation-for="Notes" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Add Procedure</button>
+    <a asp-action="MyProcedures" class="btn btn-secondary mt-3">Cancel</a>
+</form>

@@ -1,1 +1,37 @@
-﻿
+﻿@using GlowCare.ViewModels.Procedures
+@model IEnumerable<ProcedureDetailsViewModel>
+
+@if (!Model.Any())
+{
+    <p>You have no scheduled procedures.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Specialist</th>
+                <th>Service</th>
+                <th>Price</th>
+                <th>Appointment Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var procedure in Model)
+            {
+                <tr>
+                    <td>@procedure.SpecialistName</td>
+                    <td>@procedure.Service</td>
+                    <td>@procedure.Price.ToString("C")</td>
+                    <td>@procedure.AppointmentDate</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@procedure.Id" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@procedure.Id" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<a asp-action="Add" class="btn btn-primary">Add New Procedure</a>
