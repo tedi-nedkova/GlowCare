@@ -6,21 +6,18 @@ namespace GlowCare.Core.Contracts;
 public interface IRoleRequestService
 {
     Task SendSpecialitRoleRequest(
-        RoleRequestSentViewModel model, 
-        string clinetId);
+        RoleRequestSentViewModel model,
+        string clientId);
 
-    Task<PaginatedList<RoleRequestInfoViewModel>> GetSpecialistRoleRequestAsync(
-        int page, 
+    Task<PaginatedList<RoleRequestInfoViewModel>> GetSpecialistRoleRequestsAsync(
+        int page,
         int pageSize);
 
     Task AcceptRequestAsync(
-        int requestId, 
-        string requestType, 
+        int requestId,
         string clientId);
 
     Task DeclineRequestAsync(
-        int requestId, 
-        string requestType, 
-        string clinetId);
+        int requestId);
 }
 

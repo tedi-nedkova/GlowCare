@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GlowCare.Entities.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace GlowCare.ViewModels.Roles;
 

@@ -9,29 +9,83 @@ using Microsoft.AspNetCore.Identity;
 namespace GlowCare.Core.Implementations;
 
 public class RoleRequestService(
-    IRepository<IdentityRole, int> rolesRepository,
-    UserManager<Client> userManager) : IRoleRequestService
+    IRepository<SpecialistRoleRequest, int> specialistRoleRequestRepository,
+    UserManager<GlowUser> userManager) : IRoleRequestService
 {
-    public async Task AcceptRequestAsync(int requestId, string requestType, string clientId)
+    public async Task AcceptRequestAsync(
+        int requestId, 
+        string clientId)
     {
-       
+        var request = await specialistRoleRequestRepository.GetByIdAsync(requestId);
+
+        if (request != null)
+        {
+            request.Status = RequestStatus.Accepted;
+
+            await specialistRoleRequestRepository.UpdateAsync(request);
+
+            var user = await userManager.FindByIdAsync(request.SenderId)
+                ?? throw new NullReferenceException("User not found!");
+
+            await userManager.AddToRoleAsync(user, "Specialist");
+        }
     }
 
-    public async Task DeclineRequestAsync(int requestId, string requestType, string clinetId)
+    public async Task DeclineRequestAsync(
+        int requestId)
     {
+        var request = await specialistRoleRequestRepository.GetByIdAsync(requestId);
 
+        if (request != null)
+        {
+            request.Status = RequestStatus.Declined;
+
+            await specialistRoleRequestRepository.UpdateAsync(request);
+        }
     }
 
-    public Task<PaginatedList<RoleRequestInfoViewModel>> GetSpecialistRoleRequestAsync(int page, int pageSize)
+    public async Task<PaginatedList<RoleRequestInfoViewModel>> GetSpecialistRoleRequestsAsync(
+        int page, 
+        int pageSize)
     {
-        throw new NotImplementedException();
+        var query = specialistRoleRequestRepository
+            .GetAllAttached()
+            .Where(r => r.Status == RequestStatus.Pending);
+
+        var paginatedList = await PaginatedList<RoleRequestInfoViewModel>.CreateAsync(
+                query.Select(r => new RoleRequestInfoViewModel
+                {
+                    Id = r.Id,
+                    Sender = r.Sender,
+                    Description = r.Description,
+                    Status = r.Status.ToString()
+                }),
+                page,
+                pageSize
+            );
+
+        return paginatedList;
     }
 
-    public Task SendSpecialitRoleRequest(RoleRequestSentViewModel model, string clinetId)
+    public async Task SendSpecialitRoleRequest(
+        RoleRequestSentViewModel model, 
+        string clientId)
     {
+        if (model == null)
+        {
+            throw new NullReferenceException("Entity was null!");
+        }
 
+        var request = new SpecialistRoleRequest()
+        {
+            Id = model.Id,
+            Sender = model.Sender,
+            SenderId = clientId,
+            Description = model.Description,
+            Status = RequestStatus.Pending
+        };
 
-
+        await specialistRoleRequestRepository.AddAsync(request);
     }
 }
 

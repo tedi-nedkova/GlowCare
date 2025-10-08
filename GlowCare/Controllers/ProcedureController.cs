@@ -10,7 +10,7 @@ public class ProcedureController(
         IProcedureService procedureService,
         IConfiguration configuration,
         ILogger<ProcedureController> logger,
-        UserManager<Client> userManager) : Controller
+        UserManager<GlowUser> userManager) : Controller
 {
     [HttpGet]
     public IActionResult Add()
@@ -39,14 +39,17 @@ public class ProcedureController(
         }
         catch (NullReferenceException nex)
         {
+            logger.LogError($"An error occured while adding procedure. {nex.Message}");
             return RedirectToAction("Error", "Home");
         }
         catch (InvalidOperationException iex)
         {
+            logger.LogError($"An error occured while adding procedure. {iex.Message}");
             return RedirectToAction("Error", "Home");
         }
         catch (Exception ex)
         {
+            logger.LogError($"An error occured while adding procedure. {ex.Message}");
             return RedirectToAction("Error", "Home");
         }
     }
@@ -63,14 +66,17 @@ public class ProcedureController(
         }
         catch (NullReferenceException nex)
         {
-            return RedirectToAction("Error", "Home", new { code = 404 });
+            logger.LogError($"An error occured while getting the procedures. {nex.Message}");
+            return RedirectToAction("Error", "Home");
         }
         catch (InvalidOperationException iex)
         {
-            return RedirectToAction("Error", "Home", new { code = 500 });
+            logger.LogError($"An error occured while getting the procedures. {iex.Message}");
+            return RedirectToAction("Error", "Home");
         }
         catch (Exception ex)
         {
+            logger.LogError($"An error occured while getting the procedures. {ex.Message}");
             return RedirectToAction("Error", "Home");
         }
     }
@@ -87,14 +93,17 @@ public class ProcedureController(
         }
         catch (NullReferenceException nex)
         {
+            logger.LogError($"An error occured while fetching procedure info. {nex.Message}");
             return RedirectToAction("Error", "Home");
         }
         catch (InvalidOperationException iex)
         {
+            logger.LogError($"An error occured while fetching procedure info. {iex.Message}");
             return RedirectToAction("Error", "Home");
         }
         catch (Exception ex)
         {
+            logger.LogError($"An error occured while fetching procedure info. {ex.Message}");
             return RedirectToAction("Error", "Home");
         }
     }
@@ -117,15 +126,17 @@ public class ProcedureController(
         }
         catch (NullReferenceException nex)
         {
+            logger.LogError($"An error occured while editing a procedure. {nex.Message}");
             return RedirectToAction("Error", "Home");
         }
         catch (InvalidOperationException iex)
         {
+            logger.LogError($"An error occured while editing a procedure. {iex.Message}");
             return RedirectToAction("Error", "Home");
         }
         catch (Exception ex)
         {
-
+            logger.LogError($"An error occured while editing a procedure. {ex.Message}");
             return RedirectToAction("Error", "Home");
         }
     }
@@ -144,14 +155,17 @@ public class ProcedureController(
         }
         catch (NullReferenceException nex)
         {
+            logger.LogError($"An error occured while fetching procedure delete info. {nex.Message}");
             return RedirectToAction("Error", "Home");
         }
         catch (InvalidOperationException iex)
         {
+            logger.LogError($"An error occured while fetching procedure delete info. {iex.Message}");
             return RedirectToAction("Error", "Home");
         }
         catch (Exception ex)
         {
+            logger.LogError($"An error occured while fetching procedure delete info. {ex.Message}");
             return RedirectToAction("Error", "Home");
         }
     }
@@ -173,14 +187,17 @@ public class ProcedureController(
         }
         catch (NullReferenceException nex)
         {
+            logger.LogError($"An error occured while deleting a procedure. {nex.Message}");
             return RedirectToAction("Error", "Home");
         }
         catch (InvalidOperationException iex)
         {
+            logger.LogError($"An error occured while deleting a procedure. {iex.Message}");
             return RedirectToAction("Error", "Home");
         }
         catch (Exception ex)
         {
+            logger.LogError($"An error occured while deleting a procedure. {ex.Message}");
             return RedirectToAction("Error", "Home");
         }
     }
