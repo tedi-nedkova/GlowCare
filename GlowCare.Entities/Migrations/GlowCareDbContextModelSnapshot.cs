@@ -17,7 +17,7 @@ namespace GlowCare.Entities.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -187,6 +187,9 @@ namespace GlowCare.Entities.Migrations
                     b.Property<int>("ExperienceYears")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Occupation")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -208,6 +211,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
                             Biography = "I am a licensed dermatologist with 5 years of experience helping patients achieve healthier skin. My expertise includes treating conditions such as acne, eczema, and pigmentation disorders, as well as performing advanced laser and cosmetic procedures. I am passionate about educating my patients and creating personalized treatment plans that combine proven medical methods with modern skin care innovations.",
                             ExperienceYears = 5,
+                            IsDeleted = false,
                             Occupation = "Dermatologist",
                             UserId = "a7d3c5e2-9b41-4f12-8f34-123456789abc"
                         },
@@ -216,6 +220,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "b75e8e37-95e4-44ef-a32c-10aebaff55b3",
                             Biography = "I am a certified esthetician with 10 years of experience providing skin care treatments, facials, and anti-aging therapies. My goal is to help clients achieve glowing, healthy skin using both modern techniques and natural methods.",
                             ExperienceYears = 10,
+                            IsDeleted = false,
                             Occupation = "Esthetician",
                             UserId = "ac31b0bb-d05a-438d-be06-9bfe3323cf08"
                         },
@@ -224,6 +229,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "1dccdb69-fbd1-43c4-8c17-95796b5aa95e",
                             Biography = "I am a licensed laser removal specialist with 7 years of experience in hair removal, tattoo removal, and skin resurfacing treatments. My focus is on providing safe, effective, and customized solutions for each client to achieve smooth and healthy skin.",
                             ExperienceYears = 6,
+                            IsDeleted = false,
                             Occupation = "Laser Technician",
                             UserId = "29965aaa-46cf-4829-93b8-e38401be7547"
                         },
@@ -232,6 +238,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "a0617bdf-80af-4316-a9c9-c2fd77170f7f",
                             Biography = "I am a certified massage therapist with 6 years of experience in Swedish, deep tissue, and therapeutic massage. My goal is to help clients relax, relieve stress, and improve overall well-being through personalized treatments.",
                             ExperienceYears = 6,
+                            IsDeleted = false,
                             Occupation = "Massage Therapist",
                             UserId = "c9f4e7b1-2d33-4a11-8f56-abcdef123456"
                         });
@@ -487,7 +494,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "a7d3c5e2-9b41-4f12-8f34-123456789abc",
                             AccessFailedCount = 0,
                             Age = 32,
-                            ConcurrencyStamp = "3fb5bfef-9ff5-4a3f-a470-568768ec75fc",
+                            ConcurrencyStamp = "e53c6b80-dfca-4a9b-8cad-82effa7c8bae",
                             Email = "elena.dimitrova@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Elena",
@@ -496,10 +503,10 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ELENA.DIMITROVA@EXAMPLE.COM",
                             NormalizedUserName = "ELENA.DIMITROVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAENXHEW8ym7r6xAK2C+l1j+0RqrrV0hKbQBMZIMrB9BOArCdlYa8tXj0RfB1ynF0JVA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEH8qR229qpfGJxGjHiS1joFWqdSQAzvtp6/M7uO/zZ2iBFW/S3teffl8hAET7DWb5Q==",
                             PhoneNumber = "0888123456",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "b9cf3dde-ef3d-42df-b143-748d8afa5969",
+                            SecurityStamp = "14ab26dc-db3e-4f7f-9ade-d228140b26b2",
                             TwoFactorEnabled = true,
                             UserName = "elena.dimitrova"
                         },
@@ -508,7 +515,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "ac31b0bb-d05a-438d-be06-9bfe3323cf08",
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "58ce0ae5-35a7-4c90-9b74-f58b308d87f2",
+                            ConcurrencyStamp = "7a3283ca-af19-41bd-8f23-531c9ccf6fe3",
                             Email = "johndoe@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -517,10 +524,10 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHNDOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKWmwNQ7E6pQ6tgILD/e/Orf6RltrsXcwARXCAOGnwZM3Onaq5c/Q0Ew+CacBDZPIQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBWc3c5vhEnv7RqLUWYfcN3owXL7gYAnVnjmeWXCag+4ii4BU7laisMDrU70xTSUmg==",
                             PhoneNumber = "0875757574",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "e7ca3caf-b5a0-432b-8483-ad7e7ba4abc1",
+                            SecurityStamp = "0b9b8c96-0cf4-4c89-aea5-2dd6c6beaa59",
                             TwoFactorEnabled = true,
                             UserName = "john.doe"
                         },
@@ -529,7 +536,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "29965aaa-46cf-4829-93b8-e38401be7547",
                             AccessFailedCount = 0,
                             Age = 38,
-                            ConcurrencyStamp = "8503b15c-3c35-448b-abe1-b1ca4055c3c7",
+                            ConcurrencyStamp = "3d71588f-ebfa-46c1-9f7f-f645304f8a13",
                             Email = "maria.petrova@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Maria",
@@ -538,10 +545,10 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MARIA.PETROVA@EXAMPLE.COM",
                             NormalizedUserName = "MARIA.PETROVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJ4cKfFhAAgZmxcXLx3G4ueaVMsoH2Ii221oXtagZBVZ/RvtUbOmmjW/LBcmCv9sqg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFrhSN05YURnG9uB+q5MUSW6iuZQSRCKAAYeJjBdA3p584w2heQea0FeEPWAdNlw2w==",
                             PhoneNumber = "0899123456",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "d7c4fdc8-ef94-4902-82fb-37366c0914a1",
+                            SecurityStamp = "98f0179c-8864-4d39-8ce4-a7680b3ac03a",
                             TwoFactorEnabled = true,
                             UserName = "maria.petrova"
                         },
@@ -550,7 +557,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "c9f4e7b1-2d33-4a11-8f56-abcdef123456",
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "d751c031-cf8a-4bc7-b83c-4fd7f562ae11",
+                            ConcurrencyStamp = "a7693046-4715-4d8c-b217-3fe444744ca7",
                             Email = "ivana.koleva@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Ivana",
@@ -559,10 +566,10 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "IVANA.KOLEVA@EXAMPLE.COM",
                             NormalizedUserName = "IVANA.KOLEVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPnTxtFSeaa9vA4wrn91CkBaqeGnCo3XoaDXALGF8cTDfYxTkq7xEwV+JTz5qW9gaQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED2tKBXT14iiwQzfpiGF3tGvgrW6gttBGORYe59gwLpF1RANQwKNWGBXU/pYNqqyvQ==",
                             PhoneNumber = "0888234567",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "a7b3345a-472e-4ee9-a29f-2ac6fbf68ffa",
+                            SecurityStamp = "bcd5b288-bfad-4296-8478-040d76c1539c",
                             TwoFactorEnabled = true,
                             UserName = "ivana.koleva"
                         },
@@ -571,7 +578,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "e5c2g9b3-4a67-4f89-8d23-556677889900",
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "5c0c09a4-5cdf-4bae-86ee-25e0569c09a0",
+                            ConcurrencyStamp = "69a9dac8-cf9c-4147-b30f-93f9791d15b5",
                             Email = "nikol.georgieva@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Nikol",
@@ -580,10 +587,10 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "NIKOL.GEORGIEVA@EXAMPLE.COM",
                             NormalizedUserName = "NIKOL.GEORGIEVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHmKM6UlJ6YXYupkqZHSPaUUEwNW4Il7WZhIc9uIckdHwizx3AWfwXuXZrBTH8iDzA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHYIVWWphmDMV3by7e9JN3GBg+cO6DuBMKf/xZvnWiheWzwFj1hcN6sseuV9pbmAIw==",
                             PhoneNumber = "0855123456",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "32479571-54d4-46f5-a3e2-716e31cf3f11",
+                            SecurityStamp = "61d72d01-0724-42ca-88ba-d22096f6394e",
                             TwoFactorEnabled = true,
                             UserName = "nikol.georgieva"
                         },
@@ -592,7 +599,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "fc95b3fa-f342-4172-ac8b-5b35951ad760",
                             AccessFailedCount = 0,
                             Age = 18,
-                            ConcurrencyStamp = "6e79136e-1327-4503-b422-2d2e4bd6cf26",
+                            ConcurrencyStamp = "98bcbf79-fe17-4e05-b58d-f3799a91781d",
                             Email = "teodora_nedkova@abv.bg",
                             EmailConfirmed = true,
                             FirstName = "Teodora",
@@ -601,10 +608,10 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "TEODORA_NEDKOVA@ABV.BG",
                             NormalizedUserName = "TEODORA.NEDKOVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAECQdJXvBzkCEsJdIOQwkf1vGZ0xfR5x0IYt5AIfRps2Hq8VZy7SYub6AskSLJ6nC5Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM0ENz77MEe2RKRpcUbRpcAd4XFHz/L5+xVClLG/Ry+wOfoMYuRrkgcYt00fBFC1Cw==",
                             PhoneNumber = "0878654562",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "671b8182-ffee-4324-aef4-b6f29ac8db72",
+                            SecurityStamp = "3c33832d-ca5f-4998-b4d6-7e33f1e45308",
                             TwoFactorEnabled = true,
                             UserName = "teodora.nedkova"
                         });
@@ -681,6 +688,9 @@ namespace GlowCare.Entities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
@@ -707,6 +717,7 @@ namespace GlowCare.Entities.Migrations
                             AppointmentDate = new DateTime(2025, 9, 28, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             ClientId = "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4",
                             EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+                            IsDeleted = false,
                             Notes = "First-time consultation, requested deep skin analysis.",
                             ServiceId = 5,
                             Status = 1
@@ -717,6 +728,7 @@ namespace GlowCare.Entities.Migrations
                             AppointmentDate = new DateTime(2025, 9, 29, 14, 0, 0, 0, DateTimeKind.Unspecified),
                             ClientId = "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4",
                             EmployeeId = "b75e8e37-95e4-44ef-a32c-10aebaff55b3",
+                            IsDeleted = false,
                             Notes = "Follow-up massage therapy session.",
                             ServiceId = 6,
                             Status = 2
@@ -727,6 +739,7 @@ namespace GlowCare.Entities.Migrations
                             AppointmentDate = new DateTime(2025, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             ClientId = "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4",
                             EmployeeId = "1dccdb69-fbd1-43c4-8c17-95796b5aa95e",
+                            IsDeleted = false,
                             Notes = "Facial rejuvenation treatment scheduled.",
                             ServiceId = 8,
                             Status = 0
@@ -779,7 +792,7 @@ namespace GlowCare.Entities.Migrations
                             Id = 1,
                             ClientId = "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4",
                             Comment = "Excellent service! The procedure was professional and I felt very comfortable.",
-                            CreatedAt = new DateTime(2025, 9, 30, 6, 10, 3, 811, DateTimeKind.Utc).AddTicks(6248),
+                            CreatedAt = new DateTime(2025, 11, 28, 13, 10, 3, 554, DateTimeKind.Utc).AddTicks(5267),
                             EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
                             ProcedureId = 1,
                             Rating = 5
@@ -1150,8 +1163,8 @@ namespace GlowCare.Entities.Migrations
                         new
                         {
                             Id = "2",
-                            Name = "Specialist",
-                            NormalizedName = "SPECIALIST"
+                            Name = "User",
+                            NormalizedName = "USER"
                         });
                 });
 

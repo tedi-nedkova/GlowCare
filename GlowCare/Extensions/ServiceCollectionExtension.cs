@@ -13,7 +13,7 @@ public static class ServiceCollectionExtension
         this IServiceCollection services)
     {
         services.AddScoped<IRepository<Procedure, int>, Repository<Procedure, int>>();
-        services.AddScoped<IRepository<SpecialistRoleRequest, int>, Repository<SpecialistRoleRequest, int>>();
+        services.AddScoped<IRepository<GlowUser, string>, Repository<GlowUser, string>>();
 
         return services;
     }
@@ -21,7 +21,6 @@ public static class ServiceCollectionExtension
     public static IServiceCollection RegisterUserDefinedServices(
             this IServiceCollection services)
     {
-        services.AddScoped<IRoleRequestService, RoleRequestService>();
 
         return services;
     }

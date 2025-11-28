@@ -1,4 +1,6 @@
-﻿namespace GlowCare.Core.Contracts;
+﻿using GlowCare.ViewModels.Users;
+
+namespace GlowCare.Core.Contracts;
 
 public interface IUserService
 {

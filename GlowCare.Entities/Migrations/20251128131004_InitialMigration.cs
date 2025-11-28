@@ -225,7 +225,8 @@ namespace GlowCare.Entities.Migrations
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Occupation = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ExperienceYears = table.Column<int>(type: "int", nullable: false),
-                    Biography = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Biography = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -390,7 +391,8 @@ namespace GlowCare.Entities.Migrations
                     ServiceId = table.Column<int>(type: "int", nullable: false),
                     AppointmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: true),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -454,7 +456,7 @@ namespace GlowCare.Entities.Migrations
                 values: new object[,]
                 {
                     { "1", null, "Admin", "ADMIN" },
-                    { "2", null, "Specialist", "SPECIALIST" }
+                    { "2", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -462,12 +464,12 @@ namespace GlowCare.Entities.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Age", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "29965aaa-46cf-4829-93b8-e38401be7547", 0, 38, "8503b15c-3c35-448b-abe1-b1ca4055c3c7", "maria.petrova@gmail.com", true, "Maria", 1, "Petrova", false, null, "MARIA.PETROVA@EXAMPLE.COM", "MARIA.PETROVA", "AQAAAAIAAYagAAAAEJ4cKfFhAAgZmxcXLx3G4ueaVMsoH2Ii221oXtagZBVZ/RvtUbOmmjW/LBcmCv9sqg==", "0899123456", true, "d7c4fdc8-ef94-4902-82fb-37366c0914a1", true, "maria.petrova" },
-                    { "a7d3c5e2-9b41-4f12-8f34-123456789abc", 0, 32, "3fb5bfef-9ff5-4a3f-a470-568768ec75fc", "elena.dimitrova@gmail.com", true, "Elena", 1, "Dimitrova", false, null, "ELENA.DIMITROVA@EXAMPLE.COM", "ELENA.DIMITROVA", "AQAAAAIAAYagAAAAENXHEW8ym7r6xAK2C+l1j+0RqrrV0hKbQBMZIMrB9BOArCdlYa8tXj0RfB1ynF0JVA==", "0888123456", true, "b9cf3dde-ef3d-42df-b143-748d8afa5969", true, "elena.dimitrova" },
-                    { "ac31b0bb-d05a-438d-be06-9bfe3323cf08", 0, 30, "58ce0ae5-35a7-4c90-9b74-f58b308d87f2", "johndoe@gmail.com", true, "John", 0, "Doe", false, null, "JOHNDOE@EXAMPLE.COM", "JOHN.DOE", "AQAAAAIAAYagAAAAEKWmwNQ7E6pQ6tgILD/e/Orf6RltrsXcwARXCAOGnwZM3Onaq5c/Q0Ew+CacBDZPIQ==", "0875757574", true, "e7ca3caf-b5a0-432b-8483-ad7e7ba4abc1", true, "john.doe" },
-                    { "c9f4e7b1-2d33-4a11-8f56-abcdef123456", 0, 30, "d751c031-cf8a-4bc7-b83c-4fd7f562ae11", "ivana.koleva@gmail.com", true, "Ivana", 1, "Koleva", false, null, "IVANA.KOLEVA@EXAMPLE.COM", "IVANA.KOLEVA", "AQAAAAIAAYagAAAAEPnTxtFSeaa9vA4wrn91CkBaqeGnCo3XoaDXALGF8cTDfYxTkq7xEwV+JTz5qW9gaQ==", "0888234567", true, "a7b3345a-472e-4ee9-a29f-2ac6fbf68ffa", true, "ivana.koleva" },
-                    { "e5c2g9b3-4a67-4f89-8d23-556677889900", 0, 30, "5c0c09a4-5cdf-4bae-86ee-25e0569c09a0", "nikol.georgieva@gmail.com", true, "Nikol", 1, "Georgieva", false, null, "NIKOL.GEORGIEVA@EXAMPLE.COM", "NIKOL.GEORGIEVA", "AQAAAAIAAYagAAAAEHmKM6UlJ6YXYupkqZHSPaUUEwNW4Il7WZhIc9uIckdHwizx3AWfwXuXZrBTH8iDzA==", "0855123456", true, "32479571-54d4-46f5-a3e2-716e31cf3f11", true, "nikol.georgieva" },
-                    { "fc95b3fa-f342-4172-ac8b-5b35951ad760", 0, 18, "6e79136e-1327-4503-b422-2d2e4bd6cf26", "teodora_nedkova@abv.bg", true, "Teodora", 1, "Nedkova", false, null, "TEODORA_NEDKOVA@ABV.BG", "TEODORA.NEDKOVA", "AQAAAAIAAYagAAAAECQdJXvBzkCEsJdIOQwkf1vGZ0xfR5x0IYt5AIfRps2Hq8VZy7SYub6AskSLJ6nC5Q==", "0878654562", true, "671b8182-ffee-4324-aef4-b6f29ac8db72", true, "teodora.nedkova" }
+                    { "29965aaa-46cf-4829-93b8-e38401be7547", 0, 38, "3d71588f-ebfa-46c1-9f7f-f645304f8a13", "maria.petrova@gmail.com", true, "Maria", 1, "Petrova", false, null, "MARIA.PETROVA@EXAMPLE.COM", "MARIA.PETROVA", "AQAAAAIAAYagAAAAEFrhSN05YURnG9uB+q5MUSW6iuZQSRCKAAYeJjBdA3p584w2heQea0FeEPWAdNlw2w==", "0899123456", true, "98f0179c-8864-4d39-8ce4-a7680b3ac03a", true, "maria.petrova" },
+                    { "a7d3c5e2-9b41-4f12-8f34-123456789abc", 0, 32, "e53c6b80-dfca-4a9b-8cad-82effa7c8bae", "elena.dimitrova@gmail.com", true, "Elena", 1, "Dimitrova", false, null, "ELENA.DIMITROVA@EXAMPLE.COM", "ELENA.DIMITROVA", "AQAAAAIAAYagAAAAEH8qR229qpfGJxGjHiS1joFWqdSQAzvtp6/M7uO/zZ2iBFW/S3teffl8hAET7DWb5Q==", "0888123456", true, "14ab26dc-db3e-4f7f-9ade-d228140b26b2", true, "elena.dimitrova" },
+                    { "ac31b0bb-d05a-438d-be06-9bfe3323cf08", 0, 30, "7a3283ca-af19-41bd-8f23-531c9ccf6fe3", "johndoe@gmail.com", true, "John", 0, "Doe", false, null, "JOHNDOE@EXAMPLE.COM", "JOHN.DOE", "AQAAAAIAAYagAAAAEBWc3c5vhEnv7RqLUWYfcN3owXL7gYAnVnjmeWXCag+4ii4BU7laisMDrU70xTSUmg==", "0875757574", true, "0b9b8c96-0cf4-4c89-aea5-2dd6c6beaa59", true, "john.doe" },
+                    { "c9f4e7b1-2d33-4a11-8f56-abcdef123456", 0, 30, "a7693046-4715-4d8c-b217-3fe444744ca7", "ivana.koleva@gmail.com", true, "Ivana", 1, "Koleva", false, null, "IVANA.KOLEVA@EXAMPLE.COM", "IVANA.KOLEVA", "AQAAAAIAAYagAAAAED2tKBXT14iiwQzfpiGF3tGvgrW6gttBGORYe59gwLpF1RANQwKNWGBXU/pYNqqyvQ==", "0888234567", true, "bcd5b288-bfad-4296-8478-040d76c1539c", true, "ivana.koleva" },
+                    { "e5c2g9b3-4a67-4f89-8d23-556677889900", 0, 30, "69a9dac8-cf9c-4147-b30f-93f9791d15b5", "nikol.georgieva@gmail.com", true, "Nikol", 1, "Georgieva", false, null, "NIKOL.GEORGIEVA@EXAMPLE.COM", "NIKOL.GEORGIEVA", "AQAAAAIAAYagAAAAEHYIVWWphmDMV3by7e9JN3GBg+cO6DuBMKf/xZvnWiheWzwFj1hcN6sseuV9pbmAIw==", "0855123456", true, "61d72d01-0724-42ca-88ba-d22096f6394e", true, "nikol.georgieva" },
+                    { "fc95b3fa-f342-4172-ac8b-5b35951ad760", 0, 18, "98bcbf79-fe17-4e05-b58d-f3799a91781d", "teodora_nedkova@abv.bg", true, "Teodora", 1, "Nedkova", false, null, "TEODORA_NEDKOVA@ABV.BG", "TEODORA.NEDKOVA", "AQAAAAIAAYagAAAAEM0ENz77MEe2RKRpcUbRpcAd4XFHz/L5+xVClLG/Ry+wOfoMYuRrkgcYt00fBFC1Cw==", "0878654562", true, "3c33832d-ca5f-4998-b4d6-7e33f1e45308", true, "teodora.nedkova" }
                 });
 
             migrationBuilder.InsertData(
@@ -525,13 +527,13 @@ namespace GlowCare.Entities.Migrations
 
             migrationBuilder.InsertData(
                 table: "Employees",
-                columns: new[] { "Id", "Biography", "ExperienceYears", "Occupation", "UserId" },
+                columns: new[] { "Id", "Biography", "ExperienceYears", "IsDeleted", "Occupation", "UserId" },
                 values: new object[,]
                 {
-                    { "1dccdb69-fbd1-43c4-8c17-95796b5aa95e", "I am a licensed laser removal specialist with 7 years of experience in hair removal, tattoo removal, and skin resurfacing treatments. My focus is on providing safe, effective, and customized solutions for each client to achieve smooth and healthy skin.", 6, "Laser Technician", "29965aaa-46cf-4829-93b8-e38401be7547" },
-                    { "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", "I am a licensed dermatologist with 5 years of experience helping patients achieve healthier skin. My expertise includes treating conditions such as acne, eczema, and pigmentation disorders, as well as performing advanced laser and cosmetic procedures. I am passionate about educating my patients and creating personalized treatment plans that combine proven medical methods with modern skin care innovations.", 5, "Dermatologist", "a7d3c5e2-9b41-4f12-8f34-123456789abc" },
-                    { "a0617bdf-80af-4316-a9c9-c2fd77170f7f", "I am a certified massage therapist with 6 years of experience in Swedish, deep tissue, and therapeutic massage. My goal is to help clients relax, relieve stress, and improve overall well-being through personalized treatments.", 6, "Massage Therapist", "c9f4e7b1-2d33-4a11-8f56-abcdef123456" },
-                    { "b75e8e37-95e4-44ef-a32c-10aebaff55b3", "I am a certified esthetician with 10 years of experience providing skin care treatments, facials, and anti-aging therapies. My goal is to help clients achieve glowing, healthy skin using both modern techniques and natural methods.", 10, "Esthetician", "ac31b0bb-d05a-438d-be06-9bfe3323cf08" }
+                    { "1dccdb69-fbd1-43c4-8c17-95796b5aa95e", "I am a licensed laser removal specialist with 7 years of experience in hair removal, tattoo removal, and skin resurfacing treatments. My focus is on providing safe, effective, and customized solutions for each client to achieve smooth and healthy skin.", 6, false, "Laser Technician", "29965aaa-46cf-4829-93b8-e38401be7547" },
+                    { "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", "I am a licensed dermatologist with 5 years of experience helping patients achieve healthier skin. My expertise includes treating conditions such as acne, eczema, and pigmentation disorders, as well as performing advanced laser and cosmetic procedures. I am passionate about educating my patients and creating personalized treatment plans that combine proven medical methods with modern skin care innovations.", 5, false, "Dermatologist", "a7d3c5e2-9b41-4f12-8f34-123456789abc" },
+                    { "a0617bdf-80af-4316-a9c9-c2fd77170f7f", "I am a certified massage therapist with 6 years of experience in Swedish, deep tissue, and therapeutic massage. My goal is to help clients relax, relieve stress, and improve overall well-being through personalized treatments.", 6, false, "Massage Therapist", "c9f4e7b1-2d33-4a11-8f56-abcdef123456" },
+                    { "b75e8e37-95e4-44ef-a32c-10aebaff55b3", "I am a certified esthetician with 10 years of experience providing skin care treatments, facials, and anti-aging therapies. My goal is to help clients achieve glowing, healthy skin using both modern techniques and natural methods.", 10, false, "Esthetician", "ac31b0bb-d05a-438d-be06-9bfe3323cf08" }
                 });
 
             migrationBuilder.InsertData(
@@ -615,18 +617,18 @@ namespace GlowCare.Entities.Migrations
 
             migrationBuilder.InsertData(
                 table: "Procedures",
-                columns: new[] { "Id", "AppointmentDate", "ClientId", "EmployeeId", "Notes", "ServiceId", "Status" },
+                columns: new[] { "Id", "AppointmentDate", "ClientId", "EmployeeId", "IsDeleted", "Notes", "ServiceId", "Status" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 9, 28, 10, 30, 0, 0, DateTimeKind.Unspecified), "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4", "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", "First-time consultation, requested deep skin analysis.", 5, 1 },
-                    { 2, new DateTime(2025, 9, 29, 14, 0, 0, 0, DateTimeKind.Unspecified), "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4", "b75e8e37-95e4-44ef-a32c-10aebaff55b3", "Follow-up massage therapy session.", 6, 2 },
-                    { 3, new DateTime(2025, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4", "1dccdb69-fbd1-43c4-8c17-95796b5aa95e", "Facial rejuvenation treatment scheduled.", 8, 0 }
+                    { 1, new DateTime(2025, 9, 28, 10, 30, 0, 0, DateTimeKind.Unspecified), "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4", "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", false, "First-time consultation, requested deep skin analysis.", 5, 1 },
+                    { 2, new DateTime(2025, 9, 29, 14, 0, 0, 0, DateTimeKind.Unspecified), "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4", "b75e8e37-95e4-44ef-a32c-10aebaff55b3", false, "Follow-up massage therapy session.", 6, 2 },
+                    { 3, new DateTime(2025, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4", "1dccdb69-fbd1-43c4-8c17-95796b5aa95e", false, "Facial rejuvenation treatment scheduled.", 8, 0 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Reviews",
                 columns: new[] { "Id", "ClientId", "Comment", "CreatedAt", "EmployeeId", "ProcedureId", "Rating" },
-                values: new object[] { 1, "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4", "Excellent service! The procedure was professional and I felt very comfortable.", new DateTime(2025, 9, 30, 6, 10, 3, 811, DateTimeKind.Utc).AddTicks(6248), "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 1, 5 });
+                values: new object[] { 1, "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4", "Excellent service! The procedure was professional and I felt very comfortable.", new DateTime(2025, 11, 28, 13, 10, 3, 554, DateTimeKind.Utc).AddTicks(5267), "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 1, 5 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
