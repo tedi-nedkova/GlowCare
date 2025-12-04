@@ -22,8 +22,8 @@ namespace GlowCare.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<GlowUser> _signInManager;
-        private readonly UserManager<GlowUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<GlowUser> _userManager;
 
         public LoginModel(
             SignInManager<GlowUser> signInManager,
@@ -50,7 +50,7 @@ namespace GlowCare.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
-           
+
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
@@ -107,6 +107,5 @@ namespace GlowCare.Areas.Identity.Pages.Account
 
             return Page();
         }
-
     }
 }

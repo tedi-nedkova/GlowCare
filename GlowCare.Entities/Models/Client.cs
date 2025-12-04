@@ -12,7 +12,7 @@ public class Client
     public ICollection<Review> Reviews { get; set; }
     = new List<Review>();
 
-    public int MembershipId { get; set; }
+    public int? MembershipId { get; set; }
     [ForeignKey(nameof(MembershipId))]
     public Membership? Membership { get; set; } 
 

@@ -1,4 +1,5 @@
-﻿using GlowCare.ViewModels.Users;
+﻿using GlowCare.Entities.Models;
+using GlowCare.ViewModels.Users;
 
 namespace GlowCare.Core.Contracts;
 
@@ -17,5 +18,8 @@ public interface IUserService
     Task<bool> RemoveUserRoleAsync(string userId, string roleName);
 
     Task<bool> DeleteUserAsync(string userId);
+
+    Task<Client> CreateClientForUserAsync(GlowUser user);
+    Task<GlowUser> RegisterUserAsync(RegisterViewModel model);
 }
 

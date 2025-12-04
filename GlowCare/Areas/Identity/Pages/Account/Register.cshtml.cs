@@ -1,4 +1,5 @@
-﻿using GlowCare.Entities.Models;
+﻿using GlowCare.Core.Contracts;
+using GlowCare.Entities.Models;
 using GlowCare.Entities.Models.Enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -28,6 +29,7 @@ namespace GlowCare.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<GlowUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IUserService _userService;
 
         public List<SelectListItem> GenderOptions { get; set; }
 
@@ -36,7 +38,8 @@ namespace GlowCare.Areas.Identity.Pages.Account
             IUserStore<GlowUser> userStore,
             SignInManager<GlowUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IUserService userService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +47,7 @@ namespace GlowCare.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _userService = userService;
         }
 
         [BindProperty]
@@ -110,24 +114,14 @@ namespace GlowCare.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
-
-                user.FirstName = Input.FirstName;
-                user.LastName = Input.LastName;
-                user.Age = Input.Age;
-                user.Gender = Input.Gender;
-
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-
-                var result = await _userManager.CreateAsync(user, Input.Password);
-
-                if (result.Succeeded)
+                try
                 {
+                    // Register user and create client
+                    var user = await _userService.RegisterUserAsync(Input);
+
                     _logger.LogInformation("User created a new account with password.");
 
-                    await _userManager.AddToRoleAsync(user, "User");
-
+                    // Email confirmation
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -150,15 +144,15 @@ namespace GlowCare.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
-
-                foreach (var error in result.Errors)
+                catch (Exception ex)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
 
             return Page();
         }
+
 
         private GlowUser CreateUser()
         {

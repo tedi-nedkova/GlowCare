@@ -29,14 +29,9 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<GlowUser>
                 user.Id == "ac31b0bb-d05a-438d-be06-9bfe3323cf08" ||
                 user.Id == "29965aaa-46cf-4829-93b8-e38401be7547" ||
                 user.Id == "c9f4e7b1-2d33-4a11-8f56-abcdef123456" ||
-                user.Id == "e5c2g9b3-4a67-4f89-8d23-556677889900" ||
-                user.Id == "fc95b3fa-f342-4172-ac8b-5b35951ad760")
+                user.Id == "e5c2g9b3-4a67-4f89-8d23-556677889900")
             {
                 user.PasswordHash = hasher.HashPassword(user, "User_123");
-            }
-            else if (user.Id == "e5c2g9b3-4a67-4f89-8d23-556677889900")
-            {
-                user.PasswordHash = hasher.HashPassword(user, "Client_123");
             }
             else if (user.Id == "fc95b3fa-f342-4172-ac8b-5b35951ad760")
             {

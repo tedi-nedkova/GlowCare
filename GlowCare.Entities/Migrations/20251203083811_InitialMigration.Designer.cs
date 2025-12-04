@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlowCare.Entities.Migrations
 {
     [DbContext(typeof(GlowCareDbContext))]
-    [Migration("20251128131004_InitialMigration")]
+    [Migration("20251203083811_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -497,7 +497,7 @@ namespace GlowCare.Entities.Migrations
                             Id = "a7d3c5e2-9b41-4f12-8f34-123456789abc",
                             AccessFailedCount = 0,
                             Age = 32,
-                            ConcurrencyStamp = "e53c6b80-dfca-4a9b-8cad-82effa7c8bae",
+                            ConcurrencyStamp = "4d0ec400-1384-408d-a1a7-be57f0829ce5",
                             Email = "elena.dimitrova@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Elena",
@@ -505,20 +505,20 @@ namespace GlowCare.Entities.Migrations
                             LastName = "Dimitrova",
                             LockoutEnabled = false,
                             NormalizedEmail = "ELENA.DIMITROVA@EXAMPLE.COM",
-                            NormalizedUserName = "ELENA.DIMITROVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH8qR229qpfGJxGjHiS1joFWqdSQAzvtp6/M7uO/zZ2iBFW/S3teffl8hAET7DWb5Q==",
+                            NormalizedUserName = "ELENA.DIMITROVA@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBgtcOPEW8WIOFJi86gQNIBVjhFeUKIum47+l9jV1pWJQQNEygbfmVJ+/37gJaGmyQ==",
                             PhoneNumber = "0888123456",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "14ab26dc-db3e-4f7f-9ade-d228140b26b2",
-                            TwoFactorEnabled = true,
-                            UserName = "elena.dimitrova"
+                            SecurityStamp = "8eb96922-ff8f-4bf5-a9fb-9d6201397aeb",
+                            TwoFactorEnabled = false,
+                            UserName = "elena.dimitrova@gmail.com"
                         },
                         new
                         {
                             Id = "ac31b0bb-d05a-438d-be06-9bfe3323cf08",
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "7a3283ca-af19-41bd-8f23-531c9ccf6fe3",
+                            ConcurrencyStamp = "d9e66284-ed6a-47f3-825d-5593ddc92172",
                             Email = "johndoe@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -526,20 +526,20 @@ namespace GlowCare.Entities.Migrations
                             LastName = "Doe",
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHNDOE@EXAMPLE.COM",
-                            NormalizedUserName = "JOHN.DOE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBWc3c5vhEnv7RqLUWYfcN3owXL7gYAnVnjmeWXCag+4ii4BU7laisMDrU70xTSUmg==",
+                            NormalizedUserName = "JOHNDOE@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAfUZDYLtgN+XeK8/DLGZBXLMrIt7TM0iSGraS8lqKWif7EZxE0avK9wbMYL3vohxw==",
                             PhoneNumber = "0875757574",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "0b9b8c96-0cf4-4c89-aea5-2dd6c6beaa59",
-                            TwoFactorEnabled = true,
-                            UserName = "john.doe"
+                            SecurityStamp = "87afc345-2975-4a15-b7a6-e25d7d779ed1",
+                            TwoFactorEnabled = false,
+                            UserName = "johndoe@gmail.com"
                         },
                         new
                         {
                             Id = "29965aaa-46cf-4829-93b8-e38401be7547",
                             AccessFailedCount = 0,
                             Age = 38,
-                            ConcurrencyStamp = "3d71588f-ebfa-46c1-9f7f-f645304f8a13",
+                            ConcurrencyStamp = "61e74e67-b860-493f-935e-b310fa867d44",
                             Email = "maria.petrova@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Maria",
@@ -547,20 +547,20 @@ namespace GlowCare.Entities.Migrations
                             LastName = "Petrova",
                             LockoutEnabled = false,
                             NormalizedEmail = "MARIA.PETROVA@EXAMPLE.COM",
-                            NormalizedUserName = "MARIA.PETROVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFrhSN05YURnG9uB+q5MUSW6iuZQSRCKAAYeJjBdA3p584w2heQea0FeEPWAdNlw2w==",
+                            NormalizedUserName = "MARIA.PETROVA@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFI96EZlRwRZxAHlOy9fKJvl3W9m5PcHH/CTCRKBqAqUn9c3Z7cuir8pgRBbMGuYrw==",
                             PhoneNumber = "0899123456",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "98f0179c-8864-4d39-8ce4-a7680b3ac03a",
-                            TwoFactorEnabled = true,
-                            UserName = "maria.petrova"
+                            SecurityStamp = "88bdeb1a-5ace-4728-a256-fe98df55e082",
+                            TwoFactorEnabled = false,
+                            UserName = "maria.petrova@gmail.com"
                         },
                         new
                         {
                             Id = "c9f4e7b1-2d33-4a11-8f56-abcdef123456",
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "a7693046-4715-4d8c-b217-3fe444744ca7",
+                            ConcurrencyStamp = "a8a88ffa-553c-499f-a5a0-3ef307bc354c",
                             Email = "ivana.koleva@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Ivana",
@@ -568,20 +568,20 @@ namespace GlowCare.Entities.Migrations
                             LastName = "Koleva",
                             LockoutEnabled = false,
                             NormalizedEmail = "IVANA.KOLEVA@EXAMPLE.COM",
-                            NormalizedUserName = "IVANA.KOLEVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAED2tKBXT14iiwQzfpiGF3tGvgrW6gttBGORYe59gwLpF1RANQwKNWGBXU/pYNqqyvQ==",
+                            NormalizedUserName = "IVANA.KOLEVA@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDphuHj1XntLBTVIk1HHNlib2Jm5hZPkd7XHfOy9Kdwf9vwiyhxG7Uz0eB0prgvvWA==",
                             PhoneNumber = "0888234567",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "bcd5b288-bfad-4296-8478-040d76c1539c",
-                            TwoFactorEnabled = true,
-                            UserName = "ivana.koleva"
+                            SecurityStamp = "277257f2-4434-4c6b-afa9-fda4e71a272c",
+                            TwoFactorEnabled = false,
+                            UserName = "ivana.koleva@gmail.com"
                         },
                         new
                         {
                             Id = "e5c2g9b3-4a67-4f89-8d23-556677889900",
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "69a9dac8-cf9c-4147-b30f-93f9791d15b5",
+                            ConcurrencyStamp = "07975096-e5cb-4399-8ee7-65fbbe0c7be0",
                             Email = "nikol.georgieva@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Nikol",
@@ -589,20 +589,20 @@ namespace GlowCare.Entities.Migrations
                             LastName = "Georgieva",
                             LockoutEnabled = false,
                             NormalizedEmail = "NIKOL.GEORGIEVA@EXAMPLE.COM",
-                            NormalizedUserName = "NIKOL.GEORGIEVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHYIVWWphmDMV3by7e9JN3GBg+cO6DuBMKf/xZvnWiheWzwFj1hcN6sseuV9pbmAIw==",
+                            NormalizedUserName = "NIKOL.GEORGIEVA@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGzKABzAfOlZ1o0p5rcV+H50v9ptgzymXSYaudx/GZ8Lt/gJnfimWCA5GOHIgqEHLQ==",
                             PhoneNumber = "0855123456",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "61d72d01-0724-42ca-88ba-d22096f6394e",
-                            TwoFactorEnabled = true,
-                            UserName = "nikol.georgieva"
+                            SecurityStamp = "47ac7e78-8705-4e3a-876f-17f1ccbf7c02",
+                            TwoFactorEnabled = false,
+                            UserName = "nikol.georgieva@gmail.com"
                         },
                         new
                         {
                             Id = "fc95b3fa-f342-4172-ac8b-5b35951ad760",
                             AccessFailedCount = 0,
                             Age = 18,
-                            ConcurrencyStamp = "98bcbf79-fe17-4e05-b58d-f3799a91781d",
+                            ConcurrencyStamp = "b6dc9ade-c214-48b1-ad21-b9b582cec08e",
                             Email = "teodora_nedkova@abv.bg",
                             EmailConfirmed = true,
                             FirstName = "Teodora",
@@ -610,13 +610,13 @@ namespace GlowCare.Entities.Migrations
                             LastName = "Nedkova",
                             LockoutEnabled = false,
                             NormalizedEmail = "TEODORA_NEDKOVA@ABV.BG",
-                            NormalizedUserName = "TEODORA.NEDKOVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEM0ENz77MEe2RKRpcUbRpcAd4XFHz/L5+xVClLG/Ry+wOfoMYuRrkgcYt00fBFC1Cw==",
+                            NormalizedUserName = "TEODORA_NEDKOVA@ABV.BG",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM8FoQGtSJx4jfs+N/FmJ3gefiSkgiZwct4c0lbt1WbeTyIBlgU+dFMnTfve+GHMCg==",
                             PhoneNumber = "0878654562",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "3c33832d-ca5f-4998-b4d6-7e33f1e45308",
-                            TwoFactorEnabled = true,
-                            UserName = "teodora.nedkova"
+                            SecurityStamp = "5d3788ec-e9c0-4a26-857d-e41ef6b84c31",
+                            TwoFactorEnabled = false,
+                            UserName = "teodora_nedkova@abv.bg"
                         });
                 });
 
@@ -795,7 +795,7 @@ namespace GlowCare.Entities.Migrations
                             Id = 1,
                             ClientId = "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4",
                             Comment = "Excellent service! The procedure was professional and I felt very comfortable.",
-                            CreatedAt = new DateTime(2025, 11, 28, 13, 10, 3, 554, DateTimeKind.Utc).AddTicks(5267),
+                            CreatedAt = new DateTime(2025, 12, 3, 8, 38, 10, 602, DateTimeKind.Utc).AddTicks(1749),
                             EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
                             ProcedureId = 1,
                             Rating = 5
