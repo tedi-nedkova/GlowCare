@@ -8,9 +8,9 @@ public class Employee
 {
     [Key]
     [Required]
-    public string Id { get; set; } = null!;
+    public Guid Id { get; set; } = Guid.NewGuid();
 
-    public string UserId { get; set; } = null!;
+    public Guid UserId { get; set; }
     [ForeignKey(nameof(UserId))]
     public GlowUser User { get; set; } = null!;
 

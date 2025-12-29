@@ -10,11 +10,11 @@ public class Review
     [Required]
     public int Id { get; set; }
 
-    public string ClientId { get; set; } = null!;
-    [ForeignKey(nameof(ClientId))]
-    public Client? Client { get; set; }
+    public Guid UserId { get; set; } 
+    [ForeignKey(nameof(UserId))]
+    public GlowUser? User { get; set; }
 
-    public string EmployeeId { get; set; } = null!;
+    public Guid EmployeeId { get; set; }
     [ForeignKey(nameof(EmployeeId))]
     public Employee? Employee { get; set; }
 

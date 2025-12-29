@@ -25,20 +25,15 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<GlowUser>
 
         foreach (var user in users)
         {
-            if (user.Id == "a7d3c5e2-9b41-4f12-8f34-123456789abc" ||
-                user.Id == "ac31b0bb-d05a-438d-be06-9bfe3323cf08" ||
-                user.Id == "29965aaa-46cf-4829-93b8-e38401be7547" ||
-                user.Id == "c9f4e7b1-2d33-4a11-8f56-abcdef123456" ||
-                user.Id == "e5c2g9b3-4a67-4f89-8d23-556677889900" ||
-                user.Id == "fc95b3fa-f342-4172-ac8b-5b35951ad760")
+            if (user.Id.ToString() == "a7d3c5e2-9b41-4f12-8f34-123456789abc" ||
+                user.Id.ToString() == "ac31b0bb-d05a-438d-be06-9bfe3323cf08" ||
+                user.Id.ToString() == "29965aaa-46cf-4829-93b8-e38401be7547" ||
+                user.Id.ToString() == "c9f4e7b1-2d33-4a11-8f56-abcdef123456" ||
+                user.Id.ToString() == "e5c2a9b3-4a67-4f89-8d23-556677889900")
             {
                 user.PasswordHash = hasher.HashPassword(user, "User_123");
             }
-            else if (user.Id == "e5c2g9b3-4a67-4f89-8d23-556677889900")
-            {
-                user.PasswordHash = hasher.HashPassword(user, "Client_123");
-            }
-            else if (user.Id == "fc95b3fa-f342-4172-ac8b-5b35951ad760")
+            else if (user.Id.ToString() == "fc95b3fa-f342-4172-ac8b-5b35951ad760")
             {
                 user.PasswordHash = hasher.HashPassword(user, "Admin_123");
             }

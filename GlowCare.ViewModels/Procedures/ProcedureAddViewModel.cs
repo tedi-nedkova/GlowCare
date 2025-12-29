@@ -4,9 +4,8 @@ namespace GlowCare.ViewModels.Procedures;
 
 public class ProcedureAddViewModel
 {
-    public string ClientId { get; set; } = string.Empty;
 
-    public string EmployeeId { get; set; } = string.Empty;
+    public Guid EmployeeId { get; set; } 
 
     public int ServiceId { get; set; }
 

@@ -2,7 +2,7 @@
 
 public class ProcedureEditViewModel
 {
-    public required string EmployeeId { get; set; } 
+    public required Guid EmployeeId { get; set; } 
 
     public int ServiceId { get; set; }
 

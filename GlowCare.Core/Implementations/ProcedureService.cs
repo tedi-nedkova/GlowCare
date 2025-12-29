@@ -14,8 +14,8 @@ public class ProcedureService(
     : IProcedureService
 {
     public async Task CreateProcedureAsync(
-        ProcedureAddViewModel model, 
-        string clientId)
+        ProcedureAddViewModel model,
+        Guid userId)
     {
         if (model == null)
         {
@@ -24,7 +24,7 @@ public class ProcedureService(
 
         Procedure procedure = new()
         {
-            ClientId = clientId,
+            UserId = userId,
             EmployeeId = model.EmployeeId,
             ServiceId = model.ServiceId,
             AppointmentDate = model.AppointmentDate,
@@ -80,12 +80,12 @@ public class ProcedureService(
         return procedure;
     }
 
-    public async Task<IEnumerable<ProcedureDetailsViewModel>> GetAllProcedureDetailsByClientIdAsync(
-        string clientId)
+    public async Task<IEnumerable<ProcedureDetailsViewModel>> GetAllProcedureDetailsByUserIdAsync(
+        Guid userId)
     {
-        var client = await userManager.FindByIdAsync(clientId);
+        var user = await userManager.FindByIdAsync(userId.ToString());
 
-        if (client == null)
+        if (user == null)
         {
             throw new NullReferenceException("User not found");
         }
@@ -96,7 +96,7 @@ public class ProcedureService(
                 .Include(p => p.Employee)
                 .ThenInclude(e => e!.User)
                 .Include(p => p.Service)
-                .Where(p => p.IsDeleted == false && p.ClientId == clientId)
+                .Where(p => p.IsDeleted == false && p.UserId == userId)
                 .Select(p => new ProcedureDetailsViewModel
                 {
                     Id = p.Id,
@@ -111,15 +111,13 @@ public class ProcedureService(
     }
 
 
-
     public async Task<ProcedureDeleteViewModel> GetDeleteProcedureAsync(
-        int id, 
-        string clientId)
+        int id,
+        Guid userId)
     {
         List<Procedure> entities = await procedureRepository.GetAllAttached()
             .Include(p => p.Service)
-            .Include(p => p.Client)
-            .ThenInclude(c => c!.User)
+            .Include(p => p.User)
             .ToListAsync();
 
         Procedure entity = entities
@@ -131,21 +129,19 @@ public class ProcedureService(
             throw new NullReferenceException("Entity is already deleted.");
         }
 
-        if (entity.ClientId == null || entity.ClientId != clientId)
+        if (entity.UserId == null || entity.UserId != userId)
         {
             throw new NullReferenceException("Invalid client id.");
         }
 
-        Client? client = entity.Client;
+        var user = entity.User;
 
         Service service = entity.Service ?? throw new NullReferenceException("Service not found.");
-
-
 
         var procedure = new ProcedureDeleteViewModel
         {
             Id = entity.Id,
-            ClientName = $"{client!.User.FirstName} {client!.User.LastName}",
+            ClientName = $"{user!.FirstName} {user!.LastName}",
             ServiceName = service.Name,
         };
 

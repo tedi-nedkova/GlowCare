@@ -1,12 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using GlowCare.Entities.Models.Enums;
+﻿using GlowCare.Entities.Models.Enums;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static GlowCare.Common.Constants.GlowUserConstants;
 
 namespace GlowCare.Entities.Models;
 
 public class GlowUser 
-    : IdentityUser
+    : IdentityUser<Guid>
 {
     [Required]
     [MinLength(UserFirstNameMinLength)]
@@ -20,5 +21,16 @@ public class GlowUser
 
     public int Age { get; set; }
     public Gender Gender { get; set; }
+
+    public ICollection<Review> Reviews { get; set; }
+    = new List<Review>();
+
+    public int? MembershipId { get; set; }
+    [ForeignKey(nameof(MembershipId))]
+    public Membership? Membership { get; set; }
+
+    public ICollection<Procedure> Procedures { get; set; }
+        = new List<Procedure>();
+
 }
 

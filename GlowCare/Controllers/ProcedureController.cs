@@ -31,9 +31,9 @@ public class ProcedureController(
 
         try
         {
-            string? userId = userManager.GetUserId(User);
+            Guid userId = Guid.Parse(userManager.GetUserId(User));
 
-            await procedureService.CreateProcedureAsync(model, userId!);
+            await procedureService.CreateProcedureAsync(model, userId);
 
             return RedirectToAction(nameof(MyProcedures));
         }
@@ -59,8 +59,8 @@ public class ProcedureController(
     {
         try
         {
-            string? clientId = userManager.GetUserId(User);
-            var models = await procedureService.GetAllProcedureDetailsByClientIdAsync(clientId!);
+            Guid clientId = Guid.Parse(userManager.GetUserId(User));
+            var models = await procedureService.GetAllProcedureDetailsByUserIdAsync(clientId!);
 
             return View(models);
         }
@@ -147,7 +147,7 @@ public class ProcedureController(
     {
         try
         {
-            string? clientId = userManager.GetUserId(User);
+            Guid clientId = Guid.Parse(userManager.GetUserId(User));
 
             var course = await procedureService.GetDeleteProcedureAsync(id, clientId!);
 

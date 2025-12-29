@@ -6,7 +6,7 @@ namespace GlowCare.Entities.Models;
 [PrimaryKey(nameof(EmployeeId), nameof(ServiceId))]
 public class EmployeeService
 {
-    public string EmployeeId { get; set; } = null!;
+    public Guid EmployeeId { get; set; } 
     [ForeignKey(nameof(EmployeeId))]
     public Employee Employee { get; set; } = null!;
 

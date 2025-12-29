@@ -13,7 +13,7 @@ public static class ServiceCollectionExtension
         this IServiceCollection services)
     {
         services.AddScoped<IRepository<Procedure, int>, Repository<Procedure, int>>();
-        services.AddScoped<IRepository<GlowUser, string>, Repository<GlowUser, string>>();
+        services.AddScoped<IRepository<GlowUser, Guid>, Repository<GlowUser, Guid>>();
 
         return services;
     }

@@ -1,4 +1,5 @@
 ﻿using GlowCare.Entities.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -6,17 +7,13 @@ using System.Reflection;
 namespace GlowCare.Entities;
 
 public class GlowCareDbContext
-    : IdentityDbContext<GlowUser>
+    : IdentityDbContext<GlowUser, IdentityRole<Guid>, Guid>
 {
-    private GlowCareDbContext()
-    { }
-
     public GlowCareDbContext(DbContextOptions<GlowCareDbContext> options)
     : base(options)
     { }
 
     public DbSet<Certificate> Certificates { get; set; }
-    public DbSet<Client> Clients { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<EmployeeSchedule> EmployeesSchedules { get; set; }
     public DbSet<EmployeeService> EmployeesServices { get; set; }
@@ -29,10 +26,6 @@ public class GlowCareDbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<Models.DayOfWeek> DaysOfWeek { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-      
-    }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

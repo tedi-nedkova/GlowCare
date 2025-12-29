@@ -6,14 +6,14 @@ namespace GlowCare.Core.Contracts;
 public interface IProcedureService
 {
     Task CreateProcedureAsync(
-        ProcedureAddViewModel model, 
-        string clientId);
+        ProcedureAddViewModel model,
+        Guid userId);
 
     Task DeleteProcedureAsync(
         ProcedureDeleteViewModel model);
     Task<ProcedureDeleteViewModel> GetDeleteProcedureAsync(
-        int id, 
-        string clientId);
+        int id,
+        Guid userId);
 
     Task<Procedure> EditProcedureAsync(
         ProcedureEditViewModel model, 
@@ -22,7 +22,7 @@ public interface IProcedureService
     Task<ProcedureEditViewModel> GetEditProcedureAsync(
         int id);
 
-    Task <IEnumerable<ProcedureDetailsViewModel>> GetAllProcedureDetailsByClientIdAsync(
-        string clientId);
+    Task <IEnumerable<ProcedureDetailsViewModel>> GetAllProcedureDetailsByUserIdAsync(
+        Guid userId);
 }
 

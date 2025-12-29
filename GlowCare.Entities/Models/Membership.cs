@@ -20,7 +20,7 @@ public class Membership
     [Required]
     public int Points { get; set; }
 
-    public ICollection<Client> Clients { get; set; }
-        = new List<Client>();
+    public ICollection<GlowUser> Users { get; set; }
+        = new List<GlowUser>();
 }
 

@@ -11,6 +11,8 @@
     "TwoFactorEnabled": true,
     "UserName": "elena.dimitrova",
     "NormalizedUserName": "ELENA.DIMITROVA",
+    "PasswordHash": "User_123",
+    "SecurityStamp": "bfb94cc6-d1c4-4315-8f5e-f1d3535f4c01",
     "Age": 32,
     "Gender": 1
   },
@@ -26,6 +28,8 @@
     "TwoFactorEnabled": true,
     "UserName": "john.doe",
     "NormalizedUserName": "JOHN.DOE",
+    "PasswordHash": "User_123",
+    "SecurityStamp": "a6241046-575b-4a3f-a668-c6aa755a232f",
     "Age": 30,
     "Gender": 0
   },
@@ -42,6 +46,8 @@
     "TwoFactorEnabled": true,
     "UserName": "maria.petrova",
     "NormalizedUserName": "MARIA.PETROVA",
+    "PasswordHash": "User_123",
+    "SecurityStamp": "68e7add5-6f2f-4792-a2e6-01f596c74a52",
     "Age": 38,
     "Gender": 1
   },
@@ -57,11 +63,13 @@
     "TwoFactorEnabled": true,
     "UserName": "ivana.koleva",
     "NormalizedUserName": "IVANA.KOLEVA",
+    "PasswordHash": "User_123",
+    "SecurityStamp": "e0ff1671-f59e-407c-a1bc-b6034b44ac41",
     "Age": 30,
     "Gender": 1
   },
   {
-    "Id": "e5c2g9b3-4a67-4f89-8d23-556677889900",
+    "Id": "e5c2a9b3-4a67-4f89-8d23-556677889900",
     "FirstName": "Nikol",
     "LastName": "Georgieva",
     "Email": "nikol.georgieva@gmail.com",
@@ -72,9 +80,11 @@
     "TwoFactorEnabled": true,
     "UserName": "nikol.georgieva",
     "NormalizedUserName": "NIKOL.GEORGIEVA",
-    "PasswordHash": "Client_123",
+    "PasswordHash": "User_123",
+    "SecurityStamp": "e9c2550f-30cc-4116-a85c-20265258d5a5",
     "Age": 30,
-    "Gender": 1
+    "Gender": 1,
+    "MembershipId": 1
   },
   {
     "Id": "fc95b3fa-f342-4172-ac8b-5b35951ad760",
@@ -89,6 +99,7 @@
     "UserName": "teodora.nedkova",
     "NormalizedUserName": "TEODORA.NEDKOVA",
     "PasswordHash": "Admin_123",
+    "SecurityStamp": "258513a82f1147ba92a0e43f1602b7c3",
     "Age": 18,
     "Gender": 1
   }

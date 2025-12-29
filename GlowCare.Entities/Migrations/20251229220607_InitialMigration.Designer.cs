@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlowCare.Entities.Migrations
 {
     [DbContext(typeof(GlowCareDbContext))]
-    [Migration("20251128131004_InitialMigration")]
+    [Migration("20251229220607_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -81,8 +81,8 @@ namespace GlowCare.Entities.Migrations
                     b.Property<DateTime>("CertificateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EmployeeId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -93,35 +93,6 @@ namespace GlowCare.Entities.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("Certificates");
-                });
-
-            modelBuilder.Entity("GlowCare.Entities.Models.Client", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("MembershipId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MembershipId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Clients");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4",
-                            MembershipId = 1,
-                            UserId = "e5c2g9b3-4a67-4f89-8d23-556677889900"
-                        });
                 });
 
             modelBuilder.Entity("GlowCare.Entities.Models.DayOfWeek", b =>
@@ -181,8 +152,9 @@ namespace GlowCare.Entities.Migrations
 
             modelBuilder.Entity("GlowCare.Entities.Models.Employee", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Biography")
                         .HasColumnType("nvarchar(max)");
@@ -198,9 +170,8 @@ namespace GlowCare.Entities.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -211,46 +182,46 @@ namespace GlowCare.Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+                            Id = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             Biography = "I am a licensed dermatologist with 5 years of experience helping patients achieve healthier skin. My expertise includes treating conditions such as acne, eczema, and pigmentation disorders, as well as performing advanced laser and cosmetic procedures. I am passionate about educating my patients and creating personalized treatment plans that combine proven medical methods with modern skin care innovations.",
                             ExperienceYears = 5,
                             IsDeleted = false,
                             Occupation = "Dermatologist",
-                            UserId = "a7d3c5e2-9b41-4f12-8f34-123456789abc"
+                            UserId = new Guid("a7d3c5e2-9b41-4f12-8f34-123456789abc")
                         },
                         new
                         {
-                            Id = "b75e8e37-95e4-44ef-a32c-10aebaff55b3",
+                            Id = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
                             Biography = "I am a certified esthetician with 10 years of experience providing skin care treatments, facials, and anti-aging therapies. My goal is to help clients achieve glowing, healthy skin using both modern techniques and natural methods.",
                             ExperienceYears = 10,
                             IsDeleted = false,
                             Occupation = "Esthetician",
-                            UserId = "ac31b0bb-d05a-438d-be06-9bfe3323cf08"
+                            UserId = new Guid("ac31b0bb-d05a-438d-be06-9bfe3323cf08")
                         },
                         new
                         {
-                            Id = "1dccdb69-fbd1-43c4-8c17-95796b5aa95e",
+                            Id = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
                             Biography = "I am a licensed laser removal specialist with 7 years of experience in hair removal, tattoo removal, and skin resurfacing treatments. My focus is on providing safe, effective, and customized solutions for each client to achieve smooth and healthy skin.",
                             ExperienceYears = 6,
                             IsDeleted = false,
                             Occupation = "Laser Technician",
-                            UserId = "29965aaa-46cf-4829-93b8-e38401be7547"
+                            UserId = new Guid("29965aaa-46cf-4829-93b8-e38401be7547")
                         },
                         new
                         {
-                            Id = "a0617bdf-80af-4316-a9c9-c2fd77170f7f",
+                            Id = new Guid("a0617bdf-80af-4316-a9c9-c2fd77170f7f"),
                             Biography = "I am a certified massage therapist with 6 years of experience in Swedish, deep tissue, and therapeutic massage. My goal is to help clients relax, relieve stress, and improve overall well-being through personalized treatments.",
                             ExperienceYears = 6,
                             IsDeleted = false,
                             Occupation = "Massage Therapist",
-                            UserId = "c9f4e7b1-2d33-4a11-8f56-abcdef123456"
+                            UserId = new Guid("c9f4e7b1-2d33-4a11-8f56-abcdef123456")
                         });
                 });
 
             modelBuilder.Entity("GlowCare.Entities.Models.EmployeeSchedule", b =>
                 {
-                    b.Property<string>("EmployeeId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ScheduleId")
                         .HasColumnType("int");
@@ -264,40 +235,40 @@ namespace GlowCare.Entities.Migrations
                     b.HasData(
                         new
                         {
-                            EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             ScheduleId = 2
                         },
                         new
                         {
-                            EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             ScheduleId = 3
                         },
                         new
                         {
-                            EmployeeId = "b75e8e37-95e4-44ef-a32c-10aebaff55b3",
+                            EmployeeId = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
                             ScheduleId = 1
                         },
                         new
                         {
-                            EmployeeId = "b75e8e37-95e4-44ef-a32c-10aebaff55b3",
+                            EmployeeId = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
                             ScheduleId = 3
                         },
                         new
                         {
-                            EmployeeId = "1dccdb69-fbd1-43c4-8c17-95796b5aa95e",
+                            EmployeeId = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
                             ScheduleId = 4
                         },
                         new
                         {
-                            EmployeeId = "a0617bdf-80af-4316-a9c9-c2fd77170f7f",
+                            EmployeeId = new Guid("a0617bdf-80af-4316-a9c9-c2fd77170f7f"),
                             ScheduleId = 3
                         });
                 });
 
             modelBuilder.Entity("GlowCare.Entities.Models.EmployeeService", b =>
                 {
-                    b.Property<string>("EmployeeId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
@@ -311,110 +282,111 @@ namespace GlowCare.Entities.Migrations
                     b.HasData(
                         new
                         {
-                            EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             ServiceId = 1
                         },
                         new
                         {
-                            EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             ServiceId = 4
                         },
                         new
                         {
-                            EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             ServiceId = 5
                         },
                         new
                         {
-                            EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             ServiceId = 6
                         },
                         new
                         {
-                            EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             ServiceId = 14
                         },
                         new
                         {
-                            EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             ServiceId = 15
                         },
                         new
                         {
-                            EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             ServiceId = 16
                         },
                         new
                         {
-                            EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             ServiceId = 17
                         },
                         new
                         {
-                            EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             ServiceId = 18
                         },
                         new
                         {
-                            EmployeeId = "b75e8e37-95e4-44ef-a32c-10aebaff55b3",
+                            EmployeeId = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
                             ServiceId = 6
                         },
                         new
                         {
-                            EmployeeId = "b75e8e37-95e4-44ef-a32c-10aebaff55b3",
+                            EmployeeId = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
                             ServiceId = 7
                         },
                         new
                         {
-                            EmployeeId = "1dccdb69-fbd1-43c4-8c17-95796b5aa95e",
+                            EmployeeId = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
                             ServiceId = 2
                         },
                         new
                         {
-                            EmployeeId = "1dccdb69-fbd1-43c4-8c17-95796b5aa95e",
+                            EmployeeId = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
                             ServiceId = 8
                         },
                         new
                         {
-                            EmployeeId = "1dccdb69-fbd1-43c4-8c17-95796b5aa95e",
+                            EmployeeId = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
                             ServiceId = 9
                         },
                         new
                         {
-                            EmployeeId = "1dccdb69-fbd1-43c4-8c17-95796b5aa95e",
+                            EmployeeId = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
                             ServiceId = 10
                         },
                         new
                         {
-                            EmployeeId = "1dccdb69-fbd1-43c4-8c17-95796b5aa95e",
+                            EmployeeId = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
                             ServiceId = 11
                         },
                         new
                         {
-                            EmployeeId = "1dccdb69-fbd1-43c4-8c17-95796b5aa95e",
+                            EmployeeId = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
                             ServiceId = 12
                         },
                         new
                         {
-                            EmployeeId = "b75e8e37-95e4-44ef-a32c-10aebaff55b3",
+                            EmployeeId = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
                             ServiceId = 13
                         },
                         new
                         {
-                            EmployeeId = "a0617bdf-80af-4316-a9c9-c2fd77170f7f",
+                            EmployeeId = new Guid("a0617bdf-80af-4316-a9c9-c2fd77170f7f"),
                             ServiceId = 3
                         },
                         new
                         {
-                            EmployeeId = "a0617bdf-80af-4316-a9c9-c2fd77170f7f",
+                            EmployeeId = new Guid("a0617bdf-80af-4316-a9c9-c2fd77170f7f"),
                             ServiceId = 20
                         });
                 });
 
             modelBuilder.Entity("GlowCare.Entities.Models.GlowUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -452,6 +424,9 @@ namespace GlowCare.Entities.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int?>("MembershipId")
+                        .HasColumnType("int");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -481,6 +456,8 @@ namespace GlowCare.Entities.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MembershipId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -494,10 +471,10 @@ namespace GlowCare.Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a7d3c5e2-9b41-4f12-8f34-123456789abc",
+                            Id = new Guid("a7d3c5e2-9b41-4f12-8f34-123456789abc"),
                             AccessFailedCount = 0,
                             Age = 32,
-                            ConcurrencyStamp = "e53c6b80-dfca-4a9b-8cad-82effa7c8bae",
+                            ConcurrencyStamp = "44984b4e-8fab-4827-bbda-cac12520017e",
                             Email = "elena.dimitrova@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Elena",
@@ -506,19 +483,19 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ELENA.DIMITROVA@EXAMPLE.COM",
                             NormalizedUserName = "ELENA.DIMITROVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH8qR229qpfGJxGjHiS1joFWqdSQAzvtp6/M7uO/zZ2iBFW/S3teffl8hAET7DWb5Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECUUCWtSYXo7V5AylahAdrz8Tofvi5ZuDY1xTzCE6Dp9gyGjUxUXzJxDKFfBgv1Y5A==",
                             PhoneNumber = "0888123456",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "14ab26dc-db3e-4f7f-9ade-d228140b26b2",
+                            SecurityStamp = "bfb94cc6-d1c4-4315-8f5e-f1d3535f4c01",
                             TwoFactorEnabled = true,
                             UserName = "elena.dimitrova"
                         },
                         new
                         {
-                            Id = "ac31b0bb-d05a-438d-be06-9bfe3323cf08",
+                            Id = new Guid("ac31b0bb-d05a-438d-be06-9bfe3323cf08"),
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "7a3283ca-af19-41bd-8f23-531c9ccf6fe3",
+                            ConcurrencyStamp = "15887ffa-1f09-4b46-83cf-8a5f1cbae836",
                             Email = "johndoe@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -527,19 +504,19 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHNDOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBWc3c5vhEnv7RqLUWYfcN3owXL7gYAnVnjmeWXCag+4ii4BU7laisMDrU70xTSUmg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPdgSRQcgRY/YQ9slcxaRfRCJ6xY32XMChxQRdQ7y4DcPCEZtLmW5bRc3IOZkJqZyQ==",
                             PhoneNumber = "0875757574",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "0b9b8c96-0cf4-4c89-aea5-2dd6c6beaa59",
+                            SecurityStamp = "a6241046-575b-4a3f-a668-c6aa755a232f",
                             TwoFactorEnabled = true,
                             UserName = "john.doe"
                         },
                         new
                         {
-                            Id = "29965aaa-46cf-4829-93b8-e38401be7547",
+                            Id = new Guid("29965aaa-46cf-4829-93b8-e38401be7547"),
                             AccessFailedCount = 0,
                             Age = 38,
-                            ConcurrencyStamp = "3d71588f-ebfa-46c1-9f7f-f645304f8a13",
+                            ConcurrencyStamp = "16955077-f6cc-4787-90f2-22978e834457",
                             Email = "maria.petrova@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Maria",
@@ -548,19 +525,19 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MARIA.PETROVA@EXAMPLE.COM",
                             NormalizedUserName = "MARIA.PETROVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFrhSN05YURnG9uB+q5MUSW6iuZQSRCKAAYeJjBdA3p584w2heQea0FeEPWAdNlw2w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMKtnOi4qqzcJ+5h3UdNrHK+/b5JbXpgZzKAO925iNAHQVLtzne6OT6QPd53SAMHww==",
                             PhoneNumber = "0899123456",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "98f0179c-8864-4d39-8ce4-a7680b3ac03a",
+                            SecurityStamp = "68e7add5-6f2f-4792-a2e6-01f596c74a52",
                             TwoFactorEnabled = true,
                             UserName = "maria.petrova"
                         },
                         new
                         {
-                            Id = "c9f4e7b1-2d33-4a11-8f56-abcdef123456",
+                            Id = new Guid("c9f4e7b1-2d33-4a11-8f56-abcdef123456"),
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "a7693046-4715-4d8c-b217-3fe444744ca7",
+                            ConcurrencyStamp = "2943bac1-b644-4079-9037-91b157a033a2",
                             Email = "ivana.koleva@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Ivana",
@@ -569,40 +546,41 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "IVANA.KOLEVA@EXAMPLE.COM",
                             NormalizedUserName = "IVANA.KOLEVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAED2tKBXT14iiwQzfpiGF3tGvgrW6gttBGORYe59gwLpF1RANQwKNWGBXU/pYNqqyvQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBzBod6U9FyyX2ujPwWiYbYdRuxlznV6d7YCpxdwabdGycm1MnXKJClU8hK5BuUiuw==",
                             PhoneNumber = "0888234567",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "bcd5b288-bfad-4296-8478-040d76c1539c",
+                            SecurityStamp = "e0ff1671-f59e-407c-a1bc-b6034b44ac41",
                             TwoFactorEnabled = true,
                             UserName = "ivana.koleva"
                         },
                         new
                         {
-                            Id = "e5c2g9b3-4a67-4f89-8d23-556677889900",
+                            Id = new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900"),
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "69a9dac8-cf9c-4147-b30f-93f9791d15b5",
+                            ConcurrencyStamp = "de9abe0f-3b51-4baf-8db4-6a0b0ebbc560",
                             Email = "nikol.georgieva@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Nikol",
                             Gender = 1,
                             LastName = "Georgieva",
                             LockoutEnabled = false,
+                            MembershipId = 1,
                             NormalizedEmail = "NIKOL.GEORGIEVA@EXAMPLE.COM",
                             NormalizedUserName = "NIKOL.GEORGIEVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHYIVWWphmDMV3by7e9JN3GBg+cO6DuBMKf/xZvnWiheWzwFj1hcN6sseuV9pbmAIw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOKrZ5CwWY+2edw0yiGlnJ1J7+Q2wSWR72XDZ2ZMDkV/cnQRFONPAnqVpBSGIi6u4w==",
                             PhoneNumber = "0855123456",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "61d72d01-0724-42ca-88ba-d22096f6394e",
+                            SecurityStamp = "e9c2550f-30cc-4116-a85c-20265258d5a5",
                             TwoFactorEnabled = true,
                             UserName = "nikol.georgieva"
                         },
                         new
                         {
-                            Id = "fc95b3fa-f342-4172-ac8b-5b35951ad760",
+                            Id = new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760"),
                             AccessFailedCount = 0,
                             Age = 18,
-                            ConcurrencyStamp = "98bcbf79-fe17-4e05-b58d-f3799a91781d",
+                            ConcurrencyStamp = "e994c616-b2df-4163-8662-718816c7b09f",
                             Email = "teodora_nedkova@abv.bg",
                             EmailConfirmed = true,
                             FirstName = "Teodora",
@@ -611,10 +589,10 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "TEODORA_NEDKOVA@ABV.BG",
                             NormalizedUserName = "TEODORA.NEDKOVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEM0ENz77MEe2RKRpcUbRpcAd4XFHz/L5+xVClLG/Ry+wOfoMYuRrkgcYt00fBFC1Cw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIbnauDwaHm6KzYVWIMQ2qpwUy88zzHHLGNozmpifIgHY9KQ6dI2ABOLMAW/i9yziw==",
                             PhoneNumber = "0878654562",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "3c33832d-ca5f-4998-b4d6-7e33f1e45308",
+                            SecurityStamp = "258513a82f1147ba92a0e43f1602b7c3",
                             TwoFactorEnabled = true,
                             UserName = "teodora.nedkova"
                         });
@@ -683,13 +661,8 @@ namespace GlowCare.Entities.Migrations
                     b.Property<DateTime>("AppointmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("EmployeeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -703,13 +676,16 @@ namespace GlowCare.Entities.Migrations
                     b.Property<int?>("Status")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("ClientId");
+                    b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("ServiceId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Procedures");
 
@@ -718,34 +694,34 @@ namespace GlowCare.Entities.Migrations
                         {
                             Id = 1,
                             AppointmentDate = new DateTime(2025, 9, 28, 10, 30, 0, 0, DateTimeKind.Unspecified),
-                            ClientId = "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4",
-                            EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             IsDeleted = false,
                             Notes = "First-time consultation, requested deep skin analysis.",
                             ServiceId = 5,
-                            Status = 1
+                            Status = 1,
+                            UserId = new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900")
                         },
                         new
                         {
                             Id = 2,
                             AppointmentDate = new DateTime(2025, 9, 29, 14, 0, 0, 0, DateTimeKind.Unspecified),
-                            ClientId = "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4",
-                            EmployeeId = "b75e8e37-95e4-44ef-a32c-10aebaff55b3",
+                            EmployeeId = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
                             IsDeleted = false,
                             Notes = "Follow-up massage therapy session.",
                             ServiceId = 6,
-                            Status = 2
+                            Status = 2,
+                            UserId = new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760")
                         },
                         new
                         {
                             Id = 3,
                             AppointmentDate = new DateTime(2025, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            ClientId = "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4",
-                            EmployeeId = "1dccdb69-fbd1-43c4-8c17-95796b5aa95e",
+                            EmployeeId = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
                             IsDeleted = false,
                             Notes = "Facial rejuvenation treatment scheduled.",
                             ServiceId = 8,
-                            Status = 0
+                            Status = 0,
+                            UserId = new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760")
                         });
                 });
 
@@ -757,10 +733,6 @@ namespace GlowCare.Entities.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -769,9 +741,8 @@ namespace GlowCare.Entities.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EmployeeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ProcedureId")
                         .HasColumnType("int");
@@ -779,13 +750,16 @@ namespace GlowCare.Entities.Migrations
                     b.Property<int?>("Rating")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("ClientId");
+                    b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("ProcedureId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
 
@@ -793,12 +767,12 @@ namespace GlowCare.Entities.Migrations
                         new
                         {
                             Id = 1,
-                            ClientId = "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4",
                             Comment = "Excellent service! The procedure was professional and I felt very comfortable.",
-                            CreatedAt = new DateTime(2025, 11, 28, 13, 10, 3, 554, DateTimeKind.Utc).AddTicks(5267),
-                            EmployeeId = "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
+                            CreatedAt = new DateTime(2025, 12, 29, 22, 6, 6, 771, DateTimeKind.Utc).AddTicks(8254),
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             ProcedureId = 1,
-                            Rating = 5
+                            Rating = 5,
+                            UserId = new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760")
                         });
                 });
 
@@ -1130,10 +1104,11 @@ namespace GlowCare.Entities.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -1159,19 +1134,21 @@ namespace GlowCare.Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1",
+                            Id = new Guid("8c384109-e13f-4556-a810-ab9ba28161a2"),
+                            ConcurrencyStamp = "a1111111-1111-1111-1111-111111111111",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2",
+                            Id = new Guid("5dcbdb75-d5c9-4109-ab52-fd869be79532"),
+                            ConcurrencyStamp = "b2222222-2222-2222-2222-222222222222",
                             Name = "User",
                             NormalizedName = "USER"
                         });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1185,9 +1162,8 @@ namespace GlowCare.Entities.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -1196,7 +1172,7 @@ namespace GlowCare.Entities.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1210,9 +1186,8 @@ namespace GlowCare.Entities.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -1221,7 +1196,7 @@ namespace GlowCare.Entities.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -1234,9 +1209,8 @@ namespace GlowCare.Entities.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -1245,13 +1219,13 @@ namespace GlowCare.Entities.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -1260,10 +1234,10 @@ namespace GlowCare.Entities.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -1286,25 +1260,6 @@ namespace GlowCare.Entities.Migrations
                     b.HasOne("GlowCare.Entities.Models.Employee", null)
                         .WithMany("Certificates")
                         .HasForeignKey("EmployeeId");
-                });
-
-            modelBuilder.Entity("GlowCare.Entities.Models.Client", b =>
-                {
-                    b.HasOne("GlowCare.Entities.Models.Membership", "Membership")
-                        .WithMany("Clients")
-                        .HasForeignKey("MembershipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GlowCare.Entities.Models.GlowUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Membership");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("GlowCare.Entities.Models.Employee", b =>
@@ -1356,14 +1311,17 @@ namespace GlowCare.Entities.Migrations
                     b.Navigation("Service");
                 });
 
+            modelBuilder.Entity("GlowCare.Entities.Models.GlowUser", b =>
+                {
+                    b.HasOne("GlowCare.Entities.Models.Membership", "Membership")
+                        .WithMany("Users")
+                        .HasForeignKey("MembershipId");
+
+                    b.Navigation("Membership");
+                });
+
             modelBuilder.Entity("GlowCare.Entities.Models.Procedure", b =>
                 {
-                    b.HasOne("GlowCare.Entities.Models.Client", "Client")
-                        .WithMany("Procedures")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("GlowCare.Entities.Models.Employee", "Employee")
                         .WithMany("Procedures")
                         .HasForeignKey("EmployeeId")
@@ -1376,21 +1334,21 @@ namespace GlowCare.Entities.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Client");
+                    b.HasOne("GlowCare.Entities.Models.GlowUser", "User")
+                        .WithMany("Procedures")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Employee");
 
                     b.Navigation("Service");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("GlowCare.Entities.Models.Review", b =>
                 {
-                    b.HasOne("GlowCare.Entities.Models.Client", "Client")
-                        .WithMany("Reviews")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("GlowCare.Entities.Models.Employee", "Employee")
                         .WithMany("Reviews")
                         .HasForeignKey("EmployeeId")
@@ -1403,11 +1361,17 @@ namespace GlowCare.Entities.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Client");
+                    b.HasOne("GlowCare.Entities.Models.GlowUser", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Employee");
 
                     b.Navigation("Procedure");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("GlowCare.Entities.Models.ScheduleDayOfWeek", b =>
@@ -1440,16 +1404,16 @@ namespace GlowCare.Entities.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.HasOne("GlowCare.Entities.Models.GlowUser", null)
                         .WithMany()
@@ -1458,7 +1422,7 @@ namespace GlowCare.Entities.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.HasOne("GlowCare.Entities.Models.GlowUser", null)
                         .WithMany()
@@ -1467,9 +1431,9 @@ namespace GlowCare.Entities.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1482,20 +1446,13 @@ namespace GlowCare.Entities.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.HasOne("GlowCare.Entities.Models.GlowUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("GlowCare.Entities.Models.Client", b =>
-                {
-                    b.Navigation("Procedures");
-
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("GlowCare.Entities.Models.DayOfWeek", b =>
@@ -1512,9 +1469,16 @@ namespace GlowCare.Entities.Migrations
                     b.Navigation("Reviews");
                 });
 
+            modelBuilder.Entity("GlowCare.Entities.Models.GlowUser", b =>
+                {
+                    b.Navigation("Procedures");
+
+                    b.Navigation("Reviews");
+                });
+
             modelBuilder.Entity("GlowCare.Entities.Models.Membership", b =>
                 {
-                    b.Navigation("Clients");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("GlowCare.Entities.Models.Procedure", b =>

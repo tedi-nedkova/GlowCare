@@ -1,7 +1,7 @@
 ﻿[
   {
     "Id": 1,
-    "ClientId": "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4",
+    "UserId": "e5c2a9b3-4a67-4f89-8d23-556677889900",
     "EmployeeId": "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
     "ServiceId": 5,
     "AppointmentDate": "2025-09-28T10:30:00",
@@ -10,7 +10,7 @@
   },
   {
     "Id": 2,
-    "ClientId": "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4",
+    "UserId": "fc95b3fa-f342-4172-ac8b-5b35951ad760",
     "EmployeeId": "b75e8e37-95e4-44ef-a32c-10aebaff55b3",
     "ServiceId": 6,
     "AppointmentDate": "2025-09-29T14:00:00",
@@ -19,7 +19,7 @@
   },
   {
     "Id": 3,
-    "ClientId": "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4",
+    "UserId": "fc95b3fa-f342-4172-ac8b-5b35951ad760",
     "EmployeeId": "1dccdb69-fbd1-43c4-8c17-95796b5aa95e",
     "ServiceId": 8,
     "AppointmentDate": "2025-10-01T09:00:00",

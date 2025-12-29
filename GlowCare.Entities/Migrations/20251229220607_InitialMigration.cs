@@ -17,7 +17,7 @@ namespace GlowCare.Entities.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -25,35 +25,6 @@ namespace GlowCare.Entities.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
-                    Gender = table.Column<int>(type: "int", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -117,7 +88,7 @@ namespace GlowCare.Entities.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -128,113 +99,6 @@ namespace GlowCare.Entities.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserLogins",
-                columns: table => new
-                {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserRoles",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserTokens",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Occupation = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    ExperienceYears = table.Column<int>(type: "int", nullable: false),
-                    Biography = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Employees_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -264,28 +128,38 @@ namespace GlowCare.Entities.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Clients",
+                name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MembershipId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    MembershipId = table.Column<int>(type: "int", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clients", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Clients_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Clients_Memberships_MembershipId",
+                        name: "FK_AspNetUsers_Memberships_MembershipId",
                         column: x => x.MembershipId,
                         principalTable: "Memberships",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -313,6 +187,113 @@ namespace GlowCare.Entities.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Occupation = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ExperienceYears = table.Column<int>(type: "int", nullable: false),
+                    Biography = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Employees_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Certificates",
                 columns: table => new
                 {
@@ -320,7 +301,7 @@ namespace GlowCare.Entities.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CertificateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -336,7 +317,7 @@ namespace GlowCare.Entities.Migrations
                 name: "EmployeesSchedules",
                 columns: table => new
                 {
-                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ScheduleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -360,7 +341,7 @@ namespace GlowCare.Entities.Migrations
                 name: "EmployeesServices",
                 columns: table => new
                 {
-                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ServiceId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -386,8 +367,8 @@ namespace GlowCare.Entities.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ServiceId = table.Column<int>(type: "int", nullable: false),
                     AppointmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: true),
@@ -398,9 +379,9 @@ namespace GlowCare.Entities.Migrations
                 {
                     table.PrimaryKey("PK_Procedures", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Procedures_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
+                        name: "FK_Procedures_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -422,8 +403,8 @@ namespace GlowCare.Entities.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: true),
                     Comment = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -433,9 +414,9 @@ namespace GlowCare.Entities.Migrations
                 {
                     table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reviews_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
+                        name: "FK_Reviews_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -455,21 +436,20 @@ namespace GlowCare.Entities.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", null, "Admin", "ADMIN" },
-                    { "2", null, "User", "USER" }
+                    { new Guid("5dcbdb75-d5c9-4109-ab52-fd869be79532"), "b2222222-2222-2222-2222-222222222222", "User", "USER" },
+                    { new Guid("8c384109-e13f-4556-a810-ab9ba28161a2"), "a1111111-1111-1111-1111-111111111111", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Age", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "Age", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LockoutEnabled", "LockoutEnd", "MembershipId", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "29965aaa-46cf-4829-93b8-e38401be7547", 0, 38, "3d71588f-ebfa-46c1-9f7f-f645304f8a13", "maria.petrova@gmail.com", true, "Maria", 1, "Petrova", false, null, "MARIA.PETROVA@EXAMPLE.COM", "MARIA.PETROVA", "AQAAAAIAAYagAAAAEFrhSN05YURnG9uB+q5MUSW6iuZQSRCKAAYeJjBdA3p584w2heQea0FeEPWAdNlw2w==", "0899123456", true, "98f0179c-8864-4d39-8ce4-a7680b3ac03a", true, "maria.petrova" },
-                    { "a7d3c5e2-9b41-4f12-8f34-123456789abc", 0, 32, "e53c6b80-dfca-4a9b-8cad-82effa7c8bae", "elena.dimitrova@gmail.com", true, "Elena", 1, "Dimitrova", false, null, "ELENA.DIMITROVA@EXAMPLE.COM", "ELENA.DIMITROVA", "AQAAAAIAAYagAAAAEH8qR229qpfGJxGjHiS1joFWqdSQAzvtp6/M7uO/zZ2iBFW/S3teffl8hAET7DWb5Q==", "0888123456", true, "14ab26dc-db3e-4f7f-9ade-d228140b26b2", true, "elena.dimitrova" },
-                    { "ac31b0bb-d05a-438d-be06-9bfe3323cf08", 0, 30, "7a3283ca-af19-41bd-8f23-531c9ccf6fe3", "johndoe@gmail.com", true, "John", 0, "Doe", false, null, "JOHNDOE@EXAMPLE.COM", "JOHN.DOE", "AQAAAAIAAYagAAAAEBWc3c5vhEnv7RqLUWYfcN3owXL7gYAnVnjmeWXCag+4ii4BU7laisMDrU70xTSUmg==", "0875757574", true, "0b9b8c96-0cf4-4c89-aea5-2dd6c6beaa59", true, "john.doe" },
-                    { "c9f4e7b1-2d33-4a11-8f56-abcdef123456", 0, 30, "a7693046-4715-4d8c-b217-3fe444744ca7", "ivana.koleva@gmail.com", true, "Ivana", 1, "Koleva", false, null, "IVANA.KOLEVA@EXAMPLE.COM", "IVANA.KOLEVA", "AQAAAAIAAYagAAAAED2tKBXT14iiwQzfpiGF3tGvgrW6gttBGORYe59gwLpF1RANQwKNWGBXU/pYNqqyvQ==", "0888234567", true, "bcd5b288-bfad-4296-8478-040d76c1539c", true, "ivana.koleva" },
-                    { "e5c2g9b3-4a67-4f89-8d23-556677889900", 0, 30, "69a9dac8-cf9c-4147-b30f-93f9791d15b5", "nikol.georgieva@gmail.com", true, "Nikol", 1, "Georgieva", false, null, "NIKOL.GEORGIEVA@EXAMPLE.COM", "NIKOL.GEORGIEVA", "AQAAAAIAAYagAAAAEHYIVWWphmDMV3by7e9JN3GBg+cO6DuBMKf/xZvnWiheWzwFj1hcN6sseuV9pbmAIw==", "0855123456", true, "61d72d01-0724-42ca-88ba-d22096f6394e", true, "nikol.georgieva" },
-                    { "fc95b3fa-f342-4172-ac8b-5b35951ad760", 0, 18, "98bcbf79-fe17-4e05-b58d-f3799a91781d", "teodora_nedkova@abv.bg", true, "Teodora", 1, "Nedkova", false, null, "TEODORA_NEDKOVA@ABV.BG", "TEODORA.NEDKOVA", "AQAAAAIAAYagAAAAEM0ENz77MEe2RKRpcUbRpcAd4XFHz/L5+xVClLG/Ry+wOfoMYuRrkgcYt00fBFC1Cw==", "0878654562", true, "3c33832d-ca5f-4998-b4d6-7e33f1e45308", true, "teodora.nedkova" }
+                    { new Guid("29965aaa-46cf-4829-93b8-e38401be7547"), 0, 38, "16955077-f6cc-4787-90f2-22978e834457", "maria.petrova@gmail.com", true, "Maria", 1, "Petrova", false, null, null, "MARIA.PETROVA@EXAMPLE.COM", "MARIA.PETROVA", "AQAAAAIAAYagAAAAEMKtnOi4qqzcJ+5h3UdNrHK+/b5JbXpgZzKAO925iNAHQVLtzne6OT6QPd53SAMHww==", "0899123456", true, "68e7add5-6f2f-4792-a2e6-01f596c74a52", true, "maria.petrova" },
+                    { new Guid("a7d3c5e2-9b41-4f12-8f34-123456789abc"), 0, 32, "44984b4e-8fab-4827-bbda-cac12520017e", "elena.dimitrova@gmail.com", true, "Elena", 1, "Dimitrova", false, null, null, "ELENA.DIMITROVA@EXAMPLE.COM", "ELENA.DIMITROVA", "AQAAAAIAAYagAAAAECUUCWtSYXo7V5AylahAdrz8Tofvi5ZuDY1xTzCE6Dp9gyGjUxUXzJxDKFfBgv1Y5A==", "0888123456", true, "bfb94cc6-d1c4-4315-8f5e-f1d3535f4c01", true, "elena.dimitrova" },
+                    { new Guid("ac31b0bb-d05a-438d-be06-9bfe3323cf08"), 0, 30, "15887ffa-1f09-4b46-83cf-8a5f1cbae836", "johndoe@gmail.com", true, "John", 0, "Doe", false, null, null, "JOHNDOE@EXAMPLE.COM", "JOHN.DOE", "AQAAAAIAAYagAAAAEPdgSRQcgRY/YQ9slcxaRfRCJ6xY32XMChxQRdQ7y4DcPCEZtLmW5bRc3IOZkJqZyQ==", "0875757574", true, "a6241046-575b-4a3f-a668-c6aa755a232f", true, "john.doe" },
+                    { new Guid("c9f4e7b1-2d33-4a11-8f56-abcdef123456"), 0, 30, "2943bac1-b644-4079-9037-91b157a033a2", "ivana.koleva@gmail.com", true, "Ivana", 1, "Koleva", false, null, null, "IVANA.KOLEVA@EXAMPLE.COM", "IVANA.KOLEVA", "AQAAAAIAAYagAAAAEBzBod6U9FyyX2ujPwWiYbYdRuxlznV6d7YCpxdwabdGycm1MnXKJClU8hK5BuUiuw==", "0888234567", true, "e0ff1671-f59e-407c-a1bc-b6034b44ac41", true, "ivana.koleva" },
+                    { new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760"), 0, 18, "e994c616-b2df-4163-8662-718816c7b09f", "teodora_nedkova@abv.bg", true, "Teodora", 1, "Nedkova", false, null, null, "TEODORA_NEDKOVA@ABV.BG", "TEODORA.NEDKOVA", "AQAAAAIAAYagAAAAEIbnauDwaHm6KzYVWIMQ2qpwUy88zzHHLGNozmpifIgHY9KQ6dI2ABOLMAW/i9yziw==", "0878654562", true, "258513a82f1147ba92a0e43f1602b7c3", true, "teodora.nedkova" }
                 });
 
             migrationBuilder.InsertData(
@@ -521,19 +501,19 @@ namespace GlowCare.Entities.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Clients",
-                columns: new[] { "Id", "MembershipId", "UserId" },
-                values: new object[] { "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4", 1, "e5c2g9b3-4a67-4f89-8d23-556677889900" });
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "Age", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LockoutEnabled", "LockoutEnd", "MembershipId", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900"), 0, 30, "de9abe0f-3b51-4baf-8db4-6a0b0ebbc560", "nikol.georgieva@gmail.com", true, "Nikol", 1, "Georgieva", false, null, 1, "NIKOL.GEORGIEVA@EXAMPLE.COM", "NIKOL.GEORGIEVA", "AQAAAAIAAYagAAAAEOKrZ5CwWY+2edw0yiGlnJ1J7+Q2wSWR72XDZ2ZMDkV/cnQRFONPAnqVpBSGIi6u4w==", "0855123456", true, "e9c2550f-30cc-4116-a85c-20265258d5a5", true, "nikol.georgieva" });
 
             migrationBuilder.InsertData(
                 table: "Employees",
                 columns: new[] { "Id", "Biography", "ExperienceYears", "IsDeleted", "Occupation", "UserId" },
                 values: new object[,]
                 {
-                    { "1dccdb69-fbd1-43c4-8c17-95796b5aa95e", "I am a licensed laser removal specialist with 7 years of experience in hair removal, tattoo removal, and skin resurfacing treatments. My focus is on providing safe, effective, and customized solutions for each client to achieve smooth and healthy skin.", 6, false, "Laser Technician", "29965aaa-46cf-4829-93b8-e38401be7547" },
-                    { "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", "I am a licensed dermatologist with 5 years of experience helping patients achieve healthier skin. My expertise includes treating conditions such as acne, eczema, and pigmentation disorders, as well as performing advanced laser and cosmetic procedures. I am passionate about educating my patients and creating personalized treatment plans that combine proven medical methods with modern skin care innovations.", 5, false, "Dermatologist", "a7d3c5e2-9b41-4f12-8f34-123456789abc" },
-                    { "a0617bdf-80af-4316-a9c9-c2fd77170f7f", "I am a certified massage therapist with 6 years of experience in Swedish, deep tissue, and therapeutic massage. My goal is to help clients relax, relieve stress, and improve overall well-being through personalized treatments.", 6, false, "Massage Therapist", "c9f4e7b1-2d33-4a11-8f56-abcdef123456" },
-                    { "b75e8e37-95e4-44ef-a32c-10aebaff55b3", "I am a certified esthetician with 10 years of experience providing skin care treatments, facials, and anti-aging therapies. My goal is to help clients achieve glowing, healthy skin using both modern techniques and natural methods.", 10, false, "Esthetician", "ac31b0bb-d05a-438d-be06-9bfe3323cf08" }
+                    { new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"), "I am a licensed laser removal specialist with 7 years of experience in hair removal, tattoo removal, and skin resurfacing treatments. My focus is on providing safe, effective, and customized solutions for each client to achieve smooth and healthy skin.", 6, false, "Laser Technician", new Guid("29965aaa-46cf-4829-93b8-e38401be7547") },
+                    { new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), "I am a licensed dermatologist with 5 years of experience helping patients achieve healthier skin. My expertise includes treating conditions such as acne, eczema, and pigmentation disorders, as well as performing advanced laser and cosmetic procedures. I am passionate about educating my patients and creating personalized treatment plans that combine proven medical methods with modern skin care innovations.", 5, false, "Dermatologist", new Guid("a7d3c5e2-9b41-4f12-8f34-123456789abc") },
+                    { new Guid("a0617bdf-80af-4316-a9c9-c2fd77170f7f"), "I am a certified massage therapist with 6 years of experience in Swedish, deep tissue, and therapeutic massage. My goal is to help clients relax, relieve stress, and improve overall well-being through personalized treatments.", 6, false, "Massage Therapist", new Guid("c9f4e7b1-2d33-4a11-8f56-abcdef123456") },
+                    { new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"), "I am a certified esthetician with 10 years of experience providing skin care treatments, facials, and anti-aging therapies. My goal is to help clients achieve glowing, healthy skin using both modern techniques and natural methods.", 10, false, "Esthetician", new Guid("ac31b0bb-d05a-438d-be06-9bfe3323cf08") }
                 });
 
             migrationBuilder.InsertData(
@@ -580,12 +560,12 @@ namespace GlowCare.Entities.Migrations
                 columns: new[] { "EmployeeId", "ScheduleId" },
                 values: new object[,]
                 {
-                    { "1dccdb69-fbd1-43c4-8c17-95796b5aa95e", 4 },
-                    { "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 2 },
-                    { "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 3 },
-                    { "a0617bdf-80af-4316-a9c9-c2fd77170f7f", 3 },
-                    { "b75e8e37-95e4-44ef-a32c-10aebaff55b3", 1 },
-                    { "b75e8e37-95e4-44ef-a32c-10aebaff55b3", 3 }
+                    { new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"), 4 },
+                    { new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), 2 },
+                    { new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), 3 },
+                    { new Guid("a0617bdf-80af-4316-a9c9-c2fd77170f7f"), 3 },
+                    { new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"), 1 },
+                    { new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"), 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -593,42 +573,42 @@ namespace GlowCare.Entities.Migrations
                 columns: new[] { "EmployeeId", "ServiceId" },
                 values: new object[,]
                 {
-                    { "1dccdb69-fbd1-43c4-8c17-95796b5aa95e", 2 },
-                    { "1dccdb69-fbd1-43c4-8c17-95796b5aa95e", 8 },
-                    { "1dccdb69-fbd1-43c4-8c17-95796b5aa95e", 9 },
-                    { "1dccdb69-fbd1-43c4-8c17-95796b5aa95e", 10 },
-                    { "1dccdb69-fbd1-43c4-8c17-95796b5aa95e", 11 },
-                    { "1dccdb69-fbd1-43c4-8c17-95796b5aa95e", 12 },
-                    { "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 1 },
-                    { "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 4 },
-                    { "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 5 },
-                    { "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 6 },
-                    { "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 14 },
-                    { "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 15 },
-                    { "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 16 },
-                    { "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 17 },
-                    { "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 18 },
-                    { "a0617bdf-80af-4316-a9c9-c2fd77170f7f", 3 },
-                    { "a0617bdf-80af-4316-a9c9-c2fd77170f7f", 20 },
-                    { "b75e8e37-95e4-44ef-a32c-10aebaff55b3", 6 },
-                    { "b75e8e37-95e4-44ef-a32c-10aebaff55b3", 7 },
-                    { "b75e8e37-95e4-44ef-a32c-10aebaff55b3", 13 }
+                    { new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"), 2 },
+                    { new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"), 8 },
+                    { new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"), 9 },
+                    { new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"), 10 },
+                    { new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"), 11 },
+                    { new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"), 12 },
+                    { new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), 1 },
+                    { new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), 4 },
+                    { new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), 5 },
+                    { new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), 6 },
+                    { new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), 14 },
+                    { new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), 15 },
+                    { new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), 16 },
+                    { new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), 17 },
+                    { new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), 18 },
+                    { new Guid("a0617bdf-80af-4316-a9c9-c2fd77170f7f"), 3 },
+                    { new Guid("a0617bdf-80af-4316-a9c9-c2fd77170f7f"), 20 },
+                    { new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"), 6 },
+                    { new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"), 7 },
+                    { new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"), 13 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Procedures",
-                columns: new[] { "Id", "AppointmentDate", "ClientId", "EmployeeId", "IsDeleted", "Notes", "ServiceId", "Status" },
+                columns: new[] { "Id", "AppointmentDate", "EmployeeId", "IsDeleted", "Notes", "ServiceId", "Status", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 9, 28, 10, 30, 0, 0, DateTimeKind.Unspecified), "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4", "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", false, "First-time consultation, requested deep skin analysis.", 5, 1 },
-                    { 2, new DateTime(2025, 9, 29, 14, 0, 0, 0, DateTimeKind.Unspecified), "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4", "b75e8e37-95e4-44ef-a32c-10aebaff55b3", false, "Follow-up massage therapy session.", 6, 2 },
-                    { 3, new DateTime(2025, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4", "1dccdb69-fbd1-43c4-8c17-95796b5aa95e", false, "Facial rejuvenation treatment scheduled.", 8, 0 }
+                    { 1, new DateTime(2025, 9, 28, 10, 30, 0, 0, DateTimeKind.Unspecified), new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), false, "First-time consultation, requested deep skin analysis.", 5, 1, new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900") },
+                    { 2, new DateTime(2025, 9, 29, 14, 0, 0, 0, DateTimeKind.Unspecified), new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"), false, "Follow-up massage therapy session.", 6, 2, new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760") },
+                    { 3, new DateTime(2025, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"), false, "Facial rejuvenation treatment scheduled.", 8, 0, new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760") }
                 });
 
             migrationBuilder.InsertData(
                 table: "Reviews",
-                columns: new[] { "Id", "ClientId", "Comment", "CreatedAt", "EmployeeId", "ProcedureId", "Rating" },
-                values: new object[] { 1, "1f4c1474-cf86-4199-9f6c-1f417b7ac9e4", "Excellent service! The procedure was professional and I felt very comfortable.", new DateTime(2025, 11, 28, 13, 10, 3, 554, DateTimeKind.Utc).AddTicks(5267), "66e6b9a6-4c5a-4344-bdae-6edbacc4b608", 1, 5 });
+                columns: new[] { "Id", "Comment", "CreatedAt", "EmployeeId", "ProcedureId", "Rating", "UserId" },
+                values: new object[] { 1, "Excellent service! The procedure was professional and I felt very comfortable.", new DateTime(2025, 12, 29, 22, 6, 6, 771, DateTimeKind.Utc).AddTicks(8254), new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), 1, 5, new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -663,6 +643,11 @@ namespace GlowCare.Entities.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_MembershipId",
+                table: "AspNetUsers",
+                column: "MembershipId");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -673,16 +658,6 @@ namespace GlowCare.Entities.Migrations
                 name: "IX_Certificates_EmployeeId",
                 table: "Certificates",
                 column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Clients_MembershipId",
-                table: "Clients",
-                column: "MembershipId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Clients_UserId",
-                table: "Clients",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_UserId",
@@ -700,11 +675,6 @@ namespace GlowCare.Entities.Migrations
                 column: "ServiceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Procedures_ClientId",
-                table: "Procedures",
-                column: "ClientId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Procedures_EmployeeId",
                 table: "Procedures",
                 column: "EmployeeId");
@@ -715,9 +685,9 @@ namespace GlowCare.Entities.Migrations
                 column: "ServiceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_ClientId",
-                table: "Reviews",
-                column: "ClientId");
+                name: "IX_Procedures_UserId",
+                table: "Procedures",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_EmployeeId",
@@ -728,6 +698,11 @@ namespace GlowCare.Entities.Migrations
                 name: "IX_Reviews_ProcedureId",
                 table: "Reviews",
                 column: "ProcedureId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_UserId",
+                table: "Reviews",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SchedulesDaysOfWeek_ScheduleId",
@@ -786,22 +761,19 @@ namespace GlowCare.Entities.Migrations
                 name: "Schedules");
 
             migrationBuilder.DropTable(
-                name: "Clients");
-
-            migrationBuilder.DropTable(
                 name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Services");
 
             migrationBuilder.DropTable(
-                name: "Memberships");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Memberships");
         }
     }
 }
