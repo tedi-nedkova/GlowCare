@@ -29,7 +29,7 @@
     "UserName": "john.doe",
     "NormalizedUserName": "JOHN.DOE",
     "PasswordHash": "User_123",
-    "SecurityStamp": "a6241046-575b-4a3f-a668-c6aa755a232f",
+    "SecurityStamp": "a6241046-575b-4a3f-a668-c6aa755a232f",`
     "Age": 30,
     "Gender": 0
   },
