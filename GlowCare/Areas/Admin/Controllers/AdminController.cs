@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
-using System.Security.Claims;
 
 namespace GlowCare.Areas.Admin.Controllers
 {
@@ -50,7 +49,7 @@ namespace GlowCare.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AssignAdminRole(Guid userId, string role)
+        public async Task<IActionResult> AdminRoleAssign(Guid userId, string roleName)
         {
             bool userExists = await userService
                 .UserExistsByIdAsync(userId);
@@ -61,7 +60,7 @@ namespace GlowCare.Areas.Admin.Controllers
             }
 
             bool assignResult = await userService
-                .AssignUserToAdminRoleAsync(userId, role);
+                .AssignUserToRoleAsync(userId, roleName);
 
             if (!assignResult)
             {
@@ -72,10 +71,10 @@ namespace GlowCare.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RemoveAdminRole(Guid userId, string role)
+        public async Task<IActionResult> RemoveUserRole(Guid userId, string roleName)
         {
             bool userExists = await userService
-                .UserExistsByIdAsync(userId);
+               .UserExistsByIdAsync(userId);
 
             if (!userExists)
             {
@@ -83,7 +82,7 @@ namespace GlowCare.Areas.Admin.Controllers
             }
 
             bool removeResult = await userService
-                .RemoveUserRoleAsync(userId, role);
+                .RemoveUserFromRoleAsync(userId, roleName);
 
             if (!removeResult)
             {
@@ -97,7 +96,7 @@ namespace GlowCare.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteUser(Guid userId)
         {
             bool userExists = await userService
-                .UserExistsByIdAsync(userId);
+               .UserExistsByIdAsync(userId);
 
             if (!userExists)
             {
@@ -113,11 +112,6 @@ namespace GlowCare.Areas.Admin.Controllers
             }
 
             return RedirectToAction(nameof(UserManagement));
-        }
-
-        private string GetCurrentClientId()
-        {
-            return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
         }
     }
 }
