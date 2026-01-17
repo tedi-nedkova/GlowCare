@@ -1,6 +1,7 @@
 ﻿using GlowCare.Core.Contracts;
 using GlowCare.Entities.Models;
 using GlowCare.ViewModels.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,8 @@ using System.Data;
 
 namespace GlowCare.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminPanelController(
          IUserService userService,
         UserManager<GlowUser> _userManager,
