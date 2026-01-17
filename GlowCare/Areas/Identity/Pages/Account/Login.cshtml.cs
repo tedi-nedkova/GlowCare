@@ -23,11 +23,15 @@ namespace GlowCare.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<GlowUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<GlowUser> _userManager;
+            
 
-        public LoginModel(SignInManager<GlowUser> signInManager, ILogger<LoginModel> logger)
+
+        public LoginModel(SignInManager<GlowUser> signInManager, ILogger<LoginModel> logger, UserManager<GlowUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -110,7 +114,8 @@ namespace GlowCare.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var user = await _userManager.FindByEmailAsync(Input.Email);
+                var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");

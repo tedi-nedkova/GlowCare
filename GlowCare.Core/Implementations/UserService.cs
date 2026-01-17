@@ -13,15 +13,33 @@ using System.Threading.Tasks;
 namespace GlowCare.Core.Implementations;
 public class UserService(
     GlowCareDbContext _context,
-    UserManager<GlowUser> _userManager)
+    UserManager<GlowUser> _userManager,
+    RoleManager<IdentityRole> _roleManager)
     : IUserService
 {
-    public Task<bool> AssignUserToRoleAsync(string userId, string roleName)
+    public async Task<bool> AssignUserToAdminRoleAsync(Guid userId, string roleName)
     {
-        throw new NotImplementedException();
+        GlowUser? user = await _userManager.FindByIdAsync(userId.ToString());
+
+        if (user == null || !(await _roleManager.RoleExistsAsync(roleName)))
+        {
+            return false;
+        }
+
+        if (!await _userManager.IsInRoleAsync(user, roleName))
+        {
+            IdentityResult result = await _userManager.AddToRoleAsync(user, roleName);
+
+            if (!result.Succeeded)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
-    public Task<bool> DeleteUserAsync(string userId)
+    public Task<bool> DeleteUserAsync(Guid userId)
     {
         throw new NotImplementedException();
     }
@@ -36,12 +54,12 @@ public class UserService(
         throw new NotImplementedException();
     }
 
-    public Task<bool> RemoveUserRoleAsync(string userId, string roleName)
+    public Task<bool> RemoveUserRoleAsync(Guid userId, string roleName)
     {
         throw new NotImplementedException();
     }
 
-    public Task<bool> UserExistsByIdAsync(string userId)
+    public Task<bool> UserExistsByIdAsync(Guid userId)
     {
         throw new NotImplementedException();
     }

@@ -1,12 +1,17 @@
 ﻿using GlowCare.Core.Contracts;
 using GlowCare.Entities.Models;
 using GlowCare.ViewModels.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Security.Claims;
 
 namespace GlowCare.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminPanelController(
          IUserService userService,
         UserManager<GlowUser> _userManager,
@@ -45,48 +50,74 @@ namespace GlowCare.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AdminRoleAssign(string id)
+        public async Task<IActionResult> AssignAdminRole(Guid userId, string role)
         {
-            try
+            bool userExists = await userService
+                .UserExistsByIdAsync(userId);
+
+            if (!userExists)
             {
-                var user = await _userManager.FindByIdAsync(id);
-
-                if (user == null)
-                {
-                    TempData["ErrorMessage"] = "User not found.";
-
-                    return RedirectToAction("Users");
-                }
-
-                if (!await _roleManager.RoleExistsAsync("Admin"))
-                {
-                    var roleResult = await _roleManager.CreateAsync(new IdentityRole("Admin"));
-                    if (!roleResult.Succeeded)
-                    {
-                        logger.LogError($"Failed to create Admin role: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
-
-                        return RedirectToAction("Users");
-                    }
-                }
-
-                var result = await _userManager.AddToRoleAsync(user, "Admin");
-
-                if (!result.Succeeded)
-                {
-                    logger.LogError($"Failed to assign Admin role to user {id}: {string.Join(", ", result.Errors.Select(e => e.Description))}");
-
-                    return RedirectToAction("Users");
-                }
-
-                return RedirectToAction("Users");
+                return RedirectToAction(nameof(UserManagement));
             }
-            catch (Exception ex)
+
+            bool assignResult = await userService
+                .AssignUserToAdminRoleAsync(userId, role);
+
+            if (!assignResult)
             {
-                logger.LogError($"Unexpected error in AdminRoleAssign for user {id}. {ex.Message}", ex);
-
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(UserManagement));
             }
+
+            return RedirectToAction(nameof(UserManagement));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> RemoveAdminRole(Guid userId, string role)
+        {
+            bool userExists = await userService
+                .UserExistsByIdAsync(userId);
+
+            if (!userExists)
+            {
+                return RedirectToAction(nameof(UserManagement));
+            }
+
+            bool removeResult = await userService
+                .RemoveUserRoleAsync(userId, role);
+
+            if (!removeResult)
+            {
+                return RedirectToAction(nameof(UserManagement));
+            }
+
+            return RedirectToAction(nameof(UserManagement));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(Guid userId)
+        {
+            bool userExists = await userService
+                .UserExistsByIdAsync(userId);
+
+            if (!userExists)
+            {
+                return RedirectToAction(nameof(UserManagement));
+            }
+
+            bool removeResult = await userService
+                .DeleteUserAsync(userId);
+
+            if (!removeResult)
+            {
+                return RedirectToAction(nameof(UserManagement));
+            }
+
+            return RedirectToAction(nameof(UserManagement));
+        }
+
+        private string GetCurrentClientId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+        }
     }
 }
