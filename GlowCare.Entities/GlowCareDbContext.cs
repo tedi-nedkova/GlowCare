@@ -9,6 +9,10 @@ namespace GlowCare.Entities;
 public class GlowCareDbContext
     : IdentityDbContext<GlowUser, IdentityRole<Guid>, Guid>
 {
+    public GlowCareDbContext()
+    {
+            
+    }
     public GlowCareDbContext(DbContextOptions<GlowCareDbContext> options)
     : base(options)
     { }
@@ -31,7 +35,6 @@ public class GlowCareDbContext
         base.OnModelCreating(builder);
 
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
 
         builder.Entity<Review>()
             .HasOne(r => r.Employee)

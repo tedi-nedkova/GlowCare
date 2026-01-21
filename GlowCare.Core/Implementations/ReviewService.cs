@@ -29,10 +29,10 @@ public class ReviewService(
         {
             Comment = model.Comment,
             CreatedAt = DateTime.UtcNow,
-            PublisherId = model.PublisherId,
-            StarRating = model.StarRating,
-            JobId = model.JobId,
-            CourseId = model.CourseId
+            UserId = model.PublisherId,
+            Rating = model.Rating,
+            EmployeeId = model.EmployeeId,
+            ProcedureId = model.ProcedureId
         };
 
         await reviewRepository.AddAsync(review);

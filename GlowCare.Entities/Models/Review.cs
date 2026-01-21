@@ -29,7 +29,7 @@ public class Review
     [Required]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    public int ProcedureId { get; set; } 
+    public int? ProcedureId { get; set; } 
     [ForeignKey(nameof(ProcedureId))]
     public Procedure? Procedure { get; set; }
 }

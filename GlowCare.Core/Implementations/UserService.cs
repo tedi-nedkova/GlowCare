@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace GlowCare.Core.Implementations;
 public class UserService(
-    RoleManager<IdentityRole> _roleManager,
+    RoleManager<IdentityRole<Guid>> _roleManager,
     UserManager<GlowUser> _userManager)
     : IUserService
 {

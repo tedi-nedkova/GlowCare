@@ -13,7 +13,7 @@ namespace GlowCare.ViewModels.Reviews
 
         public string Comment { get; set; } = null!;
 
-        public string PublisherId { get; set; } = null!;
+        public Guid PublisherId { get; set; } 
 
         public int? ProcedureId { get; set; }
 
