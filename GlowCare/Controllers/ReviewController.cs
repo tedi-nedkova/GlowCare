@@ -27,13 +27,12 @@ namespace GlowCare.Controllers
         }
 
         [HttpPost]
-        public async IActionResult Add(AddReviewViewModel model)
+        public async Task<IActionResult> Add(AddReviewViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
 
             try
             {

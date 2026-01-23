@@ -15,14 +15,14 @@ public class ProcedureController(
     [HttpGet]
     public IActionResult Add()
     {
-        var procedure = new ProcedureAddViewModel(); 
+        var procedure = new AddProcedureViewModel(); 
 
         return View(procedure);
     }
 
     [HttpPost]
     public async Task<IActionResult> Add(
-        ProcedureAddViewModel model)
+        AddProcedureViewModel model)
     {
         if (ModelState.IsValid)
         {
@@ -110,7 +110,7 @@ public class ProcedureController(
 
     [HttpPost]
     public async Task<IActionResult> Edit(
-        ProcedureEditViewModel model, 
+        EditProcedureViewModel model, 
         int id)
     {
         if (!ModelState.IsValid)
@@ -172,7 +172,7 @@ public class ProcedureController(
 
     [HttpPost]
     public async Task<ActionResult> Delete(
-        ProcedureDeleteViewModel model)
+        DeleteProcedureViewModel model)
     {
         if (!ModelState.IsValid)
         {

@@ -1,6 +1,6 @@
 ﻿namespace GlowCare.ViewModels.Procedures;
 
-public class ProcedureDetailsViewModel
+public class DetailsProcedureViewModel
 {
     public required int Id { get; set; }
 

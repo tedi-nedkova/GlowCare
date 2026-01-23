@@ -32,5 +32,7 @@ public class GlowUser
     public ICollection<Procedure> Procedures { get; set; }
         = new List<Procedure>();
 
+    public bool? IsSpecialist { get; set; }
+
 }
 

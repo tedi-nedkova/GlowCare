@@ -1,6 +1,6 @@
 ﻿namespace GlowCare.ViewModels.Procedures;
 
-public class ProcedureEditViewModel
+public class EditProcedureViewModel
 {
     public required Guid EmployeeId { get; set; } 
 

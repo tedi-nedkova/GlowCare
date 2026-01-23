@@ -14,7 +14,7 @@ public class ProcedureService(
     : IProcedureService
 {
     public async Task CreateProcedureAsync(
-        ProcedureAddViewModel model,
+        AddProcedureViewModel model,
         Guid userId)
     {
         if (model == null)
@@ -36,7 +36,7 @@ public class ProcedureService(
     }
 
     public async Task DeleteProcedureAsync(
-        ProcedureDeleteViewModel model)
+        DeleteProcedureViewModel model)
     {
         Procedure procedure = await procedureRepository.GetByIdAsync(model.Id);
 
@@ -59,7 +59,7 @@ public class ProcedureService(
     }
 
     public async Task<Procedure> EditProcedureAsync(
-        ProcedureEditViewModel model, 
+        EditProcedureViewModel model, 
         int id)
     {
         Procedure procedure = await procedureRepository.GetByIdAsync(id) 
@@ -80,7 +80,7 @@ public class ProcedureService(
         return procedure;
     }
 
-    public async Task<IEnumerable<ProcedureDetailsViewModel>> GetAllProcedureDetailsByUserIdAsync(
+    public async Task<IEnumerable<DetailsProcedureViewModel>> GetAllProcedureDetailsByUserIdAsync(
         Guid userId)
     {
         var user = await userManager.FindByIdAsync(userId.ToString());
@@ -97,7 +97,7 @@ public class ProcedureService(
                 .ThenInclude(e => e!.User)
                 .Include(p => p.Service)
                 .Where(p => p.IsDeleted == false && p.UserId == userId)
-                .Select(p => new ProcedureDetailsViewModel
+                .Select(p => new DetailsProcedureViewModel
                 {
                     Id = p.Id,
                     SpecialistName = $"{p.Employee!.User.FirstName} {p.Employee!.User.LastName}",
@@ -111,7 +111,7 @@ public class ProcedureService(
     }
 
 
-    public async Task<ProcedureDeleteViewModel> GetDeleteProcedureAsync(
+    public async Task<DeleteProcedureViewModel> GetDeleteProcedureAsync(
         int id,
         Guid userId)
     {
@@ -138,7 +138,7 @@ public class ProcedureService(
 
         Service service = entity.Service ?? throw new NullReferenceException("Service not found.");
 
-        var procedure = new ProcedureDeleteViewModel
+        var procedure = new DeleteProcedureViewModel
         {
             Id = entity.Id,
             ClientName = $"{user!.FirstName} {user!.LastName}",
@@ -148,7 +148,7 @@ public class ProcedureService(
         return procedure;
     }
 
-    public async Task<ProcedureEditViewModel> GetEditProcedureAsync(
+    public async Task<EditProcedureViewModel> GetEditProcedureAsync(
         int id)
     {
         var entity = await procedureRepository.GetByIdAsync(id) 
@@ -159,7 +159,7 @@ public class ProcedureService(
             throw new ArgumentException("Entity already deleted");
         }
 
-        var procedure = new ProcedureEditViewModel()
+        var procedure = new EditProcedureViewModel()
         {
             EmployeeId = entity.EmployeeId,
             ServiceId = entity.ServiceId,
