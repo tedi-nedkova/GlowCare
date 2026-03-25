@@ -92,61 +92,6 @@ namespace GlowCare.Entities.Migrations
                     b.ToTable("Certificates");
                 });
 
-            modelBuilder.Entity("GlowCare.Entities.Models.DayOfWeek", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DaysOfWeek");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Monday"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Tuesday"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Wednesday"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Thursday"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Friday"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Saturday"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Sunday"
-                        });
-                });
-
             modelBuilder.Entity("GlowCare.Entities.Models.Employee", b =>
                 {
                     b.Property<Guid>("Id")
@@ -410,6 +355,9 @@ namespace GlowCare.Entities.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
+                    b.Property<bool?>("IsSpecialist")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -471,16 +419,17 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("a7d3c5e2-9b41-4f12-8f34-123456789abc"),
                             AccessFailedCount = 0,
                             Age = 32,
-                            ConcurrencyStamp = "583dc557-fa50-42f5-975d-b63947aac22f",
+                            ConcurrencyStamp = "d0452ff0-72fc-44ab-85a3-8e9cbe6c31f5",
                             Email = "elena.dimitrova@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Elena",
                             Gender = 1,
+                            IsSpecialist = true,
                             LastName = "Dimitrova",
                             LockoutEnabled = false,
                             NormalizedEmail = "ELENA.DIMITROVA@EXAMPLE.COM",
                             NormalizedUserName = "ELENA.DIMITROVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKUf5BvrQTdiCDh6G0lU7F5yRveC6D/fs0MQ7bb021ACdM6J+U96TudIcZDaePoR7Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED5jYSrue7t/zZ0fFuEVbYokPSh2hNfFhxsZEPciAN7srbm+E0xYl2t7If6dSLMi8g==",
                             PhoneNumber = "0888123456",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "bfb94cc6-d1c4-4315-8f5e-f1d3535f4c01",
@@ -492,16 +441,17 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("ac31b0bb-d05a-438d-be06-9bfe3323cf08"),
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "ad694855-be37-45dc-bd47-1a63028bdb18",
+                            ConcurrencyStamp = "884e0506-74d5-4a84-b754-7d3de0bb758c",
                             Email = "johndoe@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "John",
                             Gender = 0,
+                            IsSpecialist = true,
                             LastName = "Doe",
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHNDOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHJsu8eVOODPPV83Ywbc1zcMUsgoSg8gnDF2Xq5viDTmOhqiLL0sN0B3Rc2eGXMUiA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENAvbtaFkKAgjo/f0Bxhjwp91cCD1KpLDJDwLA0BKo5/Aj+yJpoHbqK7pp3AWBrRvg==",
                             PhoneNumber = "0875757574",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "a6241046-575b-4a3f-a668-c6aa755a232f",
@@ -513,16 +463,17 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("29965aaa-46cf-4829-93b8-e38401be7547"),
                             AccessFailedCount = 0,
                             Age = 38,
-                            ConcurrencyStamp = "4a5eb4e1-5ca4-4d1c-8ce4-d4b5e75a2183",
+                            ConcurrencyStamp = "84f927bd-8a67-4313-85ae-be02c2df51ee",
                             Email = "maria.petrova@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Maria",
                             Gender = 1,
+                            IsSpecialist = true,
                             LastName = "Petrova",
                             LockoutEnabled = false,
                             NormalizedEmail = "MARIA.PETROVA@EXAMPLE.COM",
                             NormalizedUserName = "MARIA.PETROVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEP0hSd/yVRwAHp3UmKBhUhaHNU5RSohTouG5PRyANyyEk8mICASpyI9anySBqVZ6yw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEONuv2lXu87BbI152yd1xIBcPLAkMVSyN12t5hekEYDzGaqKia8KFAhSMOCZG7sO4Q==",
                             PhoneNumber = "0899123456",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "68e7add5-6f2f-4792-a2e6-01f596c74a52",
@@ -534,16 +485,17 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("c9f4e7b1-2d33-4a11-8f56-abcdef123456"),
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "8dc9e761-540d-4eaa-8854-30ff0bf937a1",
+                            ConcurrencyStamp = "34632a02-9836-48a1-a2e2-9c803e9fb0db",
                             Email = "ivana.koleva@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Ivana",
                             Gender = 1,
+                            IsSpecialist = true,
                             LastName = "Koleva",
                             LockoutEnabled = false,
                             NormalizedEmail = "IVANA.KOLEVA@EXAMPLE.COM",
                             NormalizedUserName = "IVANA.KOLEVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBXDhPcsg0MdwS7GoNzUHeF98Oz+Mf2om5JQ75FBizBZCBPlzL+UgwqkyxuBqFkMRw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENsZTDnfeUSzE64mqsRZrZA5BVGZyyRTNilF/ggaHYYr+F3WGlU3kPxGWQUUXe3iow==",
                             PhoneNumber = "0888234567",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "e0ff1671-f59e-407c-a1bc-b6034b44ac41",
@@ -555,7 +507,7 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900"),
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "c2e2288f-c6cf-407d-834a-e1fb32df52f5",
+                            ConcurrencyStamp = "584b571e-cde7-46b1-a956-7dcaf39cd2ac",
                             Email = "nikol.georgieva@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Nikol",
@@ -565,7 +517,7 @@ namespace GlowCare.Entities.Migrations
                             MembershipId = 1,
                             NormalizedEmail = "NIKOL.GEORGIEVA@EXAMPLE.COM",
                             NormalizedUserName = "NIKOL.GEORGIEVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDNgHcyOQEdKBy4WxBEv8X98wWlMZ/n2KZmIiZbyMhiBfU0Ab+s7p3n9tQtEIc/c5g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECPj5DFtBYXQg72sTTiOAmTktFZ+GKV+9u5FaOnwlw0piLY+HkXfHtXAZHi1UHh7qw==",
                             PhoneNumber = "0855123456",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "e9c2550f-30cc-4116-a85c-20265258d5a5",
@@ -577,7 +529,7 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760"),
                             AccessFailedCount = 0,
                             Age = 18,
-                            ConcurrencyStamp = "2505e335-5e7d-4a8b-ba27-68c34c5d813a",
+                            ConcurrencyStamp = "b43d6bfd-e599-47d2-9e6e-e71107a12343",
                             Email = "teodora_nedkova@abv.bg",
                             EmailConfirmed = true,
                             FirstName = "Teodora",
@@ -586,7 +538,7 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "TEODORA_NEDKOVA@ABV.BG",
                             NormalizedUserName = "TEODORA.NEDKOVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMcoO7KC5jiEheYjkuwJW20XKT4GBDaWQTr7I3xdTULVjX01uL0WARamsHd1wYcXjg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFAf+YMQjWdtdEmjisw0oHpiFdD4Y7n9mulSTAqDYxPR/gmywqYNwUguWLc2N1clJw==",
                             PhoneNumber = "0878654562",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "258513a82f1147ba92a0e43f1602b7c3",
@@ -765,7 +717,7 @@ namespace GlowCare.Entities.Migrations
                         {
                             Id = 1,
                             Comment = "Excellent service! The procedure was professional and I felt very comfortable.",
-                            CreatedAt = new DateTime(2026, 1, 18, 15, 39, 34, 571, DateTimeKind.Utc).AddTicks(807),
+                            CreatedAt = new DateTime(2026, 3, 23, 12, 5, 24, 309, DateTimeKind.Utc).AddTicks(3543),
                             EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             ProcedureId = 1,
                             Rating = 5,
@@ -780,6 +732,10 @@ namespace GlowCare.Entities.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DaysOfWeek")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EndTime")
                         .IsRequired()
@@ -799,68 +755,30 @@ namespace GlowCare.Entities.Migrations
                         new
                         {
                             Id = 1,
+                            DaysOfWeek = "Monday,Wednesday,Thursday",
                             EndTime = "18:00",
                             StartTime = "09:00"
                         },
                         new
                         {
                             Id = 2,
+                            DaysOfWeek = "Monday,Wednesday,Friday",
                             EndTime = "16:00",
                             StartTime = "10:00"
                         },
                         new
                         {
                             Id = 3,
+                            DaysOfWeek = "Tuesday,Thursday",
                             EndTime = "16:00",
                             StartTime = "9:00"
                         },
                         new
                         {
                             Id = 4,
+                            DaysOfWeek = "Monday,Tuesday,Wednesday,Thursday,Friday",
                             EndTime = "15:00",
                             StartTime = "11:00"
-                        });
-                });
-
-            modelBuilder.Entity("GlowCare.Entities.Models.ScheduleDayOfWeek", b =>
-                {
-                    b.Property<int>("DayOfWeekId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ScheduleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DayOfWeekId", "ScheduleId");
-
-                    b.HasIndex("ScheduleId");
-
-                    b.ToTable("SchedulesDaysOfWeek");
-
-                    b.HasData(
-                        new
-                        {
-                            DayOfWeekId = 5,
-                            ScheduleId = 2
-                        },
-                        new
-                        {
-                            DayOfWeekId = 2,
-                            ScheduleId = 3
-                        },
-                        new
-                        {
-                            DayOfWeekId = 4,
-                            ScheduleId = 3
-                        },
-                        new
-                        {
-                            DayOfWeekId = 5,
-                            ScheduleId = 4
-                        },
-                        new
-                        {
-                            DayOfWeekId = 6,
-                            ScheduleId = 4
                         });
                 });
 
@@ -880,6 +798,9 @@ namespace GlowCare.Entities.Migrations
 
                     b.Property<int>("DurationInMinutes")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -905,6 +826,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 1,
                             Description = "A relaxing facial treatment to cleanse, exfoliate, and nourish the skin, improving overall complexion and hydration.",
                             DurationInMinutes = 60,
+                            IsDeleted = false,
                             Name = "Facial Treatment",
                             Points = 50,
                             Price = 50.00m
@@ -915,6 +837,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 2,
                             Description = "Effective laser hair removal treatment for full legs, providing smooth, hair-free skin with minimal discomfort.",
                             DurationInMinutes = 90,
+                            IsDeleted = false,
                             Name = "Laser Hair Removal - Full Legs",
                             Points = 120,
                             Price = 120.00m
@@ -925,6 +848,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 3,
                             Description = "A full-body Swedish massage to relax muscles, improve circulation, and reduce stress.",
                             DurationInMinutes = 60,
+                            IsDeleted = false,
                             Name = "Swedish Massage",
                             Points = 70,
                             Price = 70.00m
@@ -935,6 +859,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 1,
                             Description = "A skin-resurfacing procedure that improves texture and tone by removing damaged outer layers of skin.",
                             DurationInMinutes = 45,
+                            IsDeleted = false,
                             Name = "Chemical Peel",
                             Points = 80,
                             Price = 80.00m
@@ -945,6 +870,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 1,
                             Description = "A minimally invasive exfoliation treatment that refreshes skin tone and reduces fine lines and scars.",
                             DurationInMinutes = 40,
+                            IsDeleted = false,
                             Name = "Microdermabrasion",
                             Points = 70,
                             Price = 70m
@@ -955,6 +881,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 4,
                             Description = "Botulinum toxin injections to reduce the appearance of fine lines and wrinkles by temporarily relaxing facial muscles.",
                             DurationInMinutes = 30,
+                            IsDeleted = false,
                             Name = "Botox Injections",
                             Points = 250,
                             Price = 250.00m
@@ -965,6 +892,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 4,
                             Description = "Injectable fillers to restore volume, smooth lines, and enhance facial contours.",
                             DurationInMinutes = 45,
+                            IsDeleted = false,
                             Name = "Dermal Fillers",
                             Points = 300,
                             Price = 300.00m
@@ -975,6 +903,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 2,
                             Description = "Quick and effective laser treatment for long-lasting hair reduction in the underarm area.",
                             DurationInMinutes = 20,
+                            IsDeleted = false,
                             Name = "Laser Hair Removal - Underarms",
                             Points = 60,
                             Price = 60.00m
@@ -985,6 +914,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 2,
                             Description = "Safe and precise laser hair removal for the bikini area, ensuring smooth and comfortable results.",
                             DurationInMinutes = 30,
+                            IsDeleted = false,
                             Name = "Laser Hair Removal - Bikini Line",
                             Points = 80,
                             Price = 80.00m
@@ -995,6 +925,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 2,
                             Description = "Laser hair removal treatment for both arms, providing smooth, hair-free skin with minimal discomfort.",
                             DurationInMinutes = 60,
+                            IsDeleted = false,
                             Name = "Laser Hair Removal - Full Arms",
                             Points = 110,
                             Price = 110.00m
@@ -1005,6 +936,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 2,
                             Description = "Targeted laser treatment for facial hair, including upper lip, chin, and cheeks.",
                             DurationInMinutes = 30,
+                            IsDeleted = false,
                             Name = "Laser Hair Removal - Face",
                             Points = 70,
                             Price = 70.00m
@@ -1015,6 +947,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 2,
                             Description = "Comprehensive laser hair removal treatment for the full back area.",
                             DurationInMinutes = 90,
+                            IsDeleted = false,
                             Name = "Laser Hair Removal - Back",
                             Points = 150,
                             Price = 150.00m
@@ -1025,6 +958,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 2,
                             Description = "Complete full-body laser hair removal package for smooth, hair-free skin.",
                             DurationInMinutes = 180,
+                            IsDeleted = false,
                             Name = "Laser Hair Removal - Full Body",
                             Points = 450,
                             Price = 450.00m
@@ -1035,6 +969,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 5,
                             Description = "A purifying facial designed to deeply cleanse, exfoliate, and remove impurities from the skin.",
                             DurationInMinutes = 60,
+                            IsDeleted = false,
                             Name = "Deep Cleansing Facial",
                             Points = 65,
                             Price = 65.00m
@@ -1045,6 +980,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 5,
                             Description = "A rejuvenating treatment that targets fine lines and wrinkles, promoting firmer and youthful-looking skin.",
                             DurationInMinutes = 75,
+                            IsDeleted = false,
                             Name = "Anti-Aging Facial",
                             Points = 120,
                             Price = 120.00m
@@ -1055,6 +991,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 5,
                             Description = "A specialized facial to reduce acne, clear clogged pores, and minimize inflammation with professional-grade products.",
                             DurationInMinutes = 70,
+                            IsDeleted = false,
                             Name = "Acne Treatment Facial",
                             Points = 90,
                             Price = 90.00m
@@ -1065,6 +1002,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 5,
                             Description = "A moisture-boosting facial designed to restore hydration, plumpness, and radiance to dry or dull skin.",
                             DurationInMinutes = 50,
+                            IsDeleted = false,
                             Name = "Hydrating Facial",
                             Points = 75,
                             Price = 75.00m
@@ -1075,6 +1013,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 5,
                             Description = "A skin-brightening treatment that reduces pigmentation, evens skin tone, and restores natural glow.",
                             DurationInMinutes = 60,
+                            IsDeleted = false,
                             Name = "Brightening Facial",
                             Points = 95,
                             Price = 95.00m
@@ -1085,6 +1024,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 5,
                             Description = "A treatment that boosts collagen production to improve elasticity and smoothness of the skin.",
                             DurationInMinutes = 70,
+                            IsDeleted = false,
                             Name = "Collagen Facial",
                             Points = 140,
                             Price = 140.00m
@@ -1095,6 +1035,7 @@ namespace GlowCare.Entities.Migrations
                             CategoryId = 3,
                             Description = "A relaxing massage using essential oils to reduce stress, improve mood, and promote overall well-being.",
                             DurationInMinutes = 60,
+                            IsDeleted = false,
                             Name = "Aromatherapy Massage",
                             Points = 85,
                             Price = 85.00m
@@ -1370,29 +1311,10 @@ namespace GlowCare.Entities.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("GlowCare.Entities.Models.ScheduleDayOfWeek", b =>
-                {
-                    b.HasOne("GlowCare.Entities.Models.DayOfWeek", "DayOfWeek")
-                        .WithMany("ScheduleDaysOfWeek")
-                        .HasForeignKey("DayOfWeekId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GlowCare.Entities.Models.Schedule", "Schedule")
-                        .WithMany("ScheduleDaysOfWeek")
-                        .HasForeignKey("ScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DayOfWeek");
-
-                    b.Navigation("Schedule");
-                });
-
             modelBuilder.Entity("GlowCare.Entities.Models.Service", b =>
                 {
                     b.HasOne("GlowCare.Entities.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Services")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1451,9 +1373,9 @@ namespace GlowCare.Entities.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GlowCare.Entities.Models.DayOfWeek", b =>
+            modelBuilder.Entity("GlowCare.Entities.Models.Category", b =>
                 {
-                    b.Navigation("ScheduleDaysOfWeek");
+                    b.Navigation("Services");
                 });
 
             modelBuilder.Entity("GlowCare.Entities.Models.Employee", b =>
@@ -1485,8 +1407,6 @@ namespace GlowCare.Entities.Migrations
             modelBuilder.Entity("GlowCare.Entities.Models.Schedule", b =>
                 {
                     b.Navigation("EmployeesSchedules");
-
-                    b.Navigation("ScheduleDaysOfWeek");
                 });
 
             modelBuilder.Entity("GlowCare.Entities.Models.Service", b =>

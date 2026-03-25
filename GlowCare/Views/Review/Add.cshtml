@@ -1,0 +1,29 @@
+﻿@model GlowCare.ViewModels.Reviews.AddReviewViewModel
+
+@{
+    ViewData["Title"] = "Add Review";
+}
+
+<h2>Add Review</h2>
+
+<form asp-action="Add" method="post">
+    <input asp-for="ProcedureId" type="hidden" />
+
+    <div>
+        <label asp-for="Rating"></label>
+        <input asp-for="Rating" type="number" min="1" max="5" />
+        <span asp-validation-for="Rating"></span>
+    </div>
+
+    <div>
+        <label asp-for="Comment"></label>
+        <textarea asp-for="Comment"></textarea>
+        <span asp-validation-for="Comment"></span>
+    </div>
+
+    <button type="submit">Submit Review</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

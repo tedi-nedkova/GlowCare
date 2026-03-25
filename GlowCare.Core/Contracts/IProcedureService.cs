@@ -1,5 +1,6 @@
 ﻿using GlowCare.Entities.Models;
 using GlowCare.ViewModels.Procedures;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GlowCare.Core.Contracts;
 
@@ -24,5 +25,17 @@ public interface IProcedureService
 
     Task <IEnumerable<DetailsProcedureViewModel>> GetAllProcedureDetailsByUserIdAsync(
         Guid userId);
+
+    Task<bool> IsSlotAvailableAsync(
+        Guid employeeId,
+        int serviceId,
+        DateTime requestedTime);
+
+    Task<IEnumerable<SelectListItem>> GetEmployeeSelectListAsync();
+
+    Task<IEnumerable<SelectListItem>> GetServiceSelectListAsync();
+
+    Task<IEnumerable<SelectListItem>> GetServicesByEmployeeIdAsync(
+        Guid employeeId);
 }
 

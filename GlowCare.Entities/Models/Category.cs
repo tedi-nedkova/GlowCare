@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection.PortableExecutable;
 using static GlowCare.Common.Constants.CategoryConstants;
 
 namespace GlowCare.Entities.Models;
@@ -13,5 +14,8 @@ public class Category
     [MinLength(CategoryNameMinLength)]
     [MaxLength(CategoryNameMaxLength)]
     public string Name { get; set; } = null!;
+
+    public ICollection<Service> Services { get; set; }
+        = new List<Service>();
 }
 

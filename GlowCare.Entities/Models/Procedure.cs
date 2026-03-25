@@ -24,6 +24,8 @@ public class Procedure
     [Required]
     public DateTime AppointmentDate { get; set; }
 
+ 
+
     public Status? Status { get; set; }
 
     public string? Notes { get; set; }

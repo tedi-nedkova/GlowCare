@@ -1,37 +1,48 @@
-﻿@using GlowCare.ViewModels.Procedures
-@model IEnumerable<DetailsProcedureViewModel>
+﻿@model IEnumerable<GlowCare.ViewModels.Procedures.DetailsProcedureViewModel>
 
-@if (!Model.Any())
-{
-    <p>You have no scheduled procedures.</p>
+@{
+    ViewData["Title"] = "My Procedures";
 }
-else
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Specialist</th>
-                <th>Service</th>
-                <th>Price</th>
-                <th>Appointment Date</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var procedure in Model)
+
+<h2>My Procedures</h2>
+
+<p>
+    <a asp-controller="Procedure" asp-action="Add">Book New Procedure</a>
+</p>
+
+<table border="1" cellpadding="6">
+    <thead>
+        <tr>
+            <th>Specialist</th>
+            <th>Service</th>
+            <th>Price</th>
+            <th>Appointment Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var procedure in Model)
             {
                 <tr>
                     <td>@procedure.SpecialistName</td>
                     <td>@procedure.Service</td>
-                    <td>@procedure.Price.ToString("C")</td>
+                    <td>@procedure.Price</td>
                     <td>@procedure.AppointmentDate</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@procedure.Id" class="btn btn-sm btn-warning">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@procedure.Id" class="btn btn-sm btn-danger">Delete</a>
+                        <a asp-controller="Procedure" asp-action="Edit" asp-route-id="@procedure.Id">Edit</a> |
+                        <a asp-controller="Procedure" asp-action="Delete" asp-route-id="@procedure.Id">Delete</a> |
+                        <a asp-controller="Review" asp-action="Add" asp-route-procedureId="@procedure.Id">Add Review</a>
                     </td>
                 </tr>
             }
-        </tbody>
-    </table>
-}
-<a asp-action="Add" class="btn btn-primary">Add New Procedure</a>
+        }
+        else
+        {
+            <tr>
+                <td colspan="5">No procedures found.</td>
+            </tr>
+        }
+    </tbody>
+</table>

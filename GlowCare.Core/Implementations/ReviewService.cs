@@ -9,7 +9,8 @@ namespace GlowCare.Core.Implementations;
 
 public class ReviewService(
     IRepository<Review, int> reviewRepository,
-        UserManager<GlowUser> userManager) : IReviewService
+    IRepository<Procedure, int> procedureRepository,
+    UserManager<GlowUser> userManager) : IReviewService
 {
     public async Task CreateReviewAsync(AddReviewViewModel model, Guid userId)
     {
@@ -25,13 +26,22 @@ public class ReviewService(
             throw new NullReferenceException("Entity not found");
         }
 
+        Procedure? procedure = await procedureRepository
+            .GetAllAttached()
+            .FirstOrDefaultAsync(p => p.Id == model.ProcedureId);
+
+        if (procedure == null)
+        {
+            throw new NullReferenceException("Procedure not found");
+        }
+
         var review = new Review()
         {
             Comment = model.Comment,
             CreatedAt = DateTime.UtcNow,
-            UserId = model.PublisherId,
+            UserId = userId,
             Rating = model.Rating,
-            EmployeeId = model.EmployeeId,
+            EmployeeId = procedure.EmployeeId,
             ProcedureId = model.ProcedureId
         };
 
@@ -40,6 +50,14 @@ public class ReviewService(
         user.Reviews.Add(review);
     }
 
-
+    public async Task<IEnumerable<Review>> GetReviewsByServiceIdAsync(int serviceId)
+    {
+        return await reviewRepository
+            .GetAllAttached()
+            .Include(r => r.User)
+            .Include(r => r.Employee)
+            .Include(r => r.Procedure)
+            .Where(r => r.Procedure.ServiceId == serviceId)
+            .ToListAsync();
+    }
 }
-

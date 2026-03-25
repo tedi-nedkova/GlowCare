@@ -1,16 +1,22 @@
 ﻿using GlowCare.Core.Contracts;
 using GlowCare.Entities.Contracts.Interfaces;
 using GlowCare.Entities.Models;
+using GlowCare.Entities.Models.Enums;
 using GlowCare.ViewModels.Procedures;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using static GlowCare.Common.Constants.ProcedureConstants;
 
 namespace GlowCare.Core.Implementations;
 
 public class ProcedureService(
     IRepository<Procedure, int> procedureRepository,
-    UserManager<GlowUser> userManager) 
+    IRepository<Service, int> serviceRepository,
+    IRepository<Employee, int> employeeRepository,
+    IRepository<GlowCare.Entities.Models.EmployeeService, int> employeeServiceRepository,
+    IRepository<EmployeeSchedule, int> employeeScheduleRepository,
+    UserManager<GlowUser> userManager)
     : IProcedureService
 {
     public async Task CreateProcedureAsync(
@@ -59,10 +65,10 @@ public class ProcedureService(
     }
 
     public async Task<Procedure> EditProcedureAsync(
-        EditProcedureViewModel model, 
+        EditProcedureViewModel model,
         int id)
     {
-        Procedure procedure = await procedureRepository.GetByIdAsync(id) 
+        Procedure procedure = await procedureRepository.GetByIdAsync(id)
             ?? throw new NullReferenceException("Entity not found.");
 
         if (procedure.IsDeleted)
@@ -121,7 +127,7 @@ public class ProcedureService(
             .ToListAsync();
 
         Procedure entity = entities
-            .FirstOrDefault(e => e.Id == id) 
+            .FirstOrDefault(e => e.Id == id)
             ?? throw new NullReferenceException("Entity not found.");
 
         if (entity.IsDeleted)
@@ -151,7 +157,7 @@ public class ProcedureService(
     public async Task<EditProcedureViewModel> GetEditProcedureAsync(
         int id)
     {
-        var entity = await procedureRepository.GetByIdAsync(id) 
+        var entity = await procedureRepository.GetByIdAsync(id)
             ?? throw new NullReferenceException("Entity not found");
 
         if (entity.IsDeleted)
@@ -170,5 +176,116 @@ public class ProcedureService(
         return procedure;
     }
 
+    public async Task<bool> IsSlotAvailableAsync(Guid employeeId, int serviceId, DateTime requestedTime)
+    {
+        var service = await serviceRepository.GetAllAttached()
+            .FirstOrDefaultAsync(s => s.Id == serviceId && !s.IsDeleted);
+
+        if (service == null)
+        {
+            throw new ArgumentException("Service not found.");
+        }
+
+        int duration = service.DurationInMinutes;
+        string requestedDay = requestedTime.DayOfWeek.ToString();
+
+        var employeeSchedules = await employeeScheduleRepository.GetAllAttached()
+            .Where(es => es.EmployeeId == employeeId)
+            .Include(es => es.Schedule)
+            .ToListAsync();
+
+        var employeeSchedule = employeeSchedules
+            .FirstOrDefault(es =>
+                es.Schedule != null &&
+                !string.IsNullOrWhiteSpace(es.Schedule.DaysOfWeek) &&
+                es.Schedule.DaysOfWeek
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(d => d.Trim())
+                    .Any(d => d.Equals(requestedDay, StringComparison.OrdinalIgnoreCase)));
+
+        if (employeeSchedule?.Schedule == null)
+        {
+            return false;
+        }
+
+        var schedule = employeeSchedule.Schedule;
+
+        if (!TimeSpan.TryParse(schedule.StartTime, out var startTime) ||
+            !TimeSpan.TryParse(schedule.EndTime, out var endTime))
+        {
+            return false;
+        }
+
+        var workStart = requestedTime.Date.Add(startTime);
+        var workEnd = requestedTime.Date.Add(endTime);
+        var requestedEnd = requestedTime.AddMinutes(duration);
+
+        if (requestedTime < workStart || requestedEnd > workEnd)
+        {
+            return false;
+        }
+
+        var procedures = await procedureRepository.GetAllAttached()
+            .Where(p => p.EmployeeId == employeeId
+                        && !p.IsDeleted
+                        && p.Status != Status.Cancelled
+                        && p.AppointmentDate.Date == requestedTime.Date)
+            .Include(p => p.Service)
+            .ToListAsync();
+
+        bool hasConflict = procedures.Any(p =>
+        {
+            if (p.Service == null)
+            {
+                return false;
+            }
+
+            var existingStart = p.AppointmentDate;
+            var existingEnd = p.AppointmentDate.AddMinutes(p.Service.DurationInMinutes);
+
+            return requestedTime < existingEnd && requestedEnd > existingStart;
+        });
+
+        return !hasConflict;
+    }
+
+    public async Task<IEnumerable<SelectListItem>> GetEmployeeSelectListAsync()
+    {
+        return await employeeRepository
+            .GetAllAttached()
+            .Select(e => new SelectListItem
+            {
+                Value = e.Id.ToString(),
+                Text = e.User.FirstName + " " + e.User.LastName + " - " + e.Occupation
+            })
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<SelectListItem>> GetServiceSelectListAsync()
+    {
+        return await serviceRepository
+            .GetAllAttached()
+            .Select(s => new SelectListItem
+            {
+                Value = s.Id.ToString(),
+                Text = s.Name
+            })
+            .ToListAsync();
+    }
+
+
+    public async Task<IEnumerable<SelectListItem>> GetServicesByEmployeeIdAsync(Guid employeeId)
+    {
+        return await employeeServiceRepository
+            .GetAllAttached()
+            .Where(es => es.EmployeeId == employeeId)
+            .Include(es => es.Service)
+            .Select(es => new SelectListItem
+            {
+                Value = es.Service.Id.ToString(),
+                Text = es.Service.Name
+            })
+            .ToListAsync();
+    }
 }
 

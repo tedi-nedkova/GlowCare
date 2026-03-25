@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.3.9" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\GlowCare.Entities\GlowCare.Entities.csproj" />
     <ProjectReference Include="..\GlowCare.ViewModels\GlowCare.ViewModels.csproj" />
   </ItemGroup>

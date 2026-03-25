@@ -1,33 +1,63 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using GlowCare.Entities.Models
+@inject UserManager<GlowUser> userManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - GlowCare</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/GlowCare.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+
+    <link rel="stylesheet" href="~/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/slick/slick.css">
+    <link rel="stylesheet" href="~/slick/slick-theme.css">
+    <link rel="stylesheet" href="~/css/datepicker.css">
+    <link rel="stylesheet" href="~/css/tooplate-style.css">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GlowCare</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+        <nav class="navbar navbar-expand-lg narbar-light">
+            <a class="navbar-brand mr-auto" href="#">
+                <img src="img/logo.png" alt="Site logo">
+                GlowCare
+            </a>
+            <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#top">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Procedure" asp-action="MyProcedures">Procedures</a>
+                    </li>
+                    @if (User?.Identity?.IsAuthenticated ?? false)
+                    {
+                        var applicationUser = await userManager.GetUserAsync(User);
+                        string fullName = $"{applicationUser.FirstName} {applicationUser.LastName}";
+
+                        <a class="login-btn btn py-4 px-lg-5 d-none d-lg-block" asp-area="Identity" asp-page="/Account/Profile">Hello, @fullName!</a>
+                        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button type="submit" class="log-out btn py-4 px-lg-5 d-none d-lg-block">Log Out</button>
+                        </form>
+                    }
+                    else
+                    {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a asp-area="Identity" asp-page="/Account/Login" class="nav-link">Log In</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a asp-area="Identity" asp-page="/Account/Register" class="nav-link">Register</a>
                         </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
+                    }
+                    
+                </ul>
             </div>
         </nav>
     </header>
@@ -37,14 +67,17 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - GlowCare - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+    <footer class="tm-footer text-center">
+        <p>&copy; 2025 GlowCare | All rights reserved</p>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/jquery-1.11.3.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/datepicker.min.js"></script>
+    <script src="~/js/jquery.singlePageNav.min.js"></script>
+    <script src="~/slick/slick.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

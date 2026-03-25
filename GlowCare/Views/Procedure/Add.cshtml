@@ -1,30 +1,43 @@
-﻿@model GlowCare.ViewModels.Procedures.AddProcedureViewModel;
+﻿@model GlowCare.ViewModels.Procedures.AddProcedureViewModel
+
+@{
+    ViewData["Title"] = "Add Procedure";
+}
+
+<h2>Add Procedure</h2>
 
 <form asp-action="Add" method="post">
-    <div class="form-group">
+    <div>
         <label asp-for="EmployeeId"></label>
-        <input asp-for="EmployeeId" class="form-control" />
-        <span asp-validation-for="EmployeeId" class="text-danger"></span>
+        <select asp-for="EmployeeId" asp-items="ViewBag.Employees">
+            <option value="">-- Select Employee --</option>
+        </select>
+        <span asp-validation-for="EmployeeId"></span>
     </div>
 
-    <div class="form-group">
+    <div>
         <label asp-for="ServiceId"></label>
-        <input asp-for="ServiceId" class="form-control" />
-        <span asp-validation-for="ServiceId" class="text-danger"></span>
+        <select asp-for="ServiceId" asp-items="ViewBag.Services">
+            <option value="">-- Select Service --</option>
+        </select>
+        <span asp-validation-for="ServiceId"></span>
     </div>
 
-    <div class="form-group">
+    <div>
         <label asp-for="AppointmentDate"></label>
-        <input asp-for="AppointmentDate" class="form-control" type="datetime-local"/>
-        <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+        <input asp-for="AppointmentDate" type="datetime-local" />
+        <span asp-validation-for="AppointmentDate"></span>
     </div>
 
-    <div class="form-group">
+    <div>
         <label asp-for="Notes"></label>
-        <textarea asp-for="Notes" class="form-control"></textarea>
-        <span asp-validation-for="Notes" class="text-danger"></span>
+        <textarea asp-for="Notes"></textarea>
+        <span asp-validation-for="Notes"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary mt-3">Add Procedure</button>
-    <a asp-action="MyProcedures" class="btn btn-secondary mt-3">Cancel</a>
+    <button type="submit">Save</button>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

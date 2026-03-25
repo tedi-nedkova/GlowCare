@@ -11,17 +11,13 @@ namespace GlowCare.Controllers
         ILogger<ReviewController> logger,
         UserManager<GlowUser> userManager) : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpGet]
         public IActionResult Add(int procedureId)
         {
-            var review = new AddReviewViewModel();
-
-            review.ProcedureId = procedureId;
+            var review = new AddReviewViewModel
+            {
+                ProcedureId = procedureId
+            };
 
             return View(review);
         }
@@ -36,11 +32,11 @@ namespace GlowCare.Controllers
 
             try
             {
-                var userId = Guid.Parse(userManager.GetUserId(User));
+                var userId = Guid.Parse(userManager.GetUserId(User)!);
 
                 await reviewService.CreateReviewAsync(model, userId);
 
-                return RedirectToAction("Details", "Service");
+                return RedirectToAction("MyProcedures", "Procedure");
             }
             catch (NullReferenceException nex)
             {
@@ -55,10 +51,8 @@ namespace GlowCare.Controllers
             catch (Exception ex)
             {
                 logger.LogError($"An error occured while adding the review. {ex.Message}");
-
                 return RedirectToAction("Error", "Home");
             }
         }
-
     }
 }

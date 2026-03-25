@@ -1,21 +1,27 @@
+using GlowCare.Core.Contracts;
+using GlowCare.Core.Implementations;
+using GlowCare.Entities.Contracts.Interfaces;
 using GlowCare.Models;
+using GlowCare.ViewModels.Procedures;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace GlowCare.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(
+       IProcedureService procedureService,
+       ILogger<HomeController> _logger
+        ) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            _logger = logger;
-        }
+            ViewBag.Employees = await procedureService.GetEmployeeSelectListAsync();
+            ViewBag.Services = await procedureService.GetServiceSelectListAsync();
 
-        public IActionResult Index()
-        {
-            return View();
+            var model = new AddProcedureViewModel();
+
+            return View(model);
         }
 
         public IActionResult Privacy()

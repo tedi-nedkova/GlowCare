@@ -1,0 +1,39 @@
+﻿@model GlowCare.ViewModels.Procedures.EditProcedureViewModel
+
+@{
+    ViewData["Title"] = "Edit Procedure";
+}
+
+<h2>Edit Procedure</h2>
+
+<form asp-action="Edit" method="post">
+    <div>
+        <label asp-for="EmployeeId"></label>
+        <input asp-for="EmployeeId" />
+        <span asp-validation-for="EmployeeId"></span>
+    </div>
+
+    <div>
+        <label asp-for="ServiceId"></label>
+        <input asp-for="ServiceId" />
+        <span asp-validation-for="ServiceId"></span>
+    </div>
+
+    <div>
+        <label asp-for="AppointmentDate"></label>
+        <input asp-for="AppointmentDate" type="datetime-local" />
+        <span asp-validation-for="AppointmentDate"></span>
+    </div>
+
+    <div>
+        <label asp-for="Notes"></label>
+        <textarea asp-for="Notes"></textarea>
+        <span asp-validation-for="Notes"></span>
+    </div>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

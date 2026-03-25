@@ -9,9 +9,6 @@ public class Schedule
     [Required]
     public int Id { get; set; }
 
-    public List<ScheduleDayOfWeek> ScheduleDaysOfWeek { get; set; } 
-        = new List<ScheduleDayOfWeek>();
-
     [Required]
     [MinLength(MinTime)]
     [MaxLength(MaxTime)]
@@ -21,6 +18,9 @@ public class Schedule
     [MinLength(MinTime)]
     [MaxLength(MaxTime)]
     public string EndTime { get; set; } = null!;
+
+    [Required]
+    public string DaysOfWeek { get; set; } = null!;
 
     public ICollection<EmployeeSchedule> EmployeesSchedules { get; set; }
             = new List<EmployeeSchedule>();

@@ -32,6 +32,8 @@ public class Service
     [Required]
     public int Points { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public ICollection<Procedure> Procedures { get; set; }
         = new List<Procedure>();
 }

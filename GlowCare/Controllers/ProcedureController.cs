@@ -1,56 +1,66 @@
 ﻿using GlowCare.Core.Contracts;
 using GlowCare.Entities.Models;
 using GlowCare.ViewModels.Procedures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GlowCare.Controllers;
 
 public class ProcedureController(
         IProcedureService procedureService,
+        IServiceService serviceService,
+        IEmployeeService employeeService,
         IConfiguration configuration,
         ILogger<ProcedureController> logger,
         UserManager<GlowUser> userManager) : Controller
 {
     [HttpGet]
-    public IActionResult Add()
+    public async Task<IActionResult> Add()
     {
-        var procedure = new AddProcedureViewModel(); 
+        var procedure = new AddProcedureViewModel();
+
+        await LoadDropdownsAsync();
 
         return View(procedure);
     }
 
+    
     [HttpPost]
-    public async Task<IActionResult> Add(
-        AddProcedureViewModel model)
+    public async Task<IActionResult> Add(AddProcedureViewModel model)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            return View(model);
+            TempData["BookingError"] = "Моля, попълнете всички полета правилно.";
+            return RedirectToAction("Index", "Home");
         }
 
         try
         {
             Guid userId = Guid.Parse(userManager.GetUserId(User));
 
+            bool isAvailable = await procedureService.IsSlotAvailableAsync(
+                model.EmployeeId,
+                model.ServiceId,
+                model.AppointmentDate
+            );
+
+            if (!isAvailable)
+            {
+                TempData["BookingError"] = "Избраният час не е свободен.";
+                return RedirectToAction("Index", "Home");
+            }
+
             await procedureService.CreateProcedureAsync(model, userId);
 
-            return RedirectToAction(nameof(MyProcedures));
-        }
-        catch (NullReferenceException nex)
-        {
-            logger.LogError($"An error occured while adding procedure. {nex.Message}");
-            return RedirectToAction("Error", "Home");
-        }
-        catch (InvalidOperationException iex)
-        {
-            logger.LogError($"An error occured while adding procedure. {iex.Message}");
-            return RedirectToAction("Error", "Home");
+            TempData["BookingSuccess"] = "Часът беше запазен успешно.";
+            return RedirectToAction("Index", "Home");
         }
         catch (Exception ex)
         {
             logger.LogError($"An error occured while adding procedure. {ex.Message}");
-            return RedirectToAction("Error", "Home");
+            return RedirectToAction("Login", "");
         }
     }
 
@@ -60,7 +70,7 @@ public class ProcedureController(
         try
         {
             Guid clientId = Guid.Parse(userManager.GetUserId(User));
-            var models = await procedureService.GetAllProcedureDetailsByUserIdAsync(clientId!);
+            var models = await procedureService.GetAllProcedureDetailsByUserIdAsync(clientId);
 
             return View(models);
         }
@@ -82,8 +92,7 @@ public class ProcedureController(
     }
 
     [HttpGet]
-    public async Task<IActionResult> Edit(
-        int id)
+    public async Task<IActionResult> Edit(int id)
     {
         try
         {
@@ -109,9 +118,7 @@ public class ProcedureController(
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(
-        EditProcedureViewModel model, 
-        int id)
+    public async Task<IActionResult> Edit(EditProcedureViewModel model, int id)
     {
         if (!ModelState.IsValid)
         {
@@ -142,14 +149,13 @@ public class ProcedureController(
     }
 
     [HttpGet]
-    public async Task<ActionResult> Delete(
-        int id)
+    public async Task<ActionResult> Delete(int id)
     {
         try
         {
             Guid clientId = Guid.Parse(userManager.GetUserId(User));
 
-            var course = await procedureService.GetDeleteProcedureAsync(id, clientId!);
+            var course = await procedureService.GetDeleteProcedureAsync(id, clientId);
 
             return View(course);
         }
@@ -171,8 +177,7 @@ public class ProcedureController(
     }
 
     [HttpPost]
-    public async Task<ActionResult> Delete(
-        DeleteProcedureViewModel model)
+    public async Task<ActionResult> Delete(DeleteProcedureViewModel model)
     {
         if (!ModelState.IsValid)
         {
@@ -201,5 +206,36 @@ public class ProcedureController(
             return RedirectToAction("Error", "Home");
         }
     }
-}
 
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> CheckAvailability(Guid employeeId, int serviceId, DateTime dateTime)
+    {
+        try
+        {
+            bool isAvailable = await procedureService.IsSlotAvailableAsync(employeeId, serviceId, dateTime);
+            return PartialView("_CheckAvailabilityPopup", isAvailable);
+        }
+        catch
+        {
+            return PartialView("_CheckAvailabilityPopup", false);
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetServicesByEmployee(Guid employeeId)
+    {
+        var services = await procedureService.GetServicesByEmployeeIdAsync(employeeId);
+
+        return Json(services);
+    }
+
+    private async Task LoadDropdownsAsync()
+    {
+        var employees = await procedureService.GetEmployeeSelectListAsync();
+        var services = await procedureService.GetServiceSelectListAsync();
+
+        ViewBag.Employees = employees;
+        ViewBag.Services = services;
+    }
+}

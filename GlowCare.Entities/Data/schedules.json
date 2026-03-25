@@ -2,21 +2,25 @@
   {
     "Id": 1,
     "StartTime": "09:00",
-    "EndTime": "18:00"
+    "EndTime": "18:00",
+    "DaysOfWeek":  "Monday,Wednesday,Thursday"
   },
   {
     "Id": 2,
     "StartTime": "10:00",
-    "EndTime": "16:00"
+    "EndTime": "16:00",
+    "DaysOfWeek": "Monday,Wednesday,Friday"
   },
   {
     "Id": 3,
     "StartTime": "9:00",
-    "EndTime": "16:00"
+    "EndTime": "16:00",
+    "DaysOfWeek": "Tuesday,Thursday"
   },
   {
     "Id": 4,
     "StartTime": "11:00",
-    "EndTime": "15:00"
+    "EndTime": "15:00",
+    "DaysOfWeek": "Monday,Tuesday,Wednesday,Thursday,Friday"
   }
 ]

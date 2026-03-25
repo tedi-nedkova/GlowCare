@@ -11,19 +11,46 @@ public class ServiceService(
     UserManager<GlowUser> userManager
     ) : IServiceService
 {
-    public Task CreateServiceAsync(AddServiceViewModel model, Guid userId)
+    public async Task CreateServiceAsync(AddServiceViewModel model, Guid userId)
     {
         if ( model == null)
         {
             throw new NullReferenceException("Entity not found");
         }
 
+        var service = new Service
+        {
+            Name = model.Name,
+            CategoryId = model.CategoryId,
+            Description = model.Description,
+            DurationInMinutes = model.DurationInMinutes,
+            Price = model.Price,
+            Points = model.Points,
+        };
 
+        await serviceRepository.AddAsync(service);
     }
 
-    public Task DeleteServiceAsync(DeleteServiceViewModel model)
+    public async Task DeleteServiceAsync(DeleteServiceViewModel model)
     {
-        throw new NotImplementedException();
+        Service service = await serviceRepository.GetByIdAsync(model.Id);
+
+        if (service == null)
+        {
+            throw new NullReferenceException("Entity not found.");
+        }
+
+        if (service.IsDeleted)
+        {
+            throw new ArgumentException("Entity is already deleted.");
+        }
+
+        if (!service.IsDeleted || service != null)
+        {
+            service.IsDeleted = true;
+
+            await serviceRepository.UpdateAsync(service);
+        }
     }
 
     public Task<Procedure> EditProcedureAsync(EditServiceViewModel model, int id)

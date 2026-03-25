@@ -25,10 +25,8 @@ public class GlowCareDbContext
     public DbSet<Procedure> Procedures { get; set; }
     public DbSet<Review> Reviews { get; set; }
     public DbSet<Schedule> Schedules { get; set; }
-    public DbSet<ScheduleDayOfWeek> SchedulesDaysOfWeek { get; set; }
     public DbSet<Service> Services { get; set; }
     public DbSet<Category> Categories { get; set; }
-    public DbSet<Models.DayOfWeek> DaysOfWeek { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
