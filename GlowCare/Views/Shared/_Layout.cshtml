@@ -16,36 +16,56 @@
     <link rel="stylesheet" href="~/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/slick/slick.css">
     <link rel="stylesheet" href="~/slick/slick-theme.css">
+    <link rel="stylesheet" href="~/css/procedureForm.css">
     <link rel="stylesheet" href="~/css/datepicker.css">
     <link rel="stylesheet" href="~/css/tooplate-style.css">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg narbar-light">
-            <a class="navbar-brand mr-auto" href="#">
-                <img src="img/logo.png" alt="Site logo">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand mr-auto" asp-controller="Home" asp-action="Index">
+                <img class="img-logo-card" src="~/img/logo-removebg-preview.png" alt="Site logo">
                 GlowCare
             </a>
-            <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
+
+            <button type="button" id="nav-toggle" class="navbar-toggler collapsed"
+                    data-toggle="collapse" data-target="#mainNav"
+                    aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto align-items-lg-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="#top">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Procedure" asp-action="MyProcedures">Procedures</a>
                     </li>
+
                     @if (User?.Identity?.IsAuthenticated ?? false)
                     {
                         var applicationUser = await userManager.GetUserAsync(User);
                         string fullName = $"{applicationUser.FirstName} {applicationUser.LastName}";
 
-                        <a class="login-btn btn py-4 px-lg-5 d-none d-lg-block" asp-area="Identity" asp-page="/Account/Profile">Hello, @fullName!</a>
-                        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                            <button type="submit" class="log-out btn py-4 px-lg-5 d-none d-lg-block">Log Out</button>
-                        </form>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Profile">
+                                Hello, @fullName!
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <form method="post"
+                                  asp-area="Identity"
+                                  asp-page="/Account/Logout"
+                                  asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"
+                                  class="m-0">
+                                <button type="submit" class="nav-link logout-link">
+                                    Log Out
+                                </button>
+                            </form>
+                        </li>
                     }
                     else
                     {
@@ -56,7 +76,6 @@
                             <a asp-area="Identity" asp-page="/Account/Register" class="nav-link">Register</a>
                         </li>
                     }
-                    
                 </ul>
             </div>
         </nav>

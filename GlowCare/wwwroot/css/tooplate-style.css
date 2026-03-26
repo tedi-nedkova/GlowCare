@@ -101,6 +101,10 @@ p {
 	background: #45bb91;
 }
 
+.nav-item:hover{
+	color: white
+}
+
 .tm-top-bar .navbar-expand-lg .navbar-nav .nav-link { padding: 50px 35px; }
 
 .tm-top-bar {
@@ -129,8 +133,8 @@ p {
 	padding-bottom: 80px;
 }
 
-#tm-section-1 {	
-	background-image: url('../img/bg-img-1.jpg');	
+#tm-section-1 {
+	background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('../img/beautiful-woman-spa-skin-treatment.jpg');
 	height: 515px;
 }
 
@@ -574,4 +578,23 @@ video {
 		max-width: 530px;
 		width: 100%;
 	}	
+}
+
+#dateInput::-webkit-calendar-picker-indicator,
+#timeInput::-webkit-calendar-picker-indicator {
+	opacity: 0;
+	display: none;
+	-webkit-appearance: none;
+}
+
+#dateInput::-webkit-inner-spin-button,
+#timeInput::-webkit-inner-spin-button {
+	display: none;
+	-webkit-appearance: none;
+}
+
+#dateInput::-webkit-clear-button,
+#timeInput::-webkit-clear-button {
+	display: none;
+	-webkit-appearance: none;
 }
