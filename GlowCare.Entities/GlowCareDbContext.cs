@@ -9,24 +9,20 @@ namespace GlowCare.Entities;
 public class GlowCareDbContext
     : IdentityDbContext<GlowUser, IdentityRole<Guid>, Guid>
 {
-    public GlowCareDbContext()
-    {
-            
-    }
     public GlowCareDbContext(DbContextOptions<GlowCareDbContext> options)
-    : base(options)
-    { }
+        : base(options)
+    {
+    }
 
-    public DbSet<Certificate> Certificates { get; set; }
-    public DbSet<Employee> Employees { get; set; }
-    public DbSet<EmployeeSchedule> EmployeesSchedules { get; set; }
-    public DbSet<EmployeeService> EmployeesServices { get; set; }
-    public DbSet<Membership> Memberships { get; set; }
-    public DbSet<Procedure> Procedures { get; set; }
-    public DbSet<Review> Reviews { get; set; }
-    public DbSet<Schedule> Schedules { get; set; }
-    public DbSet<Service> Services { get; set; }
-    public DbSet<Category> Categories { get; set; }
+    public DbSet<Certificate> Certificates { get; set; } = null!;
+    public DbSet<Employee> Employees { get; set; } = null!;
+    public DbSet<EmployeeService> EmployeesServices { get; set; } = null!;
+    public DbSet<Membership> Memberships { get; set; } = null!;
+    public DbSet<Procedure> Procedures { get; set; } = null!;
+    public DbSet<Review> Reviews { get; set; } = null!;
+    public DbSet<Schedule> Schedules { get; set; } = null!;
+    public DbSet<Service> Services { get; set; } = null!;
+    public DbSet<Category> Categories { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -41,15 +37,15 @@ public class GlowCareDbContext
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.Entity<Review>()
-           .HasOne(r => r.Procedure)
-              .WithMany(p => p.Reviews)
-              .HasForeignKey(sd => sd.ProcedureId)
-              .OnDelete(DeleteBehavior.NoAction);
+            .HasOne(r => r.Procedure)
+            .WithMany(p => p.Reviews)
+            .HasForeignKey(sd => sd.ProcedureId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.Entity<Procedure>()
-             .HasOne(p => p.Employee)
-             .WithMany(e => e.Procedures)
-             .HasForeignKey(p => p.EmployeeId)
-             .OnDelete(DeleteBehavior.NoAction);
+            .HasOne(p => p.Employee)
+            .WithMany(e => e.Procedures)
+            .HasForeignKey(p => p.EmployeeId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

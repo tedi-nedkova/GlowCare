@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static GlowCare.Common.Constants.ScheduleConstants;
 
 namespace GlowCare.Entities.Models;
@@ -20,9 +21,10 @@ public class Schedule
     public string EndTime { get; set; } = null!;
 
     [Required]
-    public string DaysOfWeek { get; set; } = null!;
+    public DayOfWeek DayOfWeek { get; set; }
 
-    public ICollection<EmployeeSchedule> EmployeesSchedules { get; set; }
-            = new List<EmployeeSchedule>();
+    public Guid EmployeeId { get; set; }
+    [ForeignKey(nameof(EmployeeId))]
+    public Employee? Employee { get; set; }
 }
 

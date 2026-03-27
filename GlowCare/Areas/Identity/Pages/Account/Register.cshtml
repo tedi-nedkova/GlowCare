@@ -4,87 +4,153 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="login-main-section">
+    <div class="auth-page-under-nav">
+        <div class="auth-single-wrap">
+            <div class="auth-single-card">
+                <div class="auth-heading">
+                    <h1 class="auth-title">Create account</h1>
+                    <div class="auth-title-line"></div>
+                    <p class="auth-subtitle">
+                        Create your GlowCare profile to book procedures, manage appointments and access your account easily.
+                    </p>
+                </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.FirstName" class="form-control" aria-required="true" placeholder="First Name" />
-                <label asp-for="Input.FirstName">First Name</label>
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.LastName" class="form-control" aria-required="true" placeholder="Last Name" />
-                <label asp-for="Input.LastName">Last Name</label>
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Age" class="form-control" aria-required="true" placeholder="Age" />
-                <label asp-for="Input.Age">Age</label>
-                <span asp-validation-for="Input.Age" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <select asp-for="Input.Gender" class="form-select" asp-items="Model.GenderOptions">
-                    <option value="">Select Gender</option>
-                </select>
-                <label asp-for="Input.Gender">Gender</label>
-                <span asp-validation-for="Input.Gender" class="text-danger"></span>
-            </div>
+                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="auth-form">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
 
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-        </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
+                    <div class="auth-field">
+                        <input asp-for="Input.FirstName"
+                               class="form-control auth-input"
+                               aria-required="true"
+                               placeholder="First name" />
+                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                    </div>
+
+                    <div class="auth-field">
+                        <input asp-for="Input.LastName"
+                               class="form-control auth-input"
+                               aria-required="true"
+                               placeholder="Last name" />
+                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                    </div>
+
+                    <div class="auth-field">
+                        <input asp-for="Input.Age"
+                               class="form-control auth-input"
+                               aria-required="true"
+                               placeholder="Age" />
+                        <span asp-validation-for="Input.Age" class="text-danger"></span>
+                    </div>
+
+                    <div class="auth-field">
+                        <select asp-for="Input.Gender"
+                                class="form-control auth-select"
+                                asp-items="Model.GenderOptions">
+                            <option value="">Select gender</option>
+                        </select>
+                        <span asp-validation-for="Input.Gender" class="text-danger"></span>
+                    </div>
+
+                    <div class="auth-field">
+                        <input asp-for="Input.Email"
+                               class="form-control auth-input"
+                               autocomplete="username"
+                               aria-required="true"
+                               placeholder="Email" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="auth-field">
+                        <div class="auth-password-wrap">
+                            <input asp-for="Input.Password"
+                                   id="registerPasswordInput"
+                                   class="form-control auth-input auth-input-password"
+                                   autocomplete="new-password"
+                                   aria-required="true"
+                                   placeholder="Password" />
+
+                            <button type="button"
+                                    id="toggleRegisterPassword"
+                                    class="auth-password-toggle"
+                                    aria-label="Show password"
+                                    aria-pressed="false">
+                                <i class="fa fa-eye"></i>
+                                <span class="auth-password-toggle-text">Show</span>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="auth-field">
+                        <div class="auth-password-wrap">
+                            <input asp-for="Input.ConfirmPassword"
+                                   id="registerConfirmPasswordInput"
+                                   class="form-control auth-input auth-input-password"
+                                   autocomplete="new-password"
+                                   aria-required="true"
+                                   placeholder="Confirm password" />
+
+                            <button type="button"
+                                    id="toggleRegisterConfirmPassword"
+                                    class="auth-password-toggle"
+                                    aria-label="Show password"
+                                    aria-pressed="false">
+                                <i class="fa fa-eye"></i>
+                                <span class="auth-password-toggle-text">Show</span>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <button id="registerSubmit" type="submit" class="btn auth-btn">
+                        Register
+                    </button>
+
+                    <div class="auth-links">
                         <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
+                            <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" id="reg-already-have-an-account">Already have an account? Log in</a>
                         </p>
                     </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function setupPasswordToggle(buttonId, inputId) {
+            const toggleButton = document.getElementById(buttonId);
+            const passwordInput = document.getElementById(inputId);
+
+            if (!toggleButton || !passwordInput) {
+                return;
+            }
+
+            toggleButton.addEventListener("click", function () {
+                const isHidden = passwordInput.type === "password";
+                const icon = this.querySelector("i");
+                const text = this.querySelector(".auth-password-toggle-text");
+
+                passwordInput.type = isHidden ? "text" : "password";
+
+                if (icon) {
+                    icon.className = isHidden ? "fa fa-eye-slash" : "fa fa-eye";
+                }
+
+                if (text) {
+                    text.textContent = isHidden ? "Hide" : "Show";
+                }
+
+                this.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
+                this.setAttribute("aria-pressed", isHidden ? "true" : "false");
+            });
+        }
+
+        setupPasswordToggle("toggleRegisterPassword", "registerPasswordInput");
+        setupPasswordToggle("toggleRegisterConfirmPassword", "registerConfirmPasswordInput");
+    </script>
 }

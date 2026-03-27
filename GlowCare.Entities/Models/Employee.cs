@@ -36,5 +36,8 @@ public class Employee
     public ICollection<Review> Reviews { get; set; }
         = new List<Review>();
 
+    public ICollection<Schedule> Schedules { get; set; }
+        = new List<Schedule>();
+
 }
 

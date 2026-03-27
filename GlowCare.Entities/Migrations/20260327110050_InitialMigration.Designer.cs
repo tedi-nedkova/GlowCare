@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlowCare.Entities.Migrations
 {
     [DbContext(typeof(GlowCareDbContext))]
-    [Migration("20260323120525_InitialMigration")]
+    [Migration("20260327110050_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -160,53 +160,6 @@ namespace GlowCare.Entities.Migrations
                             IsDeleted = false,
                             Occupation = "Massage Therapist",
                             UserId = new Guid("c9f4e7b1-2d33-4a11-8f56-abcdef123456")
-                        });
-                });
-
-            modelBuilder.Entity("GlowCare.Entities.Models.EmployeeSchedule", b =>
-                {
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("ScheduleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EmployeeId", "ScheduleId");
-
-                    b.HasIndex("ScheduleId");
-
-                    b.ToTable("EmployeesSchedules");
-
-                    b.HasData(
-                        new
-                        {
-                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
-                            ScheduleId = 2
-                        },
-                        new
-                        {
-                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
-                            ScheduleId = 3
-                        },
-                        new
-                        {
-                            EmployeeId = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
-                            ScheduleId = 1
-                        },
-                        new
-                        {
-                            EmployeeId = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
-                            ScheduleId = 3
-                        },
-                        new
-                        {
-                            EmployeeId = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
-                            ScheduleId = 4
-                        },
-                        new
-                        {
-                            EmployeeId = new Guid("a0617bdf-80af-4316-a9c9-c2fd77170f7f"),
-                            ScheduleId = 3
                         });
                 });
 
@@ -422,7 +375,7 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("a7d3c5e2-9b41-4f12-8f34-123456789abc"),
                             AccessFailedCount = 0,
                             Age = 32,
-                            ConcurrencyStamp = "d0452ff0-72fc-44ab-85a3-8e9cbe6c31f5",
+                            ConcurrencyStamp = "a6693200-2e23-4508-9a43-974ac874c64e",
                             Email = "elena.dimitrova@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Elena",
@@ -432,7 +385,7 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ELENA.DIMITROVA@EXAMPLE.COM",
                             NormalizedUserName = "ELENA.DIMITROVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAED5jYSrue7t/zZ0fFuEVbYokPSh2hNfFhxsZEPciAN7srbm+E0xYl2t7If6dSLMi8g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGi5HVYKVuanRroZy5XULc9EsEnwpaYBaF0rx1FV8knf7GGgbKGKD+lMA4/3nDaydg==",
                             PhoneNumber = "0888123456",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "bfb94cc6-d1c4-4315-8f5e-f1d3535f4c01",
@@ -444,7 +397,7 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("ac31b0bb-d05a-438d-be06-9bfe3323cf08"),
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "884e0506-74d5-4a84-b754-7d3de0bb758c",
+                            ConcurrencyStamp = "5e27dcef-27ce-4380-8459-6600c4f9ea42",
                             Email = "johndoe@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -454,7 +407,7 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHNDOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE",
-                            PasswordHash = "AQAAAAIAAYagAAAAENAvbtaFkKAgjo/f0Bxhjwp91cCD1KpLDJDwLA0BKo5/Aj+yJpoHbqK7pp3AWBrRvg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPSUYhU0rQ9+b/jGYFDxtv+pPLDJai/icV5VEj8N0+LNFg5fQHsbCXFRh/tC6wnxxQ==",
                             PhoneNumber = "0875757574",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "a6241046-575b-4a3f-a668-c6aa755a232f",
@@ -466,7 +419,7 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("29965aaa-46cf-4829-93b8-e38401be7547"),
                             AccessFailedCount = 0,
                             Age = 38,
-                            ConcurrencyStamp = "84f927bd-8a67-4313-85ae-be02c2df51ee",
+                            ConcurrencyStamp = "5a36f9fe-038e-4a88-bd10-9a5c878f3bb8",
                             Email = "maria.petrova@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Maria",
@@ -476,7 +429,7 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MARIA.PETROVA@EXAMPLE.COM",
                             NormalizedUserName = "MARIA.PETROVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEONuv2lXu87BbI152yd1xIBcPLAkMVSyN12t5hekEYDzGaqKia8KFAhSMOCZG7sO4Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAsmPjg+Af/s3+Xo+jT8g6iuO4UR0K9qYFZm5GKjrzC6AJvZKQb6h1Dy4V19QeenRw==",
                             PhoneNumber = "0899123456",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "68e7add5-6f2f-4792-a2e6-01f596c74a52",
@@ -488,7 +441,7 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("c9f4e7b1-2d33-4a11-8f56-abcdef123456"),
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "34632a02-9836-48a1-a2e2-9c803e9fb0db",
+                            ConcurrencyStamp = "8f826604-4ccb-430c-9fc7-e29c7ba43a4e",
                             Email = "ivana.koleva@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Ivana",
@@ -498,7 +451,7 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "IVANA.KOLEVA@EXAMPLE.COM",
                             NormalizedUserName = "IVANA.KOLEVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAENsZTDnfeUSzE64mqsRZrZA5BVGZyyRTNilF/ggaHYYr+F3WGlU3kPxGWQUUXe3iow==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAA7kLSUCL1w73lYZdjlWyipmCDBShYw8vRTabxTO5RPlubad6hqx0g/R7oknHD5Kg==",
                             PhoneNumber = "0888234567",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "e0ff1671-f59e-407c-a1bc-b6034b44ac41",
@@ -510,7 +463,7 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900"),
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "584b571e-cde7-46b1-a956-7dcaf39cd2ac",
+                            ConcurrencyStamp = "6004a43a-0148-4846-b7af-46c029f68043",
                             Email = "nikol.georgieva@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Nikol",
@@ -520,7 +473,7 @@ namespace GlowCare.Entities.Migrations
                             MembershipId = 1,
                             NormalizedEmail = "NIKOL.GEORGIEVA@EXAMPLE.COM",
                             NormalizedUserName = "NIKOL.GEORGIEVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAECPj5DFtBYXQg72sTTiOAmTktFZ+GKV+9u5FaOnwlw0piLY+HkXfHtXAZHi1UHh7qw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENzeZVCXhRZGLwrUOlBp19WE+axI5tyTuauovKgyvcbKCvtwuh/CIlXNo5Ku+nDWRA==",
                             PhoneNumber = "0855123456",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "e9c2550f-30cc-4116-a85c-20265258d5a5",
@@ -532,7 +485,7 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760"),
                             AccessFailedCount = 0,
                             Age = 18,
-                            ConcurrencyStamp = "b43d6bfd-e599-47d2-9e6e-e71107a12343",
+                            ConcurrencyStamp = "51ffee21-9ed4-43dc-b03c-187b278e1d06",
                             Email = "teodora_nedkova@abv.bg",
                             EmailConfirmed = true,
                             FirstName = "Teodora",
@@ -541,7 +494,7 @@ namespace GlowCare.Entities.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "TEODORA_NEDKOVA@ABV.BG",
                             NormalizedUserName = "TEODORA.NEDKOVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFAf+YMQjWdtdEmjisw0oHpiFdD4Y7n9mulSTAqDYxPR/gmywqYNwUguWLc2N1clJw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDpKGbOkOpwCQk8o+VhYLHigpbF1IJfITbV75noQ+WLkOB46jxxma18lP+IuiH7CZQ==",
                             PhoneNumber = "0878654562",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "258513a82f1147ba92a0e43f1602b7c3",
@@ -720,7 +673,7 @@ namespace GlowCare.Entities.Migrations
                         {
                             Id = 1,
                             Comment = "Excellent service! The procedure was professional and I felt very comfortable.",
-                            CreatedAt = new DateTime(2026, 3, 23, 12, 5, 24, 309, DateTimeKind.Utc).AddTicks(3543),
+                            CreatedAt = new DateTime(2026, 3, 27, 11, 0, 50, 143, DateTimeKind.Utc).AddTicks(9172),
                             EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             ProcedureId = 1,
                             Rating = 5,
@@ -736,9 +689,11 @@ namespace GlowCare.Entities.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DaysOfWeek")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DayOfWeek")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("EndTime")
                         .IsRequired()
@@ -752,36 +707,154 @@ namespace GlowCare.Entities.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmployeeId");
+
                     b.ToTable("Schedules");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            DaysOfWeek = "Monday,Wednesday,Thursday",
-                            EndTime = "18:00",
-                            StartTime = "09:00"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DaysOfWeek = "Monday,Wednesday,Friday",
+                            DayOfWeek = 1,
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             EndTime = "16:00",
                             StartTime = "10:00"
                         },
                         new
                         {
-                            Id = 3,
-                            DaysOfWeek = "Tuesday,Thursday",
+                            Id = 2,
+                            DayOfWeek = 2,
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             EndTime = "16:00",
-                            StartTime = "9:00"
+                            StartTime = "09:00"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DayOfWeek = 3,
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
+                            EndTime = "16:00",
+                            StartTime = "10:00"
                         },
                         new
                         {
                             Id = 4,
-                            DaysOfWeek = "Monday,Tuesday,Wednesday,Thursday,Friday",
-                            EndTime = "15:00",
+                            DayOfWeek = 4,
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
+                            EndTime = "16:00",
+                            StartTime = "09:00"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DayOfWeek = 5,
+                            EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
+                            EndTime = "16:00",
+                            StartTime = "10:00"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            DayOfWeek = 1,
+                            EmployeeId = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
+                            EndTime = "18:00",
+                            StartTime = "09:00"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            DayOfWeek = 2,
+                            EmployeeId = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
+                            EndTime = "16:00",
+                            StartTime = "09:00"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            DayOfWeek = 3,
+                            EmployeeId = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
+                            EndTime = "18:00",
+                            StartTime = "09:00"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            DayOfWeek = 4,
+                            EmployeeId = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
+                            EndTime = "18:00",
+                            StartTime = "09:00"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            DayOfWeek = 5,
+                            EmployeeId = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
+                            EndTime = "16:00",
+                            StartTime = "09:00"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            DayOfWeek = 1,
+                            EmployeeId = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
+                            EndTime = "17:00",
                             StartTime = "11:00"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            DayOfWeek = 2,
+                            EmployeeId = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
+                            EndTime = "17:00",
+                            StartTime = "11:00"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            DayOfWeek = 3,
+                            EmployeeId = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
+                            EndTime = "17:00",
+                            StartTime = "11:00"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            DayOfWeek = 4,
+                            EmployeeId = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
+                            EndTime = "17:00",
+                            StartTime = "11:00"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            DayOfWeek = 5,
+                            EmployeeId = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
+                            EndTime = "17:00",
+                            StartTime = "11:00"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            DayOfWeek = 1,
+                            EmployeeId = new Guid("a0617bdf-80af-4316-a9c9-c2fd77170f7f"),
+                            EndTime = "18:00",
+                            StartTime = "12:00"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            DayOfWeek = 3,
+                            EmployeeId = new Guid("a0617bdf-80af-4316-a9c9-c2fd77170f7f"),
+                            EndTime = "18:00",
+                            StartTime = "12:00"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            DayOfWeek = 5,
+                            EmployeeId = new Guid("a0617bdf-80af-4316-a9c9-c2fd77170f7f"),
+                            EndTime = "18:00",
+                            StartTime = "12:00"
                         });
                 });
 
@@ -1214,25 +1287,6 @@ namespace GlowCare.Entities.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("GlowCare.Entities.Models.EmployeeSchedule", b =>
-                {
-                    b.HasOne("GlowCare.Entities.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GlowCare.Entities.Models.Schedule", "Schedule")
-                        .WithMany("EmployeesSchedules")
-                        .HasForeignKey("ScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("Schedule");
-                });
-
             modelBuilder.Entity("GlowCare.Entities.Models.EmployeeService", b =>
                 {
                     b.HasOne("GlowCare.Entities.Models.Employee", "Employee")
@@ -1314,6 +1368,17 @@ namespace GlowCare.Entities.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("GlowCare.Entities.Models.Schedule", b =>
+                {
+                    b.HasOne("GlowCare.Entities.Models.Employee", "Employee")
+                        .WithMany("Schedules")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("GlowCare.Entities.Models.Service", b =>
                 {
                     b.HasOne("GlowCare.Entities.Models.Category", "Category")
@@ -1388,6 +1453,8 @@ namespace GlowCare.Entities.Migrations
                     b.Navigation("Procedures");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("Schedules");
                 });
 
             modelBuilder.Entity("GlowCare.Entities.Models.GlowUser", b =>
@@ -1405,11 +1472,6 @@ namespace GlowCare.Entities.Migrations
             modelBuilder.Entity("GlowCare.Entities.Models.Procedure", b =>
                 {
                     b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("GlowCare.Entities.Models.Schedule", b =>
-                {
-                    b.Navigation("EmployeesSchedules");
                 });
 
             modelBuilder.Entity("GlowCare.Entities.Models.Service", b =>

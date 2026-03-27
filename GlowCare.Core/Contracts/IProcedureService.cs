@@ -26,7 +26,7 @@ public interface IProcedureService
     Task <IEnumerable<DetailsProcedureViewModel>> GetAllProcedureDetailsByUserIdAsync(
         Guid userId);
 
-    Task<bool> IsSlotAvailableAsync(
+    Task<AvailabilityCheckResultViewModel> IsSlotAvailableAsync(
         Guid employeeId,
         int serviceId,
         DateTime requestedTime);

@@ -16,9 +16,10 @@ public static class ServiceCollectionExtension
         services.AddScoped<IRepository<GlowUser, Guid>, Repository<GlowUser, Guid>>();
         services.AddScoped<IRepository<Review, int>, Repository<Review, int>>();
         services.AddScoped<IRepository<Service, int>, Repository<Service, int>>();
-        services.AddScoped<IRepository<EmployeeSchedule, int>, Repository<EmployeeSchedule, int>>();
+        //services.AddScoped<IRepository<EmployeeSchedule, int>, Repository<EmployeeSchedule, int>>();
         services.AddScoped<IRepository<GlowCare.Entities.Models.EmployeeService, int>, Repository<GlowCare.Entities.Models.EmployeeService, int>>();
         services.AddScoped<IRepository<Employee, int>, Repository<Employee, int>>();
+        services.AddScoped<IRepository<Schedule, int>, Repository<Schedule, int>>();
 
         return services;
     }

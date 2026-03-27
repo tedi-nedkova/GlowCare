@@ -1,20 +1,26 @@
-﻿@model bool
+﻿@model GlowCare.ViewModels.Procedures.AvailabilityCheckResultViewModel
 
-<div class="availability-popup">
-    @if (Model)
+<div class="availability-popup-content">
+    @if (Model.IsAvailable)
     {
-    <h3>Часът е свободен!</h3>
-    <div class="popup-buttons">
-        <button type="button" id="confirmBookButton" class="btn btn-success">Запази</button>
-        <button type="button" id="cancelButton" class="btn btn-secondary">Отказ</button>
-    </div>
+        <div class="alert alert-success">
+            @Model.Message
+        </div>
+
+        <div class="text-center mt-3">
+            <button type="button" id="confirmBookButton" class="btn btn-success">Потвърди</button>
+            <button type="button" id="cancelButton" class="btn btn-secondary">Отказ</button>
+        </div>
     }
     else
     {
-    <h3>Часът вече е зает!</h3>
-    <div class="popup-buttons">
-        <button type="button" id="cancelButton" class="btn btn-secondary">Отказ</button>
-    </div>
+        <div class="alert alert-warning">
+            @Model.Message
+        </div>
+
+        <div class="text-center mt-3">
+            <button type="button" id="cancelButton" class="btn btn-secondary">Затвори</button>
+        </div>
     }
 </div>
 

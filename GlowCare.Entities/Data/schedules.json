@@ -1,26 +1,131 @@
 ﻿[
   {
     "Id": 1,
-    "StartTime": "09:00",
-    "EndTime": "18:00",
-    "DaysOfWeek":  "Monday,Wednesday,Thursday"
+    "StartTime": "10:00",
+    "EndTime": "16:00",
+    "DayOfWeek": 1,
+    "EmployeeId": "66e6b9a6-4c5a-4344-bdae-6edbacc4b608"
   },
   {
     "Id": 2,
-    "StartTime": "10:00",
+    "StartTime": "09:00",
     "EndTime": "16:00",
-    "DaysOfWeek": "Monday,Wednesday,Friday"
+    "DayOfWeek": 2,
+    "EmployeeId": "66e6b9a6-4c5a-4344-bdae-6edbacc4b608"
   },
   {
     "Id": 3,
-    "StartTime": "9:00",
+    "StartTime": "10:00",
     "EndTime": "16:00",
-    "DaysOfWeek": "Tuesday,Thursday"
+    "DayOfWeek": 3,
+    "EmployeeId": "66e6b9a6-4c5a-4344-bdae-6edbacc4b608"
   },
   {
     "Id": 4,
+    "StartTime": "09:00",
+    "EndTime": "16:00",
+    "DayOfWeek": 4,
+    "EmployeeId": "66e6b9a6-4c5a-4344-bdae-6edbacc4b608"
+  },
+  {
+    "Id": 5,
+    "StartTime": "10:00",
+    "EndTime": "16:00",
+    "DayOfWeek": 5,
+    "EmployeeId": "66e6b9a6-4c5a-4344-bdae-6edbacc4b608"
+  },
+
+  {
+    "Id": 6,
+    "StartTime": "09:00",
+    "EndTime": "18:00",
+    "DayOfWeek": 1,
+    "EmployeeId": "b75e8e37-95e4-44ef-a32c-10aebaff55b3"
+  },
+  {
+    "Id": 7,
+    "StartTime": "09:00",
+    "EndTime": "16:00",
+    "DayOfWeek": 2,
+    "EmployeeId": "b75e8e37-95e4-44ef-a32c-10aebaff55b3"
+  },
+  {
+    "Id": 8,
+    "StartTime": "09:00",
+    "EndTime": "18:00",
+    "DayOfWeek": 3,
+    "EmployeeId": "b75e8e37-95e4-44ef-a32c-10aebaff55b3"
+  },
+  {
+    "Id": 9,
+    "StartTime": "09:00",
+    "EndTime": "18:00",
+    "DayOfWeek": 4,
+    "EmployeeId": "b75e8e37-95e4-44ef-a32c-10aebaff55b3"
+  },
+  {
+    "Id": 10,
+    "StartTime": "09:00",
+    "EndTime": "16:00",
+    "DayOfWeek": 5,
+    "EmployeeId": "b75e8e37-95e4-44ef-a32c-10aebaff55b3"
+  },
+
+  {
+    "Id": 11,
     "StartTime": "11:00",
-    "EndTime": "15:00",
-    "DaysOfWeek": "Monday,Tuesday,Wednesday,Thursday,Friday"
+    "EndTime": "17:00",
+    "DayOfWeek": 1,
+    "EmployeeId": "1dccdb69-fbd1-43c4-8c17-95796b5aa95e"
+  },
+  {
+    "Id": 12,
+    "StartTime": "11:00",
+    "EndTime": "17:00",
+    "DayOfWeek": 2,
+    "EmployeeId": "1dccdb69-fbd1-43c4-8c17-95796b5aa95e"
+  },
+  {
+    "Id": 13,
+    "StartTime": "11:00",
+    "EndTime": "17:00",
+    "DayOfWeek": 3,
+    "EmployeeId": "1dccdb69-fbd1-43c4-8c17-95796b5aa95e"
+  },
+  {
+    "Id": 14,
+    "StartTime": "11:00",
+    "EndTime": "17:00",
+    "DayOfWeek": 4,
+    "EmployeeId": "1dccdb69-fbd1-43c4-8c17-95796b5aa95e"
+  },
+  {
+    "Id": 15,
+    "StartTime": "11:00",
+    "EndTime": "17:00",
+    "DayOfWeek": 5,
+    "EmployeeId": "1dccdb69-fbd1-43c4-8c17-95796b5aa95e"
+  },
+
+  {
+    "Id": 16,
+    "StartTime": "12:00",
+    "EndTime": "18:00",
+    "DayOfWeek": 1,
+    "EmployeeId": "a0617bdf-80af-4316-a9c9-c2fd77170f7f"
+  },
+  {
+    "Id": 17,
+    "StartTime": "12:00",
+    "EndTime": "18:00",
+    "DayOfWeek": 3,
+    "EmployeeId": "a0617bdf-80af-4316-a9c9-c2fd77170f7f"
+  },
+  {
+    "Id": 18,
+    "StartTime": "12:00",
+    "EndTime": "18:00",
+    "DayOfWeek": 5,
+    "EmployeeId": "a0617bdf-80af-4316-a9c9-c2fd77170f7f"
   }
 ]

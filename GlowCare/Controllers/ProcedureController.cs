@@ -4,17 +4,13 @@ using GlowCare.ViewModels.Procedures;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GlowCare.Controllers;
 
 public class ProcedureController(
-        IProcedureService procedureService,
-        IServiceService serviceService,
-        IEmployeeService employeeService,
-        IConfiguration configuration,
-        ILogger<ProcedureController> logger,
-        UserManager<GlowUser> userManager) : Controller
+    IProcedureService procedureService,
+    ILogger<ProcedureController> logger,
+    UserManager<GlowUser> userManager) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> Add()
@@ -26,10 +22,15 @@ public class ProcedureController(
         return View(procedure);
     }
 
-    
     [HttpPost]
     public async Task<IActionResult> Add(AddProcedureViewModel model)
     {
+        if (User.Identity == null || !User.Identity.IsAuthenticated)
+        {
+            TempData["BookingError"] = "Трябва да влезете в профила си, за да запазите час.";
+            return RedirectToAction("Login", "Account");
+        }
+
         if (!ModelState.IsValid)
         {
             TempData["BookingError"] = "Моля, попълнете всички полета правилно.";
@@ -38,17 +39,23 @@ public class ProcedureController(
 
         try
         {
-            Guid userId = Guid.Parse(userManager.GetUserId(User));
+            string? userIdString = userManager.GetUserId(User);
 
-            bool isAvailable = await procedureService.IsSlotAvailableAsync(
+            if (string.IsNullOrWhiteSpace(userIdString) || !Guid.TryParse(userIdString, out Guid userId))
+            {
+                TempData["BookingError"] = "Невалиден потребител.";
+                return RedirectToAction("Login", "Account");
+            }
+
+            var availabilityResult = await procedureService.IsSlotAvailableAsync(
                 model.EmployeeId,
                 model.ServiceId,
                 model.AppointmentDate
             );
 
-            if (!isAvailable)
+            if (!availabilityResult.IsAvailable)
             {
-                TempData["BookingError"] = "Избраният час не е свободен.";
+                TempData["BookingError"] = availabilityResult.Message;
                 return RedirectToAction("Index", "Home");
             }
 
@@ -57,66 +64,55 @@ public class ProcedureController(
             TempData["BookingSuccess"] = "Часът беше запазен успешно.";
             return RedirectToAction("Index", "Home");
         }
+        catch (ArgumentException ex)
+        {
+            logger.LogError(ex, "Validation error while adding procedure.");
+            TempData["BookingError"] = ex.Message;
+            return RedirectToAction("Index", "Home");
+        }
         catch (Exception ex)
         {
-            logger.LogError($"An error occured while adding procedure. {ex.Message}");
-            return RedirectToAction("Login", "");
+            logger.LogError(ex, "An error occurred while adding procedure.");
+            TempData["BookingError"] = "Възникна грешка при запазването.";
+            return RedirectToAction("Index", "Home");
         }
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> MyProcedures()
     {
         try
         {
-            Guid clientId = Guid.Parse(userManager.GetUserId(User));
+            Guid clientId = Guid.Parse(userManager.GetUserId(User)!);
             var models = await procedureService.GetAllProcedureDetailsByUserIdAsync(clientId);
 
             return View(models);
         }
-        catch (NullReferenceException nex)
-        {
-            logger.LogError($"An error occured while getting the procedures. {nex.Message}");
-            return RedirectToAction("Error", "Home");
-        }
-        catch (InvalidOperationException iex)
-        {
-            logger.LogError($"An error occured while getting the procedures. {iex.Message}");
-            return RedirectToAction("Error", "Home");
-        }
         catch (Exception ex)
         {
-            logger.LogError($"An error occured while getting the procedures. {ex.Message}");
+            logger.LogError(ex, "An error occurred while getting procedures.");
             return RedirectToAction("Error", "Home");
         }
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
         try
         {
             var procedure = await procedureService.GetEditProcedureAsync(id);
-
             return View(procedure);
-        }
-        catch (NullReferenceException nex)
-        {
-            logger.LogError($"An error occured while fetching procedure info. {nex.Message}");
-            return RedirectToAction("Error", "Home");
-        }
-        catch (InvalidOperationException iex)
-        {
-            logger.LogError($"An error occured while fetching procedure info. {iex.Message}");
-            return RedirectToAction("Error", "Home");
         }
         catch (Exception ex)
         {
-            logger.LogError($"An error occured while fetching procedure info. {ex.Message}");
+            logger.LogError(ex, "An error occurred while fetching procedure info.");
             return RedirectToAction("Error", "Home");
         }
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Edit(EditProcedureViewModel model, int id)
     {
@@ -128,56 +124,36 @@ public class ProcedureController(
         try
         {
             await procedureService.EditProcedureAsync(model, id);
-
             return RedirectToAction(nameof(MyProcedures));
-        }
-        catch (NullReferenceException nex)
-        {
-            logger.LogError($"An error occured while editing a procedure. {nex.Message}");
-            return RedirectToAction("Error", "Home");
-        }
-        catch (InvalidOperationException iex)
-        {
-            logger.LogError($"An error occured while editing a procedure. {iex.Message}");
-            return RedirectToAction("Error", "Home");
         }
         catch (Exception ex)
         {
-            logger.LogError($"An error occured while editing a procedure. {ex.Message}");
+            logger.LogError(ex, "An error occurred while editing a procedure.");
             return RedirectToAction("Error", "Home");
         }
     }
 
+    [Authorize]
     [HttpGet]
-    public async Task<ActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         try
         {
-            Guid clientId = Guid.Parse(userManager.GetUserId(User));
+            Guid clientId = Guid.Parse(userManager.GetUserId(User)!);
+            var procedure = await procedureService.GetDeleteProcedureAsync(id, clientId);
 
-            var course = await procedureService.GetDeleteProcedureAsync(id, clientId);
-
-            return View(course);
-        }
-        catch (NullReferenceException nex)
-        {
-            logger.LogError($"An error occured while fetching procedure delete info. {nex.Message}");
-            return RedirectToAction("Error", "Home");
-        }
-        catch (InvalidOperationException iex)
-        {
-            logger.LogError($"An error occured while fetching procedure delete info. {iex.Message}");
-            return RedirectToAction("Error", "Home");
+            return View(procedure);
         }
         catch (Exception ex)
         {
-            logger.LogError($"An error occured while fetching procedure delete info. {ex.Message}");
+            logger.LogError(ex, "An error occurred while fetching procedure delete info.");
             return RedirectToAction("Error", "Home");
         }
     }
 
+    [Authorize]
     [HttpPost]
-    public async Task<ActionResult> Delete(DeleteProcedureViewModel model)
+    public async Task<IActionResult> Delete(DeleteProcedureViewModel model)
     {
         if (!ModelState.IsValid)
         {
@@ -187,22 +163,11 @@ public class ProcedureController(
         try
         {
             await procedureService.DeleteProcedureAsync(model);
-
             return RedirectToAction(nameof(MyProcedures));
-        }
-        catch (NullReferenceException nex)
-        {
-            logger.LogError($"An error occured while deleting a procedure. {nex.Message}");
-            return RedirectToAction("Error", "Home");
-        }
-        catch (InvalidOperationException iex)
-        {
-            logger.LogError($"An error occured while deleting a procedure. {iex.Message}");
-            return RedirectToAction("Error", "Home");
         }
         catch (Exception ex)
         {
-            logger.LogError($"An error occured while deleting a procedure. {ex.Message}");
+            logger.LogError(ex, "An error occurred while deleting a procedure.");
             return RedirectToAction("Error", "Home");
         }
     }
@@ -213,11 +178,12 @@ public class ProcedureController(
     {
         try
         {
-            bool isAvailable = await procedureService.IsSlotAvailableAsync(employeeId, serviceId, dateTime);
-            return PartialView("_CheckAvailabilityPopup", isAvailable);
+            var result = await procedureService.IsSlotAvailableAsync(employeeId, serviceId, dateTime);
+            return PartialView("_CheckAvailabilityPopup", result);
         }
-        catch
+        catch (Exception ex)
         {
+            logger.LogError(ex, "An error occurred while checking availability.");
             return PartialView("_CheckAvailabilityPopup", false);
         }
     }
@@ -226,7 +192,6 @@ public class ProcedureController(
     public async Task<IActionResult> GetServicesByEmployee(Guid employeeId)
     {
         var services = await procedureService.GetServicesByEmployeeIdAsync(employeeId);
-
         return Json(services);
     }
 

@@ -20,3 +20,51 @@ html {
 body {
     margin-bottom: 60px;
 }
+
+.glowcare-footer {
+    background-color: #22313f;
+    padding: 40px 0 20px;
+    color: #ffffff;
+    padding: 20px;
+}
+
+.glowcare-footer-title {
+    color: #45bb91;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.glowcare-footer-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.glowcare-footer-link {
+    color: rgba(255, 255, 255, 0.85);
+    margin-left: 15px;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    transition: color 0.2s ease;
+}
+
+    .glowcare-footer-link:hover {
+        color: #45bb91;
+        text-decoration: none;
+    }
+
+.glowcare-footer-divider {
+    border-color: rgba(255, 255, 255, 0.12);
+    margin: 25px 0 20px;
+}
+
+.glowcare-footer-copy {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 13px;
+    font-family: 'Open Sans', sans-serif;
+}
