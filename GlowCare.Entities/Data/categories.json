@@ -1,22 +1,22 @@
-﻿[
+[
   {
     "Id": 1,
-    "Name": "Skin Care"
+    "Name": "Грижа за кожата"
   },
   {
     "Id": 2,
-    "Name": "Laser Treatments"
+    "Name": "Лазерни процедури"
   },
   {
     "Id": 3,
-    "Name": "Massage"
+    "Name": "Масаж"
   },
   {
     "Id": 4,
-    "Name": "Aesthetic Medicine"
+    "Name": "Естетична медицина"
   },
   {
     "Id": 5,
-    "Name": "Facial Treatments"
+    "Name": "Процедури за лице"
   }
 ]

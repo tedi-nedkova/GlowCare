@@ -1,6 +1,7 @@
 ﻿using GlowCare.Core.Contracts;
 using GlowCare.Entities.Models;
 using GlowCare.ViewModels.Procedures;
+using GlowCare.ViewModels.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ public class ProcedureController(
     [HttpGet]
     public async Task<IActionResult> Add()
     {
-        var procedure = new AddProcedureViewModel();
+        var procedure = new IndexViewModel();
 
         await LoadDropdownsAsync();
 
@@ -23,7 +24,7 @@ public class ProcedureController(
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add(AddProcedureViewModel model)
+    public async Task<IActionResult> Add(IndexViewModel model)
     {
         if (User.Identity == null || !User.Identity.IsAuthenticated)
         {

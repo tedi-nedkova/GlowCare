@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "Id": 1,
     "UserId": "e5c2a9b3-4a67-4f89-8d23-556677889900",
@@ -6,7 +6,7 @@
     "ServiceId": 5,
     "AppointmentDate": "2025-09-28T10:30:00",
     "Status": 1,
-    "Notes": "First-time consultation, requested deep skin analysis."
+    "Notes": "Първоначална консултация, заявен е задълбочен анализ на кожата."
   },
   {
     "Id": 2,
@@ -15,7 +15,7 @@
     "ServiceId": 6,
     "AppointmentDate": "2025-09-29T14:00:00",
     "Status": 2,
-    "Notes": "Follow-up massage therapy session."
+    "Notes": "Последваща сесия за масажна терапия."
   },
   {
     "Id": 3,
@@ -24,6 +24,6 @@
     "ServiceId": 8,
     "AppointmentDate": "2025-10-01T09:00:00",
     "Status": 0,
-    "Notes": "Facial rejuvenation treatment scheduled."
+    "Notes": "Планирана е процедура за подмладяване на лицето."
   }
 ]

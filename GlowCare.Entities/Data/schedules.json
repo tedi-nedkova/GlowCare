@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "Id": 1,
     "StartTime": "10:00",
@@ -34,7 +34,6 @@
     "DayOfWeek": 5,
     "EmployeeId": "66e6b9a6-4c5a-4344-bdae-6edbacc4b608"
   },
-
   {
     "Id": 6,
     "StartTime": "09:00",
@@ -70,7 +69,6 @@
     "DayOfWeek": 5,
     "EmployeeId": "b75e8e37-95e4-44ef-a32c-10aebaff55b3"
   },
-
   {
     "Id": 11,
     "StartTime": "11:00",
@@ -106,7 +104,6 @@
     "DayOfWeek": 5,
     "EmployeeId": "1dccdb69-fbd1-43c4-8c17-95796b5aa95e"
   },
-
   {
     "Id": 16,
     "StartTime": "12:00",

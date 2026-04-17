@@ -1,0 +1,500 @@
+﻿@model GlowCare.ViewModels.Services.ServiceIndexViewModel
+
+@{
+    ViewData["Title"] = "Услуги";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 1;
+}
+
+<style>
+    .services-page {
+        padding: 56px 32px 80px;
+        background: radial-gradient(circle at top left, rgba(69, 187, 145, 0.08), transparent 22%), linear-gradient(180deg, #f8fcfa 0%, #f5fbf8 100%);
+        min-height: 100vh;
+    }
+
+    .services-header {
+        max-width: 700px;
+        margin: 0 auto 52px;
+        text-align: center;
+    }
+
+        .services-header::before {
+            content: "";
+            display: block;
+            width: 58px;
+            height: 2px;
+            margin: 0 auto 24px;
+            background: linear-gradient(90deg, rgba(69, 187, 145, 0.20), #45bb91, rgba(69, 187, 145, 0.20));
+            border-radius: 999px;
+        }
+
+    .services-title {
+        margin: 0 0 14px;
+        font-size: clamp(34px, 5vw, 50px);
+        line-height: 1.08;
+        letter-spacing: -1px;
+        font-weight: 300;
+        color: #1d2b36;
+    }
+
+        .services-title span {
+            font-weight: 700;
+            color: #45bb91;
+        }
+
+    .services-subtitle {
+        margin: 0 auto;
+        max-width: 430px;
+        font-size: 15px;
+        line-height: 1.75;
+        color: #6f7c88;
+    }
+
+    .services-filters {
+        max-width: 1100px;
+        margin: 0 auto 32px;
+        background: #fff;
+        border: 1px solid rgba(69, 187, 145, 0.14);
+        box-shadow: 0 10px 30px rgba(20, 33, 40, 0.05);
+        padding: 24px;
+    }
+
+    .services-filter-form {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+        align-items: end;
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .filter-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #1d2b36;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .filter-control {
+        height: 44px;
+        border: 1px solid #dce8e2;
+        border-radius: 8px;
+        padding: 0 12px;
+        font-size: 14px;
+        color: #1d2b36;
+        background: #fff;
+    }
+
+    .filter-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .filter-btn {
+        height: 44px;
+        padding: 0 18px;
+        border: none;
+        border-radius: 10px;
+        background: #141621;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        text-decoration: none !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .filter-btn.secondary {
+            background: #edf4f1;
+            color: #1d2b36;
+        }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 24px;
+    }
+
+    .service-card {
+        background: #ffffff;
+        border: 1px solid rgba(69, 187, 145, 0.14);
+        border-radius: 3px;
+        padding: 28px 28px 24px;
+        display: flex;
+        flex-direction: column;
+        min-height: 320px;
+        box-shadow: 0 10px 30px rgba(20, 33, 40, 0.05);
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(69, 187, 145, 0.28);
+            box-shadow: 0 18px 40px rgba(20, 33, 40, 0.09);
+        }
+
+    .service-decorator {
+        width: 42px;
+        height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #45bb91, rgba(69, 187, 145, 0.25));
+        margin-bottom: 18px;
+    }
+
+    .service-name {
+        margin: 0 0 10px;
+        font-size: 24px;
+        line-height: 1.3;
+        font-weight: 700;
+        color: #1d2b36;
+    }
+
+    .service-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .service-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 10px;
+        border-radius: 2px;
+        background: #f3faf7;
+        color: #2f8f73;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .service-description {
+        margin: 0 0 20px;
+        color: #6f7c88;
+        font-size: 14px;
+        line-height: 1.75;
+        font-weight: 400;
+        flex-grow: 1;
+    }
+
+    .service-availability {
+        margin-bottom: 18px;
+        font-size: 13px;
+        color: #4f5f69;
+        font-weight: 600;
+    }
+
+    .service-card-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding-top: 18px;
+        border-top: 1px solid #edf4f1;
+    }
+
+    .service-price {
+        font-size: 28px;
+        line-height: 1;
+        font-weight: 700;
+        color: #1d2b36;
+        white-space: nowrap;
+    }
+
+        .service-price span {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6f7c88;
+            margin-left: 4px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+    .service-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 132px;
+        height: 42px;
+        padding: 0 16px;
+        border-radius: 12px;
+        background-color: #141621;
+        color: #ffffff !important;
+        text-decoration: none !important;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        box-shadow: 0 4px 12px rgba(20, 33, 40, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+        .service-btn:hover {
+            transform: translateY(-1px);
+            background-color: #61ab95;
+            box-shadow: 0 8px 18px rgba(20, 33, 40, 0.12);
+        }
+
+    .services-pagination {
+        margin-top: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .pagination-pages {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .pagination-btn {
+        min-width: 42px;
+        height: 42px;
+        padding: 0 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        border: 1px solid #e4efea;
+        background: #ffffff;
+        color: #1d2b36 !important;
+        text-decoration: none !important;
+        font-size: 14px;
+        font-weight: 700;
+        box-shadow: 0 5px 14px rgba(20, 33, 40, 0.04);
+        transition: all 0.2s ease;
+    }
+
+        .pagination-btn:hover {
+            transform: translateY(-1px);
+            color: #2f8f73 !important;
+            border-color: rgba(69, 187, 145, 0.25);
+            box-shadow: 0 8px 18px rgba(20, 33, 40, 0.07);
+        }
+
+    .pagination-active {
+        background: #45bb91;
+        border-color: #45bb91;
+        color: #ffffff !important;
+        box-shadow: 0 10px 22px rgba(69, 187, 145, 0.18);
+    }
+
+    .pagination-nav {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .pagination-disabled {
+        opacity: 0.4;
+        pointer-events: none;
+        box-shadow: none;
+    }
+
+    .services-empty {
+        max-width: 520px;
+        margin: 20px auto 0;
+        padding: 34px 24px;
+        text-align: center;
+        background: #fff;
+        border: 1px solid rgba(69, 187, 145, 0.14);
+        box-shadow: 0 10px 30px rgba(20, 33, 40, 0.05);
+    }
+
+    @@media (max-width: 1100px) {
+        .services-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .services-filter-form {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @@media (max-width: 700px) {
+        .services-page {
+            padding: 40px 18px 56px;
+        }
+
+        .services-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .services-filter-form {
+            grid-template-columns: 1fr;
+        }
+
+        .service-card-bottom {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .service-btn {
+            width: 100%;
+        }
+
+        .filter-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+</style>
+
+<div class="services-page">
+    <div class="services-header">
+        <h1 class="services-title">Нашите <span>услуги</span></h1>
+    </div>
+
+    <div class="services-filters">
+        <form asp-controller="Service" asp-action="Index" method="get" class="services-filter-form">
+            <div class="filter-group">
+                <label class="filter-label" for="selectedCategoryId">Категория</label>
+                <select id="selectedCategoryId" name="selectedCategoryId" class="filter-control">
+                    <option value="">Всички категории</option>
+                    @foreach (var category in Model.Categories)
+                    {
+                        if (Model.SelectedCategoryId.HasValue &&
+                        Model.SelectedCategoryId.Value == category.Id)
+                        {
+                            <option value="@category.Id" selected>@category.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label class="filter-label" for="selectedPriceRange">Цена</label>
+                <select id="selectedPriceRange" name="selectedPriceRange" class="filter-control">
+                    <option value="">Всички цени</option>
+                    <option value="under50" selected="@(Model.SelectedPriceRange == "under50")">Под 50</option>
+                    <option value="50to100" selected="@(Model.SelectedPriceRange == "50to100")">50 - 100</option>
+                    <option value="100to200" selected="@(Model.SelectedPriceRange == "100to200")">100 - 200</option>
+                    <option value="200plus" selected="@(Model.SelectedPriceRange == "200plus")">Над 200</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label class="filter-label" for="selectedAvailabilityRange">Наличност</label>
+                <select id="selectedAvailabilityRange" name="selectedAvailabilityRange" class="filter-control">
+                    <option value="">По всяко време</option>
+                    <option value="today" selected="@(Model.SelectedAvailabilityRange == "today")">Свободно днес</option>
+                    <option value="next3days" selected="@(Model.SelectedAvailabilityRange == "next3days")">Свободно до 3 дни</option>
+                    <option value="thisWeek" selected="@(Model.SelectedAvailabilityRange == "thisWeek")">Свободно тази седмица</option>
+                </select>
+            </div>
+
+            <div class="filter-actions">
+                <button type="submit" class="filter-btn">Приложи</button>
+                <a asp-controller="Service" asp-action="Index" class="filter-btn secondary">Изчисти</a>
+            </div>
+        </form>
+    </div>
+
+    @if (Model.Services.Any())
+    {
+        <div class="services-grid">
+            @foreach (var service in Model.Services)
+            {
+                <article class="service-card">
+                    <div class="service-decorator"></div>
+
+                    <h2 class="service-name">@service.Name</h2>
+
+                    <div class="service-meta">
+                        <span class="service-badge">@service.CategoryName</span>
+                        <span class="service-badge">@service.DurationInMinutes мин</span>
+                    </div>
+
+                    <p class="service-description">
+                        @(string.IsNullOrWhiteSpace(service.Description)
+                                        ? "Премиум услуга, създадена да ви помогне да се чувствате по най-добрия начин."
+                                        : service.Description)
+            </p>
+
+                    <div class="service-availability">
+                @if (service.EarliestAvailableSlot.HasValue)
+                        {
+                            <span>Най-ранен свободен час: @service.EarliestAvailableSlot.Value.ToString("dd.MM.yyyy HH:mm")</span>
+                        }
+                        else
+                        {
+                            <span>Няма предстояща наличност</span>
+                        }
+                    </div>
+
+                    <div class="service-card-bottom">
+                        <div class="service-price">
+                            @service.Price.ToString("0.00")<span>лв</span>
+                        </div>
+
+                        <a asp-controller="Procedure" asp-action="Add" class="service-btn">
+                            Запази час
+                        </a>
+                    </div>
+                </article>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="services-empty">
+            <h3>Не бяха намерени услуги</h3>
+            <p>Опитайте да промените избраната категория, ценовия диапазон или филтъра за наличност.</p>
+        </div>
+    }
+
+    @if (totalPages > 1)
+    {
+        <div class="services-pagination">
+            <a asp-action="Index"
+               asp-route-page="@(currentPage - 1)"
+               asp-route-selectedCategoryId="@Model.SelectedCategoryId"
+               asp-route-selectedPriceRange="@Model.SelectedPriceRange"
+               asp-route-selectedAvailabilityRange="@Model.SelectedAvailabilityRange"
+               class="pagination-btn pagination-nav @(currentPage == 1 ? "pagination-disabled" : "")">
+                ‹
+            </a>
+
+            <div class="pagination-pages">
+                @for (int i = 1; i <= totalPages; i++)
+                {
+                    <a asp-action="Index"
+                       asp-route-page="@i"
+                       asp-route-selectedCategoryId="@Model.SelectedCategoryId"
+                       asp-route-selectedPriceRange="@Model.SelectedPriceRange"
+                       asp-route-selectedAvailabilityRange="@Model.SelectedAvailabilityRange"
+                       class="pagination-btn @(i == currentPage ? "pagination-active" : "")">
+                        @i
+                    </a>
+                }
+            </div>
+
+            <a asp-action="Index"
+               asp-route-page="@(currentPage + 1)"
+               asp-route-selectedCategoryId="@Model.SelectedCategoryId"
+               asp-route-selectedPriceRange="@Model.SelectedPriceRange"
+               asp-route-selectedAvailabilityRange="@Model.SelectedAvailabilityRange"
+               class="pagination-btn pagination-nav @(currentPage == totalPages ? "pagination-disabled" : "")">
+                ›
+            </a>
+        </div>
+    }
+</div>

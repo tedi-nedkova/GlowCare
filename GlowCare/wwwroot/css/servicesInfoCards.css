@@ -1,0 +1,285 @@
+﻿.services-section {
+    background: linear-gradient(180deg, #f7fbf9 0%, #ffffff 100%);
+}
+
+.services-shell {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.services-header {
+    margin-bottom: 35px;
+}
+
+.services-kicker {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: rgba(69, 187, 145, 0.12);
+    color: #45bb91;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.services-title {
+    font-size: 38px;
+    font-weight: 700;
+    color: #1d2b36;
+    margin-bottom: 12px;
+}
+
+.services-subtitle {
+    max-width: 650px;
+    margin: 0 auto;
+    color: #6c7a89;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.services-carousel-shell {
+    position: relative;
+    padding: 10px 55px 35px;
+}
+
+.service-slide {
+    padding: 12px;
+}
+
+.service-card-modern {
+    background: #ffffff;
+    border-radius: 5px;
+    padding: 26px;
+    min-height: 340px;
+    height: 100%;
+    box-shadow: 0 18px 45px rgba(28, 42, 56, 0.08);
+    border: 1px solid rgba(69, 187, 145, 0.10);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .service-card-modern:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 55px rgba(28, 42, 56, 0.14);
+    }
+
+.service-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.service-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #eefaf5;
+    color: #45bb91;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.service-icon-wrap {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #45bb91 0%, #69d8b1 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 12px 25px rgba(69, 187, 145, 0.25);
+}
+
+.service-card-name {
+    font-size: 24px;
+    line-height: 1.3;
+    font-weight: 700;
+    color: #1d2b36;
+    margin-bottom: 14px;
+    min-height: 62px;
+}
+
+.service-card-description {
+    color: #6f7c88;
+    font-size: 15px;
+    line-height: 1.75;
+    margin-bottom: 24px;
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+}
+
+.service-card-footer {
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid #edf1f4;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.service-price-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.service-price-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #91a0ad;
+    margin-bottom: 4px;
+    font-weight: 700;
+}
+
+.service-price-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1d2b36;
+    line-height: 1.1;
+}
+
+.service-book-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 20px;
+    border-radius: 14px;
+    background-color: #82d1b1;
+    color: #ffffff !important;
+    font-weight: 700;
+    text-decoration: none !important;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+}
+
+    .service-book-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
+    }
+
+.tm-services-carousel .slick-list {
+    margin: 0 -12px;
+    padding: 8px 0 20px;
+}
+
+.tm-services-carousel .slick-track {
+    display: flex !important;
+}
+
+.tm-services-carousel .slick-slide {
+    height: inherit !important;
+}
+
+    .tm-services-carousel .slick-slide > div {
+        height: 100%;
+    }
+
+.tm-services-carousel .slick-prev,
+.tm-services-carousel .slick-next {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 12px 28px rgba(20, 31, 44, 0.14);
+    z-index: 5;
+    transition: all 0.2s ease;
+}
+
+    .tm-services-carousel .slick-prev:hover,
+    .tm-services-carousel .slick-next:hover {
+        background: #45bb91;
+    }
+
+.tm-services-carousel .slick-prev {
+    left: -48px;
+}
+
+.tm-services-carousel .slick-next {
+    right: -48px;
+}
+
+    .tm-services-carousel .slick-prev:before,
+    .tm-services-carousel .slick-next:before {
+        opacity: 1;
+        color: #22313f;
+        font-size: 24px;
+    }
+
+    .tm-services-carousel .slick-prev:hover:before,
+    .tm-services-carousel .slick-next:hover:before {
+        color: #ffffff;
+    }
+
+.tm-services-carousel .slick-dots {
+    bottom: -8px;
+}
+
+    .tm-services-carousel .slick-dots li button:before {
+        font-size: 10px;
+        color: #45bb91;
+        opacity: 0.35;
+    }
+
+    .tm-services-carousel .slick-dots li.slick-active button:before {
+        opacity: 1;
+    }
+
+@@media (max-width: 991px) {
+    .services-carousel-shell {
+        padding: 10px 20px 35px;
+    }
+
+    .tm-services-carousel .slick-prev {
+        left: -5px;
+    }
+
+    .tm-services-carousel .slick-next {
+        right: -5px;
+    }
+
+    .services-title {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 767px) {
+    .service-card-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .service-book-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .service-card-modern {
+        min-height: auto;
+        padding: 22px 18px;
+    }
+
+    .service-card-name {
+        font-size: 21px;
+        min-height: auto;
+    }
+
+    .service-price-value {
+        font-size: 24px;
+    }
+}
+

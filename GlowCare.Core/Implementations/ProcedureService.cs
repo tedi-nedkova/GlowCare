@@ -2,6 +2,7 @@
 using GlowCare.Entities.Contracts.Interfaces;
 using GlowCare.Entities.Models;
 using GlowCare.ViewModels.Procedures;
+using GlowCare.ViewModels.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,16 +11,16 @@ using static GlowCare.Common.Constants.ProcedureConstants;
 namespace GlowCare.Core.Implementations;
 
 public class ProcedureService(
-    IRepository<Procedure, int> procedureRepository,
-    IRepository<Service, int> serviceRepository,
-    IRepository<Employee, int> employeeRepository,
-    IRepository<Schedule, int> scheduleRepository,
-    IRepository<GlowCare.Entities.Models.EmployeeService, int> employeeServiceRepository,
-    UserManager<GlowUser> userManager)
-    : IProcedureService
+           IRepository<Procedure, int> procedureRepository,
+           IRepository<Service, int> serviceRepository,
+           IRepository<Employee, int> employeeRepository,
+           IRepository<Schedule, int> scheduleRepository,
+           IRepository<GlowCare.Entities.Models.EmployeeService, int> employeeServiceRepository,
+           UserManager<GlowUser> userManager)
+           : IProcedureService
 {
     public async Task CreateProcedureAsync(
-        AddProcedureViewModel model,
+        IndexViewModel model,
         Guid userId)
     {
         if (model == null)
@@ -268,6 +269,10 @@ public class ProcedureService(
         return await employeeRepository
             .GetAllAttached()
             .Include(e => e.User)
+            .Where(e => !e.IsDeleted
+                && e.User != null
+                && !e.User.IsDeleted
+                && e.User.IsSpecialist)
             .Select(e => new SelectListItem
             {
                 Value = e.Id.ToString(),

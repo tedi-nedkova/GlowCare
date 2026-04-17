@@ -39,5 +39,7 @@ public class Employee
     public ICollection<Schedule> Schedules { get; set; }
         = new List<Schedule>();
 
+    public ICollection<EmployeeService> EmployeeServices { get; set; }
+        = new List<EmployeeService>();
 }
 

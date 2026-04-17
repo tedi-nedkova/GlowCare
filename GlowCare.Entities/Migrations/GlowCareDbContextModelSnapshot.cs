@@ -43,27 +43,27 @@ namespace GlowCare.Entities.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Skin Care"
+                            Name = "Грижа за кожата"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Laser Treatments"
+                            Name = "Лазерни процедури"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Massage"
+                            Name = "Масаж"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Aesthetic Medicine"
+                            Name = "Естетична медицина"
                         },
                         new
                         {
                             Id = 5,
-                            Name = "Facial Treatments"
+                            Name = "Процедури за лице"
                         });
                 });
 
@@ -125,37 +125,37 @@ namespace GlowCare.Entities.Migrations
                         new
                         {
                             Id = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
-                            Biography = "I am a licensed dermatologist with 5 years of experience helping patients achieve healthier skin. My expertise includes treating conditions such as acne, eczema, and pigmentation disorders, as well as performing advanced laser and cosmetic procedures. I am passionate about educating my patients and creating personalized treatment plans that combine proven medical methods with modern skin care innovations.",
+                            Biography = "Аз съм лицензиран дерматолог с 5 години опит в подпомагането на пациентите да постигнат по-здрава кожа. Моята експертиза включва лечение на състояния като акне, екзема и пигментни нарушения, както и извършване на съвременни лазерни и козметични процедури. Стремя се да информирам пациентите си и да създавам персонализирани терапевтични планове, които съчетават доказани медицински методи с модерни иновации в грижата за кожата.",
                             ExperienceYears = 5,
                             IsDeleted = false,
-                            Occupation = "Dermatologist",
+                            Occupation = "Дерматолог",
                             UserId = new Guid("a7d3c5e2-9b41-4f12-8f34-123456789abc")
                         },
                         new
                         {
                             Id = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
-                            Biography = "I am a certified esthetician with 10 years of experience providing skin care treatments, facials, and anti-aging therapies. My goal is to help clients achieve glowing, healthy skin using both modern techniques and natural methods.",
+                            Biography = "Аз съм сертифициран естетик с 10 години опит в предоставянето на процедури за грижа за кожата, терапии за лице и анти-ейдж терапии. Моята цел е да помогна на клиентите да постигнат сияйна и здрава кожа чрез съчетание на съвременни техники и натурални методи.",
                             ExperienceYears = 10,
                             IsDeleted = false,
-                            Occupation = "Esthetician",
+                            Occupation = "Естетик",
                             UserId = new Guid("ac31b0bb-d05a-438d-be06-9bfe3323cf08")
                         },
                         new
                         {
                             Id = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
-                            Biography = "I am a licensed laser removal specialist with 7 years of experience in hair removal, tattoo removal, and skin resurfacing treatments. My focus is on providing safe, effective, and customized solutions for each client to achieve smooth and healthy skin.",
+                            Biography = "Аз съм лицензиран специалист по лазерни процедури с 7 години опит в лазерната епилация, премахването на татуировки и процедурите за обновяване на кожата. Фокусът ми е върху това да предоставям безопасни, ефективни и индивидуално съобразени решения за всеки клиент с цел постигане на гладка и здрава кожа.",
                             ExperienceYears = 6,
                             IsDeleted = false,
-                            Occupation = "Laser Technician",
+                            Occupation = "Лазерен специалист",
                             UserId = new Guid("29965aaa-46cf-4829-93b8-e38401be7547")
                         },
                         new
                         {
                             Id = new Guid("a0617bdf-80af-4316-a9c9-c2fd77170f7f"),
-                            Biography = "I am a certified massage therapist with 6 years of experience in Swedish, deep tissue, and therapeutic massage. My goal is to help clients relax, relieve stress, and improve overall well-being through personalized treatments.",
+                            Biography = "Аз съм сертифициран масажист с 6 години опит в шведския, дълбокотъканния и лечебния масаж. Моята цел е да помогна на клиентите да се отпуснат, да облекчат стреса и да подобрят общото си благосъстояние чрез персонализирани процедури.",
                             ExperienceYears = 6,
                             IsDeleted = false,
-                            Occupation = "Massage Therapist",
+                            Occupation = "Масажист",
                             UserId = new Guid("c9f4e7b1-2d33-4a11-8f56-abcdef123456")
                         });
                 });
@@ -308,7 +308,10 @@ namespace GlowCare.Entities.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("IsSpecialist")
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSpecialist")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
@@ -372,17 +375,18 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("a7d3c5e2-9b41-4f12-8f34-123456789abc"),
                             AccessFailedCount = 0,
                             Age = 32,
-                            ConcurrencyStamp = "a6693200-2e23-4508-9a43-974ac874c64e",
+                            ConcurrencyStamp = "6e5fc66b-0347-4688-a1c3-f78e9f6a861f",
                             Email = "elena.dimitrova@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "Elena",
+                            FirstName = "Елена",
                             Gender = 1,
+                            IsDeleted = false,
                             IsSpecialist = true,
-                            LastName = "Dimitrova",
+                            LastName = "Димитрова",
                             LockoutEnabled = false,
                             NormalizedEmail = "ELENA.DIMITROVA@EXAMPLE.COM",
                             NormalizedUserName = "ELENA.DIMITROVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGi5HVYKVuanRroZy5XULc9EsEnwpaYBaF0rx1FV8knf7GGgbKGKD+lMA4/3nDaydg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEP/a9M/E4mKQ3tDcG6+Z2G3GxmDbYT5Lj/s4uOl0P1MhCSFuI8UprqCwyyygAWJuGw==",
                             PhoneNumber = "0888123456",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "bfb94cc6-d1c4-4315-8f5e-f1d3535f4c01",
@@ -394,17 +398,18 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("ac31b0bb-d05a-438d-be06-9bfe3323cf08"),
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "5e27dcef-27ce-4380-8459-6600c4f9ea42",
+                            ConcurrencyStamp = "70898beb-868d-4d0f-9840-2702692ec96c",
                             Email = "johndoe@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "John",
+                            FirstName = "Джон",
                             Gender = 0,
+                            IsDeleted = false,
                             IsSpecialist = true,
-                            LastName = "Doe",
+                            LastName = "Доу",
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHNDOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPSUYhU0rQ9+b/jGYFDxtv+pPLDJai/icV5VEj8N0+LNFg5fQHsbCXFRh/tC6wnxxQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPgIn8rXgN3w5ACcEfBm4Wr8KsrOBatgOjtcN9K9VbYybDrRT2ss/OzzweeNxTsd7w==",
                             PhoneNumber = "0875757574",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "a6241046-575b-4a3f-a668-c6aa755a232f",
@@ -416,17 +421,18 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("29965aaa-46cf-4829-93b8-e38401be7547"),
                             AccessFailedCount = 0,
                             Age = 38,
-                            ConcurrencyStamp = "5a36f9fe-038e-4a88-bd10-9a5c878f3bb8",
+                            ConcurrencyStamp = "f7960d3d-e123-4a8d-9f3a-b0164d010020",
                             Email = "maria.petrova@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "Maria",
+                            FirstName = "Мария",
                             Gender = 1,
+                            IsDeleted = false,
                             IsSpecialist = true,
-                            LastName = "Petrova",
+                            LastName = "Петрова",
                             LockoutEnabled = false,
                             NormalizedEmail = "MARIA.PETROVA@EXAMPLE.COM",
                             NormalizedUserName = "MARIA.PETROVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAsmPjg+Af/s3+Xo+jT8g6iuO4UR0K9qYFZm5GKjrzC6AJvZKQb6h1Dy4V19QeenRw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHVvexRV9zEeXZn2/NUG5aHdeCbQodn1Glckn/4DVKVmtMqPMITRhI9dqDX0SbzQow==",
                             PhoneNumber = "0899123456",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "68e7add5-6f2f-4792-a2e6-01f596c74a52",
@@ -438,17 +444,18 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("c9f4e7b1-2d33-4a11-8f56-abcdef123456"),
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "8f826604-4ccb-430c-9fc7-e29c7ba43a4e",
+                            ConcurrencyStamp = "dbd427f3-623d-4eba-93e1-1c08a9d113f0",
                             Email = "ivana.koleva@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "Ivana",
+                            FirstName = "Ивана",
                             Gender = 1,
+                            IsDeleted = false,
                             IsSpecialist = true,
-                            LastName = "Koleva",
+                            LastName = "Колева",
                             LockoutEnabled = false,
                             NormalizedEmail = "IVANA.KOLEVA@EXAMPLE.COM",
                             NormalizedUserName = "IVANA.KOLEVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAA7kLSUCL1w73lYZdjlWyipmCDBShYw8vRTabxTO5RPlubad6hqx0g/R7oknHD5Kg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAZ+tF0KvqfLsMAaTDlU3urqTvqow6XGf//OaVbGTZnZphpdgG0VSY4NK7Los6ph9g==",
                             PhoneNumber = "0888234567",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "e0ff1671-f59e-407c-a1bc-b6034b44ac41",
@@ -460,17 +467,19 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900"),
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "6004a43a-0148-4846-b7af-46c029f68043",
+                            ConcurrencyStamp = "1aec1e1c-d752-4ed9-97a3-2337c19d3d18",
                             Email = "nikol.georgieva@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "Nikol",
+                            FirstName = "Никол",
                             Gender = 1,
-                            LastName = "Georgieva",
+                            IsDeleted = false,
+                            IsSpecialist = false,
+                            LastName = "Георгиева",
                             LockoutEnabled = false,
                             MembershipId = 1,
                             NormalizedEmail = "NIKOL.GEORGIEVA@EXAMPLE.COM",
                             NormalizedUserName = "NIKOL.GEORGIEVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAENzeZVCXhRZGLwrUOlBp19WE+axI5tyTuauovKgyvcbKCvtwuh/CIlXNo5Ku+nDWRA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECdjymZGHltvc+ioP7ndf8UHQ10jDxFojmmMTVi4HrhXVxBeirHWi1CUMAwyasNMQQ==",
                             PhoneNumber = "0855123456",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "e9c2550f-30cc-4116-a85c-20265258d5a5",
@@ -482,16 +491,18 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760"),
                             AccessFailedCount = 0,
                             Age = 18,
-                            ConcurrencyStamp = "51ffee21-9ed4-43dc-b03c-187b278e1d06",
+                            ConcurrencyStamp = "d475a375-50f0-4edd-a06d-d30e3e7f0015",
                             Email = "teodora_nedkova@abv.bg",
                             EmailConfirmed = true,
-                            FirstName = "Teodora",
+                            FirstName = "Теодора",
                             Gender = 1,
-                            LastName = "Nedkova",
+                            IsDeleted = false,
+                            IsSpecialist = false,
+                            LastName = "Недкова",
                             LockoutEnabled = false,
                             NormalizedEmail = "TEODORA_NEDKOVA@ABV.BG",
                             NormalizedUserName = "TEODORA.NEDKOVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDpKGbOkOpwCQk8o+VhYLHigpbF1IJfITbV75noQ+WLkOB46jxxma18lP+IuiH7CZQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECDIc3bfAJ4/uXNepLvaG82SzfuknmR4kdOhTV4XouT4vaZzLCQM8ZgdMGHHzyfDuA==",
                             PhoneNumber = "0878654562",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "258513a82f1147ba92a0e43f1602b7c3",
@@ -598,7 +609,7 @@ namespace GlowCare.Entities.Migrations
                             AppointmentDate = new DateTime(2025, 9, 28, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             IsDeleted = false,
-                            Notes = "First-time consultation, requested deep skin analysis.",
+                            Notes = "Първоначална консултация, заявен е задълбочен анализ на кожата.",
                             ServiceId = 5,
                             Status = 1,
                             UserId = new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900")
@@ -609,7 +620,7 @@ namespace GlowCare.Entities.Migrations
                             AppointmentDate = new DateTime(2025, 9, 29, 14, 0, 0, 0, DateTimeKind.Unspecified),
                             EmployeeId = new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"),
                             IsDeleted = false,
-                            Notes = "Follow-up massage therapy session.",
+                            Notes = "Последваща сесия за масажна терапия.",
                             ServiceId = 6,
                             Status = 2,
                             UserId = new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760")
@@ -620,7 +631,7 @@ namespace GlowCare.Entities.Migrations
                             AppointmentDate = new DateTime(2025, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             EmployeeId = new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"),
                             IsDeleted = false,
-                            Notes = "Facial rejuvenation treatment scheduled.",
+                            Notes = "Планирана е процедура за подмладяване на лицето.",
                             ServiceId = 8,
                             Status = 0,
                             UserId = new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760")
@@ -669,8 +680,8 @@ namespace GlowCare.Entities.Migrations
                         new
                         {
                             Id = 1,
-                            Comment = "Excellent service! The procedure was professional and I felt very comfortable.",
-                            CreatedAt = new DateTime(2026, 3, 27, 11, 0, 50, 143, DateTimeKind.Utc).AddTicks(9172),
+                            Comment = "Отлично обслужване! Процедурата беше извършена професионално и се чувствах много комфортно.",
+                            CreatedAt = new DateTime(2026, 4, 17, 6, 22, 15, 255, DateTimeKind.Utc).AddTicks(1042),
                             EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             ProcedureId = 1,
                             Rating = 5,
@@ -897,54 +908,54 @@ namespace GlowCare.Entities.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            Description = "A relaxing facial treatment to cleanse, exfoliate, and nourish the skin, improving overall complexion and hydration.",
+                            Description = "Релаксираща терапия за лице, която почиства, ексфолира и подхранва кожата, като подобрява нейния вид и хидратация.",
                             DurationInMinutes = 60,
                             IsDeleted = false,
-                            Name = "Facial Treatment",
+                            Name = "Терапия за лице",
                             Points = 50,
-                            Price = 50.00m
+                            Price = 50.0m
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 2,
-                            Description = "Effective laser hair removal treatment for full legs, providing smooth, hair-free skin with minimal discomfort.",
+                            Description = "Ефективна лазерна епилация за цели крака, която осигурява гладка кожа без окосмяване с минимален дискомфорт.",
                             DurationInMinutes = 90,
                             IsDeleted = false,
-                            Name = "Laser Hair Removal - Full Legs",
+                            Name = "Лазерна епилация - цели крака",
                             Points = 120,
-                            Price = 120.00m
+                            Price = 120.0m
                         },
                         new
                         {
                             Id = 3,
                             CategoryId = 3,
-                            Description = "A full-body Swedish massage to relax muscles, improve circulation, and reduce stress.",
+                            Description = "Шведски масаж на цяло тяло за отпускане на мускулите, подобряване на кръвообращението и намаляване на стреса.",
                             DurationInMinutes = 60,
                             IsDeleted = false,
-                            Name = "Swedish Massage",
+                            Name = "Шведски масаж",
                             Points = 70,
-                            Price = 70.00m
+                            Price = 70.0m
                         },
                         new
                         {
                             Id = 4,
                             CategoryId = 1,
-                            Description = "A skin-resurfacing procedure that improves texture and tone by removing damaged outer layers of skin.",
+                            Description = "Процедура за обновяване на кожата, която подобрява текстурата и тена чрез премахване на увредените външни слоеве.",
                             DurationInMinutes = 45,
                             IsDeleted = false,
-                            Name = "Chemical Peel",
+                            Name = "Химичен пилинг",
                             Points = 80,
-                            Price = 80.00m
+                            Price = 80.0m
                         },
                         new
                         {
                             Id = 5,
                             CategoryId = 1,
-                            Description = "A minimally invasive exfoliation treatment that refreshes skin tone and reduces fine lines and scars.",
+                            Description = "Минимално инвазивна ексфолираща процедура, която освежава тена и намалява фините линии и белезите.",
                             DurationInMinutes = 40,
                             IsDeleted = false,
-                            Name = "Microdermabrasion",
+                            Name = "Микродермабразио",
                             Points = 70,
                             Price = 70m
                         },
@@ -952,167 +963,204 @@ namespace GlowCare.Entities.Migrations
                         {
                             Id = 6,
                             CategoryId = 4,
-                            Description = "Botulinum toxin injections to reduce the appearance of fine lines and wrinkles by temporarily relaxing facial muscles.",
+                            Description = "Инжекции с ботулинов токсин за намаляване на фините линии и бръчките чрез временно отпускане на лицевите мускули.",
                             DurationInMinutes = 30,
                             IsDeleted = false,
-                            Name = "Botox Injections",
+                            Name = "Ботокс инжекции",
                             Points = 250,
-                            Price = 250.00m
+                            Price = 250.0m
                         },
                         new
                         {
                             Id = 7,
                             CategoryId = 4,
-                            Description = "Injectable fillers to restore volume, smooth lines, and enhance facial contours.",
+                            Description = "Инжекционни филъри за възстановяване на обема, изглаждане на линиите и подчертаване на контурите на лицето.",
                             DurationInMinutes = 45,
                             IsDeleted = false,
-                            Name = "Dermal Fillers",
+                            Name = "Дермални филъри",
                             Points = 300,
-                            Price = 300.00m
+                            Price = 300.0m
                         },
                         new
                         {
                             Id = 8,
                             CategoryId = 2,
-                            Description = "Quick and effective laser treatment for long-lasting hair reduction in the underarm area.",
+                            Description = "Бърза и ефективна лазерна процедура за дълготрайно намаляване на окосмяването в областта на подмишниците.",
                             DurationInMinutes = 20,
                             IsDeleted = false,
-                            Name = "Laser Hair Removal - Underarms",
+                            Name = "Лазерна епилация - подмишници",
                             Points = 60,
-                            Price = 60.00m
+                            Price = 60.0m
                         },
                         new
                         {
                             Id = 9,
                             CategoryId = 2,
-                            Description = "Safe and precise laser hair removal for the bikini area, ensuring smooth and comfortable results.",
+                            Description = "Безопасна и прецизна лазерна епилация за бикини зоната, осигуряваща гладки и комфортни резултати.",
                             DurationInMinutes = 30,
                             IsDeleted = false,
-                            Name = "Laser Hair Removal - Bikini Line",
+                            Name = "Лазерна епилация - бикини зона",
                             Points = 80,
-                            Price = 80.00m
+                            Price = 80.0m
                         },
                         new
                         {
                             Id = 10,
                             CategoryId = 2,
-                            Description = "Laser hair removal treatment for both arms, providing smooth, hair-free skin with minimal discomfort.",
+                            Description = "Лазерна епилация за двете ръце, осигуряваща гладка кожа без окосмяване с минимален дискомфорт.",
                             DurationInMinutes = 60,
                             IsDeleted = false,
-                            Name = "Laser Hair Removal - Full Arms",
+                            Name = "Лазерна епилация - цели ръце",
                             Points = 110,
-                            Price = 110.00m
+                            Price = 110.0m
                         },
                         new
                         {
                             Id = 11,
                             CategoryId = 2,
-                            Description = "Targeted laser treatment for facial hair, including upper lip, chin, and cheeks.",
+                            Description = "Целенасочена лазерна процедура за лицево окосмяване, включително горна устна, брадичка и бузи.",
                             DurationInMinutes = 30,
                             IsDeleted = false,
-                            Name = "Laser Hair Removal - Face",
+                            Name = "Лазерна епилация - лице",
                             Points = 70,
-                            Price = 70.00m
+                            Price = 70.0m
                         },
                         new
                         {
                             Id = 12,
                             CategoryId = 2,
-                            Description = "Comprehensive laser hair removal treatment for the full back area.",
+                            Description = "Комплексна лазерна епилация за цялата зона на гърба.",
                             DurationInMinutes = 90,
                             IsDeleted = false,
-                            Name = "Laser Hair Removal - Back",
+                            Name = "Лазерна епилация - гръб",
                             Points = 150,
-                            Price = 150.00m
+                            Price = 150.0m
                         },
                         new
                         {
                             Id = 13,
                             CategoryId = 2,
-                            Description = "Complete full-body laser hair removal package for smooth, hair-free skin.",
+                            Description = "Пълен пакет за лазерна епилация на цяло тяло за гладка кожа без окосмяване.",
                             DurationInMinutes = 180,
                             IsDeleted = false,
-                            Name = "Laser Hair Removal - Full Body",
+                            Name = "Лазерна епилация - цяло тяло",
                             Points = 450,
-                            Price = 450.00m
+                            Price = 450.0m
                         },
                         new
                         {
                             Id = 14,
                             CategoryId = 5,
-                            Description = "A purifying facial designed to deeply cleanse, exfoliate, and remove impurities from the skin.",
+                            Description = "Почистваща терапия за лице, създадена за дълбоко почистване, ексфолиране и премахване на замърсяванията от кожата.",
                             DurationInMinutes = 60,
                             IsDeleted = false,
-                            Name = "Deep Cleansing Facial",
+                            Name = "Дълбоко почистваща терапия за лице",
                             Points = 65,
-                            Price = 65.00m
+                            Price = 65.0m
                         },
                         new
                         {
                             Id = 15,
                             CategoryId = 5,
-                            Description = "A rejuvenating treatment that targets fine lines and wrinkles, promoting firmer and youthful-looking skin.",
+                            Description = "Подмладяваща процедура, насочена към фините линии и бръчките, която подпомага по-стегнат и младежки вид на кожата.",
                             DurationInMinutes = 75,
                             IsDeleted = false,
-                            Name = "Anti-Aging Facial",
+                            Name = "Анти-ейдж терапия за лице",
                             Points = 120,
-                            Price = 120.00m
+                            Price = 120.0m
                         },
                         new
                         {
                             Id = 16,
                             CategoryId = 5,
-                            Description = "A specialized facial to reduce acne, clear clogged pores, and minimize inflammation with professional-grade products.",
+                            Description = "Специализирана терапия за лице за намаляване на акнето, почистване на запушените пори и ограничаване на възпалението с професионални продукти.",
                             DurationInMinutes = 70,
                             IsDeleted = false,
-                            Name = "Acne Treatment Facial",
+                            Name = "Терапия за лице против акне",
                             Points = 90,
-                            Price = 90.00m
+                            Price = 90.0m
                         },
                         new
                         {
                             Id = 17,
                             CategoryId = 5,
-                            Description = "A moisture-boosting facial designed to restore hydration, plumpness, and radiance to dry or dull skin.",
+                            Description = "Хидратираща терапия за лице, създадена да възстанови влагата, плътността и сиянието на суха или повяхнала кожа.",
                             DurationInMinutes = 50,
                             IsDeleted = false,
-                            Name = "Hydrating Facial",
+                            Name = "Хидратираща терапия за лице",
                             Points = 75,
-                            Price = 75.00m
+                            Price = 75.0m
                         },
                         new
                         {
                             Id = 18,
                             CategoryId = 5,
-                            Description = "A skin-brightening treatment that reduces pigmentation, evens skin tone, and restores natural glow.",
+                            Description = "Изсветляваща процедура, която намалява пигментацията, изравнява тена и възстановява естествения блясък на кожата.",
                             DurationInMinutes = 60,
                             IsDeleted = false,
-                            Name = "Brightening Facial",
+                            Name = "Изсветляваща терапия за лице",
                             Points = 95,
-                            Price = 95.00m
+                            Price = 95.0m
                         },
                         new
                         {
                             Id = 19,
                             CategoryId = 5,
-                            Description = "A treatment that boosts collagen production to improve elasticity and smoothness of the skin.",
+                            Description = "Процедура, която стимулира производството на колаген за подобряване на еластичността и гладкостта на кожата.",
                             DurationInMinutes = 70,
                             IsDeleted = false,
-                            Name = "Collagen Facial",
+                            Name = "Колагенова терапия за лице",
                             Points = 140,
-                            Price = 140.00m
+                            Price = 140.0m
                         },
                         new
                         {
                             Id = 20,
                             CategoryId = 3,
-                            Description = "A relaxing massage using essential oils to reduce stress, improve mood, and promote overall well-being.",
+                            Description = "Релаксиращ масаж с етерични масла за намаляване на стреса, подобряване на настроението и насърчаване на общото благосъстояние.",
                             DurationInMinutes = 60,
                             IsDeleted = false,
-                            Name = "Aromatherapy Massage",
+                            Name = "Ароматерапевтичен масаж",
                             Points = 85,
-                            Price = 85.00m
+                            Price = 85.0m
                         });
+                });
+
+            modelBuilder.Entity("GlowCare.Entities.Models.SpecialistApplication", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Biography")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ExperienceYears")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Occupation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RejectionReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SpecialistApplication");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -1156,6 +1204,13 @@ namespace GlowCare.Entities.Migrations
                             ConcurrencyStamp = "b2222222-2222-2222-2222-222222222222",
                             Name = "User",
                             NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = new Guid("a3f06ed0-4bca-4e98-8bef-4cd91e64e2a1"),
+                            ConcurrencyStamp = "c3333333-3333-3333-3333-333333333333",
+                            Name = "Specialist",
+                            NormalizedName = "SPECIALIST"
                         });
                 });
 
@@ -1287,13 +1342,13 @@ namespace GlowCare.Entities.Migrations
             modelBuilder.Entity("GlowCare.Entities.Models.EmployeeService", b =>
                 {
                     b.HasOne("GlowCare.Entities.Models.Employee", "Employee")
-                        .WithMany()
+                        .WithMany("EmployeeServices")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("GlowCare.Entities.Models.Service", "Service")
-                        .WithMany()
+                        .WithMany("EmployeeServices")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1387,6 +1442,17 @@ namespace GlowCare.Entities.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("GlowCare.Entities.Models.SpecialistApplication", b =>
+                {
+                    b.HasOne("GlowCare.Entities.Models.GlowUser", "User")
+                        .WithMany("SpecialistApplications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
@@ -1447,6 +1513,8 @@ namespace GlowCare.Entities.Migrations
                 {
                     b.Navigation("Certificates");
 
+                    b.Navigation("EmployeeServices");
+
                     b.Navigation("Procedures");
 
                     b.Navigation("Reviews");
@@ -1459,6 +1527,8 @@ namespace GlowCare.Entities.Migrations
                     b.Navigation("Procedures");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("SpecialistApplications");
                 });
 
             modelBuilder.Entity("GlowCare.Entities.Models.Membership", b =>
@@ -1473,6 +1543,8 @@ namespace GlowCare.Entities.Migrations
 
             modelBuilder.Entity("GlowCare.Entities.Models.Service", b =>
                 {
+                    b.Navigation("EmployeeServices");
+
                     b.Navigation("Procedures");
                 });
 #pragma warning restore 612, 618

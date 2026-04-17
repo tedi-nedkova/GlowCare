@@ -1,0 +1,329 @@
+﻿@model GlowCare.ViewModels.Employees.EmployeeInfoViewModel
+
+@{
+    ViewData["Title"] = "Профил на специалист";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string[] nameParts = Model.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+    string initials = string.Concat(nameParts.Select(part => part[0])).ToUpper();
+}
+
+<style>
+    .specialist-details-page {
+        padding: 56px 0 84px;
+        background: radial-gradient(circle at top right, rgba(69, 187, 145, 0.12), transparent 24%), linear-gradient(180deg, #f8fcfa 0%, #f5fbf8 100%);
+        min-height: 100vh;
+    }
+
+    .specialist-details-grid {
+        display: grid;
+        grid-template-columns: 360px minmax(0, 1fr);
+        gap: 28px;
+        align-items: start;
+    }
+
+    .specialist-side-card,
+    .specialist-main-card {
+        background: #fff;
+        border-radius: 24px;
+        border: 1px solid rgba(69, 187, 145, 0.14);
+        box-shadow: 0 18px 42px rgba(20, 33, 40, 0.06);
+    }
+
+    .specialist-side-card {
+        padding: 30px 26px;
+        position: sticky;
+        top: 24px;
+    }
+
+    .specialist-main-card {
+        padding: 32px;
+    }
+
+    .specialist-avatar-large {
+        width: 92px;
+        height: 92px;
+        margin: 0 auto 18px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #45bb91 0%, #78d1b4 100%);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        font-weight: 700;
+        box-shadow: 0 16px 28px rgba(69, 187, 145, 0.24);
+    }
+
+    .specialist-side-name {
+        margin: 0 0 8px;
+        text-align: center;
+        color: #1d2b36;
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .specialist-side-role {
+        margin: 0 0 20px;
+        text-align: center;
+        color: #45bb91;
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    .specialist-contact-list {
+        display: grid;
+        gap: 12px;
+        margin: 0 0 24px;
+    }
+
+    .specialist-contact-item {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: #f5fbf8;
+        color: #5f6c77;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+        .specialist-contact-item i {
+            color: #45bb91;
+            font-size: 16px;
+            margin-top: 4px;
+        }
+
+    .specialist-side-actions {
+        display: grid;
+        gap: 12px;
+    }
+
+    .specialist-primary-btn,
+    .specialist-secondary-btn {
+        min-height: 48px;
+        border-radius: 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none !important;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+        transition: all 0.2s ease;
+    }
+
+    .specialist-primary-btn {
+        background: #141621;
+        color: #fff !important;
+        box-shadow: 0 10px 20px rgba(20, 33, 40, 0.1);
+    }
+
+        .specialist-primary-btn:hover {
+            background: #45bb91;
+            transform: translateY(-1px);
+        }
+
+    .specialist-secondary-btn {
+        background: #fff;
+        border: 1px solid rgba(69, 187, 145, 0.25);
+        color: #1d2b36 !important;
+    }
+
+        .specialist-secondary-btn:hover {
+            border-color: #45bb91;
+            color: #45bb91 !important;
+        }
+
+    .specialist-section + .specialist-section {
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px solid #edf4f1;
+    }
+
+    .specialist-section-title {
+        margin: 0 0 14px;
+        color: #1d2b36;
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .specialist-section-text {
+        margin: 0;
+        color: #6f7c88;
+        font-size: 15px;
+        line-height: 1.9;
+    }
+
+    .specialist-services-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .specialist-service-chip {
+        padding: 10px 14px;
+        border-radius: 5px;
+        background: rgba(69, 187, 145, 0.10);
+        color: #2f8f73;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    @@media (max-width: 991px) {
+        .specialist-details-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .specialist-side-card {
+            position: static;
+        }
+    }
+
+    @@media (max-width: 575px) {
+        .specialist-details-page {
+            padding: 38px 0 64px;
+        }
+
+        .specialist-main-card,
+        .specialist-side-card {
+            padding: 24px 20px;
+        }
+
+        .specialist-side-name {
+            font-size: 24px;
+        }
+    }
+
+    .specialist-working-hours-list {
+        display: grid;
+        gap: 12px;
+    }
+
+    .specialist-working-hour-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 16px;
+        background: #f5fbf8;
+        border: 1px solid rgba(69, 187, 145, 0.12);
+    }
+
+    .specialist-working-day {
+        color: #1d2b36;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .specialist-working-time {
+        color: #45bb91;
+        font-size: 14px;
+        font-weight: 700;
+    }
+</style>
+
+<div class="specialist-details-page">
+    <div class="container">
+        <div class="specialist-details-grid">
+            <aside class="specialist-side-card">
+                <div class="specialist-avatar-large">@initials</div>
+                <h1 class="specialist-side-name">@Model.FullName</h1>
+                <p class="specialist-side-role">@Model.Occupation</p>
+
+                <div class="specialist-contact-list">
+                    <div class="specialist-contact-item">
+                        <i class="fa fa-briefcase"></i>
+                        <div>
+                            <strong>Опит</strong><br />
+                            @Model.ExperienceYears години професионален опит
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Email))
+                    {
+                        <div class="specialist-contact-item">
+                            <i class="fa fa-envelope"></i>
+                            <div>
+                                <strong>Имейл</strong><br />
+                                @Model.Email
+                            </div>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.PhoneNumber))
+                    {
+                        <div class="specialist-contact-item">
+                            <i class="fa fa-phone"></i>
+                            <div>
+                                <strong>Телефон</strong><br />
+                                @Model.PhoneNumber
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="specialist-side-actions">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" asp-fragment="top" class="specialist-primary-btn">
+                        Запази час
+                    </a>
+                    <a asp-area="" asp-controller="Employee" asp-action="Index" class="specialist-secondary-btn">
+                        Назад към специалистите
+                    </a>
+                </div>
+            </aside>
+
+            <section class="specialist-main-card">
+                <div class="specialist-section">
+                    <h2 class="specialist-section-title">За специалиста</h2>
+                    <p class="specialist-section-text">
+                        @(string.IsNullOrWhiteSpace(Model.Biography)
+                                                ? "Информация за този специалист ще бъде добавена скоро."
+                                                : Model.Biography)
+                    </p>
+                </div>
+
+                <div class="specialist-section">
+                    <h2 class="specialist-section-title">Услуги и компетенции</h2>
+
+                    @if (Model.Services.Any())
+                    {
+                        <div class="specialist-services-list">
+                            @foreach (var service in Model.Services)
+                            {
+                                <span class="specialist-service-chip">@service</span>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="specialist-section-text">Все още няма добавени услуги към този профил.</p>
+                    }
+                </div>
+
+                <div class="specialist-section">
+                    <h2 class="specialist-section-title">Работно време</h2>
+
+                    @if (Model.WorkingHours.Any())
+                    {
+                        <div class="specialist-working-hours-list">
+                            @foreach (var slot in Model.WorkingHours)
+                            {
+                                <div class="specialist-working-hour-row">
+                                    <span class="specialist-working-day">@slot.DayOfWeek</span>
+                                    <span class="specialist-working-time">@slot.StartTime - @slot.EndTime</span>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="specialist-section-text">Все още няма добавено работно време за този специалист.</p>
+                    }
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

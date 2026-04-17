@@ -3588,9 +3588,10 @@ tbody.collapse.show {
         justify-content: space-between
     }
 
-.img-logo-card{
-    width: 70px;
-    height: 70px;
+.img-logo-card {
+    width: 180px;
+    height: 80px;
+    padding-left: 10px;
 }
 
 .navbar-brand {
@@ -3697,7 +3698,6 @@ tbody.collapse.show {
             .navbar-expand-sm .navbar-nav .nav-link {
                 padding-right: .5rem;
                 padding-left: .5rem;
-               
             }
 
         .navbar-expand-sm > .container, .navbar-expand-sm > .container-fluid {
@@ -4035,7 +4035,6 @@ tbody.collapse.show {
     color: inherit;
     padding: 0.5rem 1rem;
     display: block;
-    width: 100%;
     text-align: left;
 }
 
@@ -4045,13 +4044,13 @@ tbody.collapse.show {
         text-decoration: none;
     }
 
-    .navbar-dark .navbar-text a {
+.navbar-dark .navbar-text a {
+    color: #fff
+}
+
+    .navbar-dark .navbar-text a:focus, .navbar-dark .navbar-text a:hover {
         color: #fff
     }
-
-        .navbar-dark .navbar-text a:focus, .navbar-dark .navbar-text a:hover {
-            color: #fff
-        }
 
 .card {
     position: relative;

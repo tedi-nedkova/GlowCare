@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "Id": "8c384109-e13f-4556-a810-ab9ba28161a2",
     "Name": "Admin",
@@ -10,5 +10,11 @@
     "Name": "User",
     "NormalizedName": "USER",
     "ConcurrencyStamp": "b2222222-2222-2222-2222-222222222222"
+  },
+  {
+    "Id": "a3f06ed0-4bca-4e98-8bef-4cd91e64e2a1",
+    "Name": "Specialist",
+    "NormalizedName": "SPECIALIST",
+    "ConcurrencyStamp": "c3333333-3333-3333-3333-333333333333"
   }
 ]

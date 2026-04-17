@@ -26,5 +26,7 @@ public class Schedule
     public Guid EmployeeId { get; set; }
     [ForeignKey(nameof(EmployeeId))]
     public Employee? Employee { get; set; }
+
+
 }
 

@@ -1,0 +1,47 @@
+﻿@model GlowCare.ViewModels.SpecialistRequest.ApplySpecialistViewModel
+
+@{
+    ViewData["Title"] = "Apply as Specialist";
+}
+
+<h2>Apply as Specialist</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<form asp-action="Apply" method="post">
+    <div class="mb-3">
+        <label asp-for="Occupation" class="form-label"></label>
+        <input asp-for="Occupation" class="form-control" />
+        <span asp-validation-for="Occupation" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ExperienceYears" class="form-label"></label>
+        <input asp-for="ExperienceYears" class="form-control" />
+        <span asp-validation-for="ExperienceYears" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Biography" class="form-label"></label>
+        <textarea asp-for="Biography" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Biography" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit Application</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

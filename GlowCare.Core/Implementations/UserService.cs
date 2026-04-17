@@ -1,26 +1,30 @@
 ﻿using GlowCare.Core.Contracts;
-using GlowCare.Entities;
+using GlowCare.Entities.Contracts.Interfaces;
 using GlowCare.Entities.Models;
+using GlowCare.Entities.Models.Enums;
 using GlowCare.ViewModels.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GlowCare.Core.Implementations;
+
 public class UserService(
     RoleManager<IdentityRole<Guid>> _roleManager,
-    UserManager<GlowUser> _userManager)
+    UserManager<GlowUser> _userManager,
+    IRepository<Employee, Guid> employeeRepository,
+    IRepository<SpecialistApplication, int> specialistApplicationRepository)
     : IUserService
 {
     public async Task<bool> AssignUserToRoleAsync(Guid userId, string roleName)
     {
         GlowUser? user = await _userManager.FindByIdAsync(userId.ToString());
 
-        if (user == null || !(await _roleManager.RoleExistsAsync(roleName)))
+        if (user == null || user.IsDeleted || !(await _roleManager.RoleExistsAsync(roleName)))
+        {
+            return false;
+        }
+
+        if (roleName == "Specialist")
         {
             return false;
         }
@@ -42,17 +46,43 @@ public class UserService(
     {
         GlowUser? user = await _userManager.FindByIdAsync(userId.ToString());
 
-        if (user == null)
+        if (user == null || user.IsDeleted)
         {
             return false;
         }
 
-        IdentityResult? result = await _userManager.DeleteAsync(user);
+        user.IsDeleted = true;
+        user.LockoutEnabled = true;
+        user.LockoutEnd = DateTimeOffset.MaxValue;
+
+        Employee? employee = await employeeRepository
+            .GetAllAttached()
+            .FirstOrDefaultAsync(e => e.UserId == userId);
+
+        if (employee != null)
+        {
+            employee.IsDeleted = true;
+
+            bool employeeUpdated = await employeeRepository.UpdateAsync(employee);
+            if (!employeeUpdated)
+            {
+                return false;
+            }
+        }
+
+        IdentityResult result = await _userManager.UpdateAsync(user);
 
         if (!result.Succeeded)
         {
+            foreach (IdentityError error in result.Errors)
+            {
+                Console.WriteLine($"{error.Code}: {error.Description}");
+            }
+
             return false;
         }
+
+        await _userManager.UpdateSecurityStampAsync(user);
 
         return true;
     }
@@ -60,21 +90,24 @@ public class UserService(
     public async Task<IEnumerable<AllUsersViewModel>> GetAllUsersAsync(int pageNumber = 1, int pageSize = 5)
     {
         var users = await _userManager.Users
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .AsNoTracking()
-                .ToListAsync();
+            .Where(u => !u.IsDeleted)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
 
         var userViewModels = new List<AllUsersViewModel>();
 
         foreach (var user in users)
         {
+            var roles = await _userManager.GetRolesAsync(user);
+
             userViewModels.Add(new AllUsersViewModel()
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Email = user.Email!
+                Email = user.Email!,
+                Roles = roles.ToList()
             });
         }
 
@@ -83,7 +116,10 @@ public class UserService(
 
     public async Task<int> GetTotalPagesAsync(int pageSize = 5)
     {
-        var totalUsers = await _userManager.Users.CountAsync();
+        var totalUsers = await _userManager.Users
+            .Where(u => !u.IsDeleted)
+            .CountAsync();
+
         return (int)Math.Ceiling(totalUsers / (double)pageSize);
     }
 
@@ -91,20 +127,51 @@ public class UserService(
     {
         GlowUser? user = await _userManager.FindByIdAsync(userId.ToString());
 
-        if (user == null || !(await _roleManager.RoleExistsAsync(roleName)))
+        if (user == null || user.IsDeleted || !(await _roleManager.RoleExistsAsync(roleName)))
         {
             return false;
         }
 
         bool alreadyInRole = await _userManager.IsInRoleAsync(user, roleName);
 
-        if (alreadyInRole)
+        if (!alreadyInRole)
         {
-            IdentityResult? result = await _userManager.RemoveFromRoleAsync(user, roleName);
+            return true;
+        }
 
-            if (!result.Succeeded)
+        IdentityResult result = await _userManager.RemoveFromRoleAsync(user, roleName);
+
+        if (!result.Succeeded)
+        {
+            return false;
+        }
+
+        if (roleName == "Specialist")
+        {
+            user.IsSpecialist = false;
+
+            IdentityResult userUpdateResult = await _userManager.UpdateAsync(user);
+            if (!userUpdateResult.Succeeded)
             {
                 return false;
+            }
+
+            SpecialistApplication? latestAcceptedApplication = await specialistApplicationRepository
+                .GetAllAttached()
+                .Where(a => a.UserId == userId && a.Status == RequestStatus.Accepted)
+                .OrderByDescending(a => a.CreatedOn)
+                .FirstOrDefaultAsync();
+
+            if (latestAcceptedApplication != null)
+            {
+                latestAcceptedApplication.Status = RequestStatus.Revoked;
+                latestAcceptedApplication.RejectionReason = null;
+
+                bool applicationUpdated = await specialistApplicationRepository.UpdateAsync(latestAcceptedApplication);
+                if (!applicationUpdated)
+                {
+                    return false;
+                }
             }
         }
 
@@ -115,6 +182,6 @@ public class UserService(
     {
         GlowUser? user = await _userManager.FindByIdAsync(userId.ToString());
 
-        return user != null;
+        return user != null && !user.IsDeleted;
     }
 }

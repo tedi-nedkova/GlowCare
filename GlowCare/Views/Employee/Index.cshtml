@@ -1,0 +1,484 @@
+﻿@model GlowCare.ViewModels.Employees.EmployeeIndexViewModel
+
+@{
+    ViewData["Title"] = "Специалисти";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    bool hasEmployees = Model?.Employees?.Any() == true;
+    bool hasFilters = !string.IsNullOrWhiteSpace(Model?.SearchTerm) || !string.IsNullOrWhiteSpace(Model?.SelectedService);
+}
+
+<style>
+    .specialists-page {
+        padding: 56px 32px 80px;
+        background: radial-gradient(circle at top left, rgba(69, 187, 145, 0.08), transparent 22%), linear-gradient(180deg, #f8fcfa 0%, #f5fbf8 100%);
+        min-height: 100vh;
+        font-family: 'Open Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .specialists-hero {
+        max-width: 700px;
+        margin: 0 auto 40px;
+        text-align: center;
+    }
+
+        .specialists-hero::before {
+            content: "";
+            display: block;
+            width: 58px;
+            height: 2px;
+            margin: 0 auto 24px;
+            background: linear-gradient(90deg, rgba(69, 187, 145, 0.20), #45bb91, rgba(69, 187, 145, 0.20));
+            border-radius: 999px;
+        }
+
+    .specialists-title {
+        margin: 0 0 14px;
+        font-size: clamp(34px, 5vw, 50px);
+        line-height: 1.08;
+        letter-spacing: -1px;
+        font-weight: 300;
+        color: #1d2b36;
+    }
+
+        .specialists-title span {
+            font-weight: 700;
+            color: #45bb91;
+        }
+
+    .specialists-filters {
+        max-width: 980px;
+        margin: 0 auto 20px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) auto auto;
+        gap: 14px;
+        align-items: center;
+    }
+
+    .specialists-input,
+    .specialists-select {
+        width: 100%;
+        height: 48px;
+        border: 1px solid rgba(69, 187, 145, 0.18);
+        border-radius: 14px;
+        background: #fff;
+        padding: 0 16px;
+        font-size: 14px;
+        color: #1d2b36;
+        outline: none;
+        box-shadow: 0 8px 20px rgba(20, 33, 40, 0.04);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .specialists-input:focus,
+        .specialists-select:focus {
+            border-color: #45bb91;
+            box-shadow: 0 10px 24px rgba(69, 160, 145, 0.10);
+        }
+
+    .specialists-filter-btn,
+    .specialists-clear-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 120px;
+        height: 48px;
+        padding: 0 18px;
+        border-radius: 14px;
+        text-decoration: none !important;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .specialists-filter-btn {
+        border: none;
+        background: #141621;
+        color: #fff;
+        box-shadow: 0 10px 20px rgba(20, 33, 40, 0.08);
+    }
+
+        .specialists-filter-btn:hover {
+            background: #45bb91;
+            transform: translateY(-1px);
+        }
+
+    .specialists-clear-btn {
+        background: #fff;
+        color: #1d2b36 !important;
+        border: 1px solid rgba(69, 187, 145, 0.20);
+    }
+
+        .specialists-clear-btn:hover {
+            color: #45bb91 !important;
+            border-color: #45bb91;
+            transform: translateY(-1px);
+        }
+
+    .specialists-results {
+        max-width: 980px;
+        margin: 0 auto 30px;
+        color: #6f7c88;
+        font-size: 14px;
+    }
+
+        .specialists-results strong {
+            color: #1d2b36;
+        }
+
+    .specialists-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+    }
+
+    .specialist-card {
+        background: #fff;
+        border: 1px solid rgba(69, 187, 145, 0.14);
+        padding: 28px;
+        box-shadow: 0 18px 42px rgba(20, 33, 40, 0.06);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+        .specialist-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(69, 187, 145, 0.3);
+            box-shadow: 0 22px 50px rgba(20, 33, 40, 0.1);
+        }
+
+    .specialist-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 18px;
+    }
+
+    .specialist-avatar {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #45bb91 0%, #78d1b4 100%);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: 700;
+        flex-shrink: 0;
+        box-shadow: 0 12px 24px rgba(69, 187, 145, 0.24);
+    }
+
+    .specialist-name {
+        margin: 0 0 6px;
+        font-size: 26px;
+        font-weight: 700;
+        color: #1d2b36;
+        line-height: 1.2;
+    }
+
+    .specialist-role {
+        margin: 0 0 8px;
+        color: #45bb91;
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    .specialist-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .specialist-meta-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: #f5fbf8;
+        color: #5f6c77;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .specialist-bio {
+        color: #6f7c88;
+        font-size: 14px;
+        line-height: 1.8;
+        margin: 0;
+        min-height: 100px;
+    }
+
+    .specialist-section-title {
+        margin: 0 0 12px;
+        color: #1d2b36;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .specialist-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .specialist-tag {
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(69, 187, 145, 0.10);
+        color: #2f8f73;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .specialist-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: auto;
+        padding-top: 6px;
+    }
+
+    .specialist-btn,
+    .specialist-btn-outline {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 0 18px;
+        border-radius: 14px;
+        text-decoration: none !important;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+        transition: all 0.2s ease;
+    }
+
+    .specialist-btn {
+        background: #141621;
+        color: #fff !important;
+        box-shadow: 0 10px 20px rgba(20, 33, 40, 0.1);
+    }
+
+        .specialist-btn:hover {
+            background: #45bb91;
+            transform: translateY(-1px);
+        }
+
+    .specialist-btn-outline {
+        border: 1px solid rgba(69, 187, 145, 0.25);
+        color: #1d2b36 !important;
+        background: #fff;
+    }
+
+        .specialist-btn-outline:hover {
+            border-color: #45bb91;
+            color: #45bb91 !important;
+            transform: translateY(-1px);
+        }
+
+    .specialists-empty {
+        max-width: 560px;
+        margin: 30px auto 0;
+        background: #fff;
+        border-radius: 24px;
+        padding: 34px 28px;
+        text-align: center;
+        box-shadow: 0 18px 42px rgba(20, 33, 40, 0.06);
+        border: 1px solid rgba(69, 187, 145, 0.14);
+    }
+
+        .specialists-empty p {
+            margin: 0;
+            color: #6f7c88;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+    @@media (max-width: 991px) {
+        .specialists-filters {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .specialists-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 767px) {
+        .specialists-page {
+            padding: 42px 18px 64px;
+        }
+    }
+
+    @@media (max-width: 575px) {
+        .specialists-filters {
+            grid-template-columns: 1fr;
+        }
+
+        .specialists-filter-btn,
+        .specialists-clear-btn {
+            width: 100%;
+        }
+
+        .specialist-card {
+            padding: 22px;
+        }
+
+        .specialist-header {
+            flex-direction: column;
+        }
+
+        .specialist-name {
+            font-size: 24px;
+        }
+
+        .specialist-actions {
+            flex-direction: column;
+        }
+
+        .specialist-btn,
+        .specialist-btn-outline {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="specialists-page">
+    <div class="container">
+        <header class="specialists-hero">
+            <h1 class="specialists-title">
+                Нашите <span>специалисти</span>
+            </h1>
+        </header>
+
+        <form method="get" asp-area="" asp-controller="Employee" asp-action="Index" class="specialists-filters">
+            <input type="text"
+                   name="searchTerm"
+                   value="@Model?.SearchTerm"
+                   class="specialists-input"
+                   placeholder="Търси по име..." />
+
+            <select name="selectedService" class="specialists-select">
+                <option value="">Всички услуги</option>
+
+                @if (Model?.AvailableServices != null)
+                {
+                    @foreach (var service in Model.AvailableServices)
+                    {
+                        if (string.Equals(Model.SelectedService, service, StringComparison.OrdinalIgnoreCase))
+                        {
+                            <option value="@service" selected>@service</option>
+                        }
+                        else
+                        {
+                            <option value="@service">@service</option>
+                        }
+                    }
+                }
+            </select>
+
+            <button type="submit" class="specialists-filter-btn">
+                Търси
+            </button>
+
+            <a asp-area="" asp-controller="Employee" asp-action="Index" class="specialists-clear-btn">
+                Изчисти
+            </a>
+        </form>
+
+        @if (hasEmployees)
+        {
+            <div class="specialists-grid">
+                @foreach (var specialist in Model.Employees)
+                {
+                    string[] nameParts = (specialist.FullName ?? string.Empty)
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                    string initials = nameParts.Any()
+                    ? string.Concat(nameParts.Select(part => part[0])).ToUpper()
+                    : "?";
+
+                    string shortBiography = string.IsNullOrWhiteSpace(specialist.Biography)
+                    ? "Специалист с индивидуален подход и внимание към всеки клиент."
+                    : specialist.Biography.Length > 220
+                    ? specialist.Biography.Substring(0, 220) + "..."
+                    : specialist.Biography;
+
+                    <article class="specialist-card">
+                        <div class="specialist-header">
+                            <div class="specialist-avatar">@initials</div>
+
+                            <div>
+                                <h2 class="specialist-name">@specialist.FullName</h2>
+                                <p class="specialist-role">@specialist.Occupation</p>
+
+                                <div class="specialist-meta">
+                                    <span class="specialist-meta-item">
+                                        <i class="fa fa-briefcase"></i>
+                                        @specialist.ExperienceYears години опит
+                                    </span>
+
+                                    @if (!string.IsNullOrWhiteSpace(specialist.Email))
+                                    {
+                                        <span class="specialist-meta-item">
+                                            <i class="fa fa-envelope"></i>
+                                            @specialist.Email
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="specialist-bio">@shortBiography</p>
+
+                        <div>
+                            <h3 class="specialist-section-title">Предлагани услуги</h3>
+
+                            @if (specialist.Services?.Any() == true)
+                            {
+                                <div class="specialist-tags">
+                                    @foreach (var service in specialist.Services.Take(4))
+                                    {
+                                        <span class="specialist-tag">@service</span>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <p class="specialist-bio">Информацията за услугите ще бъде добавена скоро.</p>
+                            }
+                        </div>
+
+                        <div class="specialist-actions">
+                            <a asp-area="" asp-controller="Employee" asp-action="Details" asp-route-id="@specialist.Id" class="specialist-btn-outline">
+                                Виж профил
+                            </a>
+
+                            <a asp-area="" asp-controller="Home" asp-action="Index" asp-fragment="top" class="specialist-btn">
+                                Запази час
+                            </a>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="specialists-empty">
+                @if (hasFilters)
+                {
+                    <p>Няма намерени специалисти по зададените критерии.</p>
+                }
+                else
+                {
+                    <p>В момента няма активни специалисти. Моля, проверете отново по-късно.</p>
+                }
+            </div>
+        }
+    </div>
+</div>

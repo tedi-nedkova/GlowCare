@@ -11,12 +11,16 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/GlowCare.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="~/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/slick/slick.css">
     <link rel="stylesheet" href="~/slick/slick-theme.css">
     <link rel="stylesheet" href="~/css/procedureForm.css">
+    <link rel="stylesheet" href="~/css/servicesInfoCards.css">
     <link rel="stylesheet" href="~/css/auth.css">
     <link rel="stylesheet" href="~/css/datepicker.css">
     <link rel="stylesheet" href="~/css/tooplate-style.css">
@@ -24,9 +28,8 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand mr-auto" asp-controller="Home" asp-action="Index">
-                <img class="img-logo-card" src="~/img/logo-removebg-preview.png" alt="Site logo">
-                GlowCare
+            <a class="navbar-brand mr-auto" asp-area="" asp-controller="Home" asp-action="Index">
+                <img class="img-logo-card" src="~/img/long-logo-bold.png" alt="Site logo">
             </a>
 
             <button type="button" id="nav-toggle" class="navbar-toggler collapsed"
@@ -38,21 +41,49 @@
             <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
                 <ul class="navbar-nav ml-auto align-items-lg-center">
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Procedure" asp-action="MyProcedures">Procedures</a>
+                        <a class="nav-link" asp-area="" asp-controller="Service" asp-action="Index">Процедури</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="Index">Специалисти</a>
                     </li>
 
                     @if (User?.Identity?.IsAuthenticated ?? false)
                     {
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   asp-area="Admin"
+                                   asp-controller="AdminPanel"
+                                   asp-action="Index">
+                                    Админ панел
+                                </a>
+                            </li>
+                        }
+
+                        @if (!User.IsInRole("Admin") && !User.IsInRole("Specialist"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   asp-area=""
+                                   asp-controller="Employee"
+                                   asp-action="Apply">
+                                    Заявка за специалист
+                                </a>
+                            </li>
+                        }
+
                         var applicationUser = await userManager.GetUserAsync(User);
                         string fullName = $"{applicationUser.FirstName} {applicationUser.LastName}";
 
                         <li class="nav-item">
                             <a class="nav-link" asp-area="Identity" asp-page="/Account/Profile">
-                                Hello, @fullName!
+                                Здравейте, @fullName!
                             </a>
                         </li>
 
@@ -63,7 +94,7 @@
                                   asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"
                                   class="m-0">
                                 <button type="submit" class="nav-link logout-link">
-                                    Log Out
+                                    ИЗЛЕЗ ОТ ПРОФИЛ
                                 </button>
                             </form>
                         </li>
@@ -71,10 +102,10 @@
                     else
                     {
                         <li class="nav-item">
-                            <a asp-area="Identity" asp-page="/Account/Login" class="nav-link">Log In</a>
+                            <a asp-area="Identity" asp-page="/Account/Login" class="nav-link">Влез в профил</a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="Identity" asp-page="/Account/Register" class="nav-link">Register</a>
+                            <a asp-area="Identity" asp-page="/Account/Register" class="nav-link">Регистрация</a>
                         </li>
                     }
                 </ul>
@@ -91,7 +122,9 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-4 text-center text-md-left mb-3 mb-md-0">
-                    <h4 class="glowcare-footer-title">GlowCare</h4>
+                    <a class="navbar-brand mr-auto" asp-area="" asp-controller="Home" asp-action="Index">
+                        <img class="img-logo-card" src="~/img/long-logo-bold.png" alt="Site logo">
+                    </a>
                 </div>
 
                 <div class="col-md-4 text-center mb-3 mb-md-0">
@@ -101,8 +134,8 @@
                 </div>
 
                 <div class="col-md-4 text-center text-md-right">
-                    <a asp-controller="Home" asp-action="Index" class="glowcare-footer-link">Начало</a>
-                    <a asp-controller="Procedure" asp-action="MyProcedures" class="glowcare-footer-link">Процедури</a>
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="glowcare-footer-link">Начало</a>
+                    <a asp-area="" asp-controller="Employee" asp-action="Index" class="glowcare-footer-link">Специалисти</a>
                     <a href="#tm-section-6" class="glowcare-footer-link">Контакти</a>
                 </div>
             </div>

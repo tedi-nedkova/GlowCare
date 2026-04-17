@@ -1,5 +1,6 @@
 ﻿using GlowCare.Entities.Models;
 using GlowCare.ViewModels.Procedures;
+using GlowCare.ViewModels.Shared;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GlowCare.Core.Contracts;
@@ -7,7 +8,7 @@ namespace GlowCare.Core.Contracts;
 public interface IProcedureService
 {
     Task CreateProcedureAsync(
-        AddProcedureViewModel model,
+        IndexViewModel model,
         Guid userId);
 
     Task DeleteProcedureAsync(

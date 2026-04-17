@@ -1,5 +1,5 @@
-﻿@using GlowCare.ViewModels.Procedures
-@model AddProcedureViewModel
+﻿@using GlowCare.ViewModels.Shared
+@model IndexViewModel
 
 @{
     ViewData["Title"] = "Home";
@@ -25,6 +25,7 @@
                                 @TempData["BookingError"]
                             </div>
                         }
+
                         <form id="procedureForm" asp-action="Add" asp-controller="Procedure" method="post" class="tm-search-form tm-section-pad-2 booking-form">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -88,8 +89,6 @@
 
                         <div id="availabilityModal" style="display:none;"></div>
                     </div>
-
-                    <div id="availabilityModal" style="display:none;"></div>
                 </div>
             </div>
         </div>
@@ -100,8 +99,8 @@
     <div class="container">
         <div class="row">
             <div class="col text-center">
-                <h2 class="tm-section-title">Ние сме тук, за да се погрижим за вашата кожа</h2>
-                <p class="tm-color-white tm-section-subtitle">Абонирайте се, за да получавате полезни съвети, новини и специални предложения от GlowCare</p>
+                <h2 class="tm-section-title">Добре дошли в GlowCare!</h2>
+                <p class="tm-color-white tm-section-subtitle">Ние сме тук, за да се погрижим за здравето и красотата Ви</p>
                 <a href="#tm-section-6" class="tm-color-white tm-btn-white-bordered">Свържете се с нас</a>
             </div>
         </div>
@@ -136,156 +135,57 @@
     </div>
 </div>
 
-<div class="tm-section tm-section-pad tm-bg-gray" id="tm-section-4">
+
+<div class="tm-section tm-section-pad services-section" id="tm-section-4">
     <div class="container">
-        <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
-                <div class="tm-article-carousel">
-                    <article class="tm-bg-white mr-2 tm-carousel-item">
-                        <img src="img/img-01.jpg" alt="Почистване на лице" class="img-fluid">
-                        <div class="tm-article-pad">
-                            <header><h3 class="text-uppercase tm-article-title-2">Почистване на лице</h3></header>
-                            <p>Професионално почистване за по-свежа, чиста и здрава кожа. Подходящо за редовна поддръжка и премахване на замърсявания.</p>
-                            <a href="#" class="text-uppercase btn-primary tm-btn-primary">Научи повече</a>
-                        </div>
-                    </article>
-
-                    <article class="tm-bg-white mr-2 tm-carousel-item">
-                        <img src="img/img-02.jpg" alt="Химически пилинг" class="img-fluid">
-                        <div class="tm-article-pad">
-                            <header><h3 class="text-uppercase tm-article-title-2">Химически пилинг</h3></header>
-                            <p>Процедура за подобряване на текстурата на кожата, освежаване на тена и намаляване на фините несъвършенства.</p>
-                            <a href="#" class="text-uppercase btn-primary tm-btn-primary">Виж детайли</a>
-                        </div>
-                    </article>
-
-                    <article class="tm-bg-white mr-2 tm-carousel-item">
-                        <img src="img/img-01.jpg" alt="Микродермабразио" class="img-fluid">
-                        <div class="tm-article-pad">
-                            <header><h3 class="text-uppercase tm-article-title-2">Микродермабразио</h3></header>
-                            <p>Нежна процедура за ексфолиране, която подпомага обновяването на кожата и ѝ придава по-гладък и сияен вид.</p>
-                            <a href="#" class="text-uppercase btn-primary tm-btn-primary">Повече информация</a>
-                        </div>
-                    </article>
-
-                    <article class="tm-bg-white mr-2 tm-carousel-item">
-                        <img src="img/img-02.jpg" alt="Хидратираща терапия" class="img-fluid">
-                        <div class="tm-article-pad">
-                            <header><h3 class="text-uppercase tm-article-title-2">Хидратираща терапия</h3></header>
-                            <p>Подходяща за суха и чувствителна кожа, за възстановяване на комфорта и естествения баланс.</p>
-                            <a href="#" class="text-uppercase btn-primary tm-btn-primary">Научи повече</a>
-                        </div>
-                    </article>
-
-                    <article class="tm-bg-white mr-2 tm-carousel-item">
-                        <img src="img/img-01.jpg" alt="Анти-ейдж грижа" class="img-fluid">
-                        <div class="tm-article-pad">
-                            <header><h3 class="text-uppercase tm-article-title-2">Анти-ейдж грижа</h3></header>
-                            <p>Специализирани процедури, насочени към подобряване на тонуса, свежестта и цялостния вид на кожата.</p>
-                            <a href="#" class="text-uppercase btn-primary tm-btn-primary">Прочети още</a>
-                        </div>
-                    </article>
-
-                    <article class="tm-bg-white tm-carousel-item">
-                        <img src="img/img-02.jpg" alt="Консултация" class="img-fluid">
-                        <div class="tm-article-pad">
-                            <header><h3 class="text-uppercase tm-article-title-2">Индивидуална консултация</h3></header>
-                            <p>Ще получите насоки и препоръки според типа кожа, състоянието ѝ и вашите цели.</p>
-                            <a href="#" class="text-uppercase btn-primary tm-btn-primary">Запази час</a>
-                        </div>
-                    </article>
-                </div>
+        <div class="services-shell">
+            <div class="services-header text-center">
+                <h2 class="services-title">Нашите процедури</h2>
+                <p class="services-subtitle">
+                    Подбрани терапии и процедури за здрава, свежа и добре поддържана кожа.
+                </p>
             </div>
 
-            <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 tm-recommended-container">
-                <div class="tm-bg-white">
-                    <div class="tm-bg-primary tm-sidebar-pad">
-                        <h3 class="tm-color-white tm-sidebar-title">Защо GlowCare?</h3>
-                        <p class="tm-color-white tm-margin-b-0 tm-font-light">Грижа, внимание и професионален подход към всяка кожа</p>
-                    </div>
-                    <div class="tm-sidebar-pad-2">
-                        <a href="#" class="media tm-media tm-recommended-item">
-                            <img src="img/tn-img-01.jpg" alt="Индивидуален подход">
-                            <div class="media-body tm-media-body tm-bg-gray">
-                                <h4 class="text-uppercase tm-font-semibold tm-sidebar-item-title">Индивидуален подход</h4>
-                            </div>
-                        </a>
-                        <a href="#" class="media tm-media tm-recommended-item">
-                            <img src="img/tn-img-02.jpg" alt="Съвременни методи">
-                            <div class="media-body tm-media-body tm-bg-gray">
-                                <h4 class="text-uppercase tm-font-semibold tm-sidebar-item-title">Съвременни методи</h4>
-                            </div>
-                        </a>
-                        <a href="#" class="media tm-media tm-recommended-item">
-                            <img src="img/tn-img-03.jpg" alt="Комфортна среда">
-                            <div class="media-body tm-media-body tm-bg-gray">
-                                <h4 class="text-uppercase tm-font-semibold tm-sidebar-item-title">Комфортна среда</h4>
-                            </div>
-                        </a>
-                        <a href="#" class="media tm-media tm-recommended-item">
-                            <img src="img/tn-img-04.jpg" alt="Лесно записване">
-                            <div class="media-body tm-media-body tm-bg-gray">
-                                <h4 class="text-uppercase tm-font-semibold tm-sidebar-item-title">Лесно записване на час</h4>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+            @if (Model.ServicesInfo != null && Model.ServicesInfo.Any())
+            {
+                <div class="services-carousel-shell">
+                    <div class="tm-services-carousel">
+                        @foreach (var service in Model.ServicesInfo)
+                        {
+                            <div class="service-slide">
+                                <article class="service-card-modern">
 
-<div class="tm-bg-video">
-    <div class="overlay">
-        <i class="fa fa-5x fa-play-circle tm-btn-play"></i>
-        <i class="fa fa-5x fa-pause-circle tm-btn-pause"></i>
-    </div>
-    <video controls="" loop="" class="tmVideo">
-        <source src="videos/video.mp4" type="video/mp4">
-        <source src="videos/video.ogg" type="video/ogg">
-        Вашият браузър не поддържа видео таг.
-    </video>
-    <div class="tm-section tm-section-pad tm-bg-img" id="tm-section-5">
-        <div class="container ie-h-align-center-fix">
-            <div class="row tm-flex-align-center">
-                <div class="col-xs-12 col-md-12 col-lg-3 col-xl-3 tm-media-title-container">
-                    <h2 class="text-uppercase tm-section-title-2">GlowCare</h2>
-                    <h3 class="tm-color-primary tm-font-semibold tm-section-subtitle-2">Дерматологична грижа</h3>
-                </div>
-                <div class="col-xs-12 col-md-12 col-lg-9 col-xl-9 mt-0 mt-sm-3">
-                    <div class="ml-auto tm-bg-white-shadow tm-pad tm-media-container">
-                        <article class="media tm-margin-b-20 tm-media-1">
-                            <img src="img/img-03.jpg" alt="Диагностика на кожата">
-                            <div class="media-body tm-media-body-1 tm-media-body-v-center">
-                                <h3 class="tm-font-semibold tm-color-primary tm-article-title-3">Прецизна оценка на състоянието на кожата</h3>
-                                <p>
-                                    Всяка кожа има свои специфични нужди. В GlowCare се стремим да подберем най-подходящата грижа според състоянието, чувствителността и индивидуалните цели на пациента.
-                                    <br><br>
-                                    Нашият подход съчетава внимание към детайла, комфортна среда и насоки за дългосрочна поддръжка и здрав вид на кожата.
-                                </p>
-                            </div>
-                        </article>
 
-                        <article class="media tm-margin-b-20 tm-media-1">
-                            <img src="img/img-04.jpg" alt="Персонализирана грижа">
-                            <div class="media-body tm-media-body-1 tm-media-body-v-center">
-                                <h3 class="tm-font-semibold tm-article-title-3">Персонализирани решения</h3>
-                                <p>Подбираме процедури и грижи според типа кожа, нейните нужди и желания резултат, за да получите най-подходящото решение.</p>
-                                <a href="#" class="text-uppercase tm-color-primary tm-font-semibold">Научи повече...</a>
-                            </div>
-                        </article>
+                                    <h3 class="service-card-name">@service.Name</h3>
 
-                        <article class="media tm-margin-b-20 tm-media-1">
-                            <img src="img/img-05.jpg" alt="Поддръжка и превенция">
-                            <div class="media-body tm-media-body-1 tm-media-body-v-center">
-                                <h3 class="tm-font-semibold tm-article-title-3">Поддръжка и превенция</h3>
-                                <p>Редовната грижа и навременната консултация помагат за поддържане на здрава, свежа и добре изглеждаща кожа.</p>
-                                <a href="#" class="text-uppercase tm-color-primary tm-font-semibold">Прочети още...</a>
+                                    <p class="service-card-description">
+                                        @(string.IsNullOrWhiteSpace(service.Description)
+                                                                        ? "Описание не е добавено за тази услуга."
+                                                                        : service.Description)
+                            </p>
+
+                                    <div class="service-card-footer">
+                                        <div class="service-price-box">
+                                            <span class="service-price-label">Цена</span>
+                                            <span class="service-price-value">@service.Price.ToString("F2") €</span>
+                                        </div>
+
+                                        <a href="#top" class="choose-service-btn service-book-btn">
+                                            Запази час
+                                        </a>
+                                    </div>
+                                </article>
                             </div>
-                        </article>
+                                        }
                     </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="services-empty text-center">
+                    <p>В момента няма налични услуги.</p>
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -320,189 +220,173 @@
 </div>
 
 @section Scripts {
-    <script>
+    <style>
 
-        /* Google map
-        ------------------------------------------------*/
+    </style>
+
+    <script>
         var map = '';
         var center;
 
         function initialize() {
             var mapOptions = {
                 zoom: 13,
-                center: new google.maps.LatLng(-23.013104,-43.394365),
+                center: new google.maps.LatLng(-23.013104, -43.394365),
                 scrollwheel: false
             };
 
-            map = new google.maps.Map(document.getElementById('google-map'),  mapOptions);
+            map = new google.maps.Map(document.getElementById('google-map'), mapOptions);
 
-            google.maps.event.addDomListener(map, 'idle', function() {
-              calculateCenter();
-          });
+            google.maps.event.addDomListener(map, 'idle', function () {
+                calculateCenter();
+            });
 
-            google.maps.event.addDomListener(window, 'resize', function() {
-              map.setCenter(center);
-          });
+            google.maps.event.addDomListener(window, 'resize', function () {
+                map.setCenter(center);
+            });
         }
 
         function calculateCenter() {
             center = map.getCenter();
         }
 
-        function loadGoogleMap(){
-            var script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDVWt4rJfibfsEDvcuaChUaZRS5NXey1Cs&v=3.exp&sensor=false&' + 'callback=initialize';
-            document.body.appendChild(script);
+        function setServicesCarousel() {
+            const $carousel = $('.tm-services-carousel');
+
+            if (!$carousel.length) {
+                return;
+            }
+
+            if ($carousel.hasClass('slick-initialized')) {
+                $carousel.slick('unslick');
+            }
+
+            $carousel.slick({
+                infinite: true,
+                autoplay: true,
+                autoplaySpeed: 2500,
+                speed: 600,
+                arrows: true,
+                dots: true,
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                adaptiveHeight: false,
+                responsive: [
+                    {
+                        breakpoint: 992,
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+                    {
+                        breakpoint: 576,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    }
+                ]
+            });
         }
 
-        function setCarousel() {
 
-            if ($('.tm-article-carousel').hasClass('slick-initialized')) {
-                $('.tm-article-carousel').slick('destroy');
-            }
 
-            if($(window).width() < 438){
-                // Slick carousel
-                $('.tm-article-carousel').slick({
-                    infinite: false,
-                    dots: true,
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                });
-            }
-            else {
-             $('.tm-article-carousel').slick({
-                    infinite: false,
-                    dots: true,
-                    slidesToShow: 2,
-                    slidesToScroll: 1
-                });
-            }
-        }
-
-        function setPageNav(){
-            if($(window).width() > 991) {
+        function setPageNav() {
+            if ($(window).width() > 991) {
                 $('#tm-top-bar').singlePageNav({
-                    currentClass:'active',
+                    currentClass: 'active',
                     offset: 79
                 });
             }
             else {
                 $('#tm-top-bar').singlePageNav({
-                    currentClass:'active',
+                    currentClass: 'active',
                     offset: 65
                 });
             }
         }
 
-        function togglePlayPause() {
-            vid = $('.tmVideo').get(0);
 
-            if(vid.paused) {
-                vid.play();
-                $('.tm-btn-play').hide();
-                $('.tm-btn-pause').show();
-            }
-            else {
-                vid.pause();
-                $('.tm-btn-play').show();
-                $('.tm-btn-pause').hide();
-            }
-        }
-
-        $(document).ready(function(){
-
-            $(window).on("scroll", function() {
-                if($(window).scrollTop() > 100) {
+        $(document).ready(function () {
+            $(window).on("scroll", function () {
+                if ($(window).scrollTop() > 100) {
                     $(".tm-top-bar").addClass("active");
                 } else {
-                    //remove the background property so it comes transparent again (defined in your css)
-                   $(".tm-top-bar").removeClass("active");
+                    $(".tm-top-bar").removeClass("active");
                 }
             });
 
-            // Google Map
-            loadGoogleMap();
-
-            // Date Picker
-            const pickerCheckIn = datepicker('#inputCheckIn');
-            const pickerCheckOut = datepicker('#inputCheckOut');
-
-            // Slick carousel
-            setCarousel();
             setPageNav();
+            setServicesCarousel();
 
-            $(window).resize(function() {
-              setCarousel();
-              setPageNav();
+            $(window).resize(function () {
+                setPageNav();
+                setServicesCarousel();
             });
 
-            // Close navbar after clicked
-            $('.nav-link').click(function(){
+            $('.nav-link').click(function () {
                 $('#mainNav').removeClass('show');
             });
 
-            // Control video
-            $('.tm-btn-play').click(function() {
+            $('.tm-btn-play').click(function () {
                 togglePlayPause();
             });
 
-            $('.tm-btn-pause').click(function() {
+            $('.tm-btn-pause').click(function () {
                 togglePlayPause();
             });
 
-            // Update the current year in copyright
             $('.tm-current-year').text(new Date().getFullYear());
         });
-
     </script>
 
     <partial name="_ValidationScriptsPartial" />
 
     <script>
-        document.getElementById("checkAvailabilityButton").addEventListener("click", function () {
-            var employeeId = document.getElementById("employeeSelect").value;
-            var serviceId = document.getElementById("serviceSelect").value;
-            var date = document.getElementById("dateInput").value;
-            var time = document.getElementById("timeInput").value;
+        const checkAvailabilityButton = document.getElementById("checkAvailabilityButton");
+        const dateInput = document.getElementById("dateInput");
+        const timeInput = document.getElementById("timeInput");
 
-            if (!employeeId || !serviceId || !date || !time) {
-                alert("Моля, попълнете всички полета!");
-                return;
-            }
+        if (checkAvailabilityButton) {
+            checkAvailabilityButton.addEventListener("click", function () {
+                var employeeId = document.getElementById("employeeSelect").value;
+                var serviceId = document.getElementById("serviceSelect").value;
+                var date = document.getElementById("dateInput").value;
+                var time = document.getElementById("timeInput").value;
 
-            var dateTime = date + "T" + time;
-            document.getElementById("appointmentDateHidden").value = dateTime;
+                if (!employeeId || !serviceId || !date || !time) {
+                    alert("Моля, попълнете всички полета!");
+                    return;
+                }
 
-            fetch(`/Procedure/CheckAvailability?employeeId=${employeeId}&serviceId=${serviceId}&dateTime=${encodeURIComponent(dateTime)}`, {
-                credentials: "same-origin"
-            })
-                .then(response => {
-                    if (response.redirected) {
-                        window.location.href = "/Identity/Account/Login?returnUrl=" + encodeURIComponent("/Home/Index");
-                        return null;
-                    }
+                var dateTime = date + "T" + time;
+                document.getElementById("appointmentDateHidden").value = dateTime;
 
-                    return response.text();
+                fetch(`/Procedure/CheckAvailability?employeeId=${employeeId}&serviceId=${serviceId}&dateTime=${encodeURIComponent(dateTime)}`, {
+                    credentials: "same-origin"
                 })
-                .then(html => {
-                    if (!html) {
-                        return;
-                    }
+                    .then(response => {
+                        if (response.redirected) {
+                            window.location.href = "/Identity/Account/Login?returnUrl=" + encodeURIComponent("/Home/Index");
+                            return null;
+                        }
 
-                    var modal = document.getElementById("availabilityModal");
-                    modal.innerHTML = html;
-                    modal.style.display = "flex";
-                })
-                .catch(error => {
-                    console.error(error);
-                    alert("Възникна грешка при проверката.");
-                });
-        });
+                        return response.text();
+                    })
+                    .then(html => {
+                        if (!html) {
+                            return;
+                        }
 
-        document.getElementById("dateInput").addEventListener("change", updateAppointmentDate);
-        document.getElementById("timeInput").addEventListener("change", updateAppointmentDate);
+                        var modal = document.getElementById("availabilityModal");
+                        modal.innerHTML = html;
+                        modal.style.display = "flex";
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert("Възникна грешка при проверката.");
+                    });
+            });
+        }
 
         function updateAppointmentDate() {
             var date = document.getElementById("dateInput").value;
@@ -511,6 +395,14 @@
             if (date && time) {
                 document.getElementById("appointmentDateHidden").value = date + "T" + time;
             }
+        }
+
+        if (dateInput) {
+            dateInput.addEventListener("change", updateAppointmentDate);
+        }
+
+        if (timeInput) {
+            timeInput.addEventListener("change", updateAppointmentDate);
         }
 
         function enablePicker(inputId) {
@@ -548,27 +440,46 @@
     </script>
 
     <script>
-        document.getElementById("employeeSelect").addEventListener("change", function () {
-            var employeeId = this.value;
-            var serviceDropdown = document.getElementById("serviceSelect");
+        const employeeSelect = document.getElementById("employeeSelect");
 
-            serviceDropdown.innerHTML = '<option value="">Процедура</option>';
+        if (employeeSelect) {
+            employeeSelect.addEventListener("change", function () {
+                var employeeId = this.value;
+                var serviceDropdown = document.getElementById("serviceSelect");
 
-            if (!employeeId) return;
+                serviceDropdown.innerHTML = '<option value="">Процедура</option>';
 
-            fetch(`/Procedure/GetServicesByEmployee?employeeId=${employeeId}`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(service => {
-                        var option = document.createElement("option");
-                        option.value = service.value;
-                        option.text = service.text;
-                        serviceDropdown.appendChild(option);
+                if (!employeeId) return;
+
+                fetch(`/Procedure/GetServicesByEmployee?employeeId=${employeeId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(service => {
+                            var option = document.createElement("option");
+                            option.value = service.value;
+                            option.text = service.text;
+                            serviceDropdown.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
                     });
-                })
-                .catch(error => {
-                    console.error("Error:", error);
+            });
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const chooseButtons = document.querySelectorAll(".choose-service-btn");
+
+            chooseButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const bookingSection = document.getElementById("top");
+                    if (bookingSection) {
+                        bookingSection.scrollIntoView({ behavior: "smooth" });
+                    }
                 });
+            });
         });
     </script>
 }

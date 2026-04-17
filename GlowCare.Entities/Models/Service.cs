@@ -36,5 +36,8 @@ public class Service
 
     public ICollection<Procedure> Procedures { get; set; }
         = new List<Procedure>();
+
+    public ICollection<EmployeeService> EmployeeServices { get; set; }
+        = new List<EmployeeService>();
 }
 

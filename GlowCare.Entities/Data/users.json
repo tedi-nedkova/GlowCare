@@ -1,8 +1,8 @@
-﻿[
+[
   {
     "Id": "a7d3c5e2-9b41-4f12-8f34-123456789abc",
-    "FirstName": "Elena",
-    "LastName": "Dimitrova",
+    "FirstName": "Елена",
+    "LastName": "Димитрова",
     "Email": "elena.dimitrova@gmail.com",
     "NormalizedEmail": "ELENA.DIMITROVA@EXAMPLE.COM",
     "EmailConfirmed": true,
@@ -19,8 +19,8 @@
   },
   {
     "Id": "ac31b0bb-d05a-438d-be06-9bfe3323cf08",
-    "FirstName": "John",
-    "LastName": "Doe",
+    "FirstName": "Джон",
+    "LastName": "Доу",
     "Email": "johndoe@gmail.com",
     "NormalizedEmail": "JOHNDOE@EXAMPLE.COM",
     "EmailConfirmed": true,
@@ -36,10 +36,9 @@
     "Gender": 0
   },
   {
-
     "Id": "29965aaa-46cf-4829-93b8-e38401be7547",
-    "FirstName": "Maria",
-    "LastName": "Petrova",
+    "FirstName": "Мария",
+    "LastName": "Петрова",
     "Email": "maria.petrova@gmail.com",
     "NormalizedEmail": "MARIA.PETROVA@EXAMPLE.COM",
     "EmailConfirmed": true,
@@ -56,8 +55,8 @@
   },
   {
     "Id": "c9f4e7b1-2d33-4a11-8f56-abcdef123456",
-    "FirstName": "Ivana",
-    "LastName": "Koleva",
+    "FirstName": "Ивана",
+    "LastName": "Колева",
     "Email": "ivana.koleva@gmail.com",
     "NormalizedEmail": "IVANA.KOLEVA@EXAMPLE.COM",
     "EmailConfirmed": true,
@@ -74,8 +73,8 @@
   },
   {
     "Id": "e5c2a9b3-4a67-4f89-8d23-556677889900",
-    "FirstName": "Nikol",
-    "LastName": "Georgieva",
+    "FirstName": "Никол",
+    "LastName": "Георгиева",
     "Email": "nikol.georgieva@gmail.com",
     "NormalizedEmail": "NIKOL.GEORGIEVA@EXAMPLE.COM",
     "EmailConfirmed": true,
@@ -92,8 +91,8 @@
   },
   {
     "Id": "fc95b3fa-f342-4172-ac8b-5b35951ad760",
-    "FirstName": "Teodora",
-    "LastName": "Nedkova",
+    "FirstName": "Теодора",
+    "LastName": "Недкова",
     "Email": "teodora_nedkova@abv.bg",
     "NormalizedEmail": "TEODORA_NEDKOVA@ABV.BG",
     "EmailConfirmed": true,

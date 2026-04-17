@@ -1,0 +1,84 @@
+﻿@model IEnumerable<GlowCare.ViewModels.SpecialistRequest.SpecialistApplicationViewModel>
+
+@{
+    ViewData["Title"] = "Pending Applications";
+}
+
+<h2 class="mb-4">Pending Specialist Applications</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        There are no pending specialist applications at the moment.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Applicant Email</th>
+                <th>Occupation</th>
+                <th>Experience</th>
+                <th>Created On</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var application in Model)
+            {
+                <tr>
+                    <td>@application.Email</td>
+                    <td>@application.Occupation</td>
+                    <td>@application.ExperienceYears years</td>
+                    <td>@application.CreatedOn.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>
+                        <a asp-area="Admin"
+                           asp-controller="AdminPanel"
+                           asp-action="ApplicationDetails"
+                           asp-route-id="@application.Id"
+                           class="btn btn-info btn-sm">
+                            Details
+                        </a>
+
+                        <form asp-area="Admin"
+                              asp-controller="AdminPanel"
+                              asp-action="Approve"
+                              method="post"
+                              class="d-inline">
+                            <input type="hidden" name="id" value="@application.Id" />
+                            <button type="submit" class="btn btn-success btn-sm">
+                                Approve
+                            </button>
+                        </form>
+
+                        <form asp-area="Admin"
+                              asp-controller="AdminPanel"
+                              asp-action="Decline"
+                              method="post"
+                              class="d-inline">
+                            <input type="hidden" name="id" value="@application.Id" />
+                            <button type="submit" class="btn btn-sm">
+                                Decline
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

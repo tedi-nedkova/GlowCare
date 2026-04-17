@@ -1,30 +1,30 @@
-﻿[
+[
   {
     "Id": "66e6b9a6-4c5a-4344-bdae-6edbacc4b608",
     "UserId": "a7d3c5e2-9b41-4f12-8f34-123456789abc",
-    "Occupation": "Dermatologist",
+    "Occupation": "Дерматолог",
     "ExperienceYears": 5,
-    "Biography": "I am a licensed dermatologist with 5 years of experience helping patients achieve healthier skin. My expertise includes treating conditions such as acne, eczema, and pigmentation disorders, as well as performing advanced laser and cosmetic procedures. I am passionate about educating my patients and creating personalized treatment plans that combine proven medical methods with modern skin care innovations."
+    "Biography": "Аз съм лицензиран дерматолог с 5 години опит в подпомагането на пациентите да постигнат по-здрава кожа. Моята експертиза включва лечение на състояния като акне, екзема и пигментни нарушения, както и извършване на съвременни лазерни и козметични процедури. Стремя се да информирам пациентите си и да създавам персонализирани терапевтични планове, които съчетават доказани медицински методи с модерни иновации в грижата за кожата."
   },
   {
     "Id": "b75e8e37-95e4-44ef-a32c-10aebaff55b3",
     "UserId": "ac31b0bb-d05a-438d-be06-9bfe3323cf08",
-    "Occupation": "Esthetician",
+    "Occupation": "Естетик",
     "ExperienceYears": 10,
-    "Biography": "I am a certified esthetician with 10 years of experience providing skin care treatments, facials, and anti-aging therapies. My goal is to help clients achieve glowing, healthy skin using both modern techniques and natural methods."
+    "Biography": "Аз съм сертифициран естетик с 10 години опит в предоставянето на процедури за грижа за кожата, терапии за лице и анти-ейдж терапии. Моята цел е да помогна на клиентите да постигнат сияйна и здрава кожа чрез съчетание на съвременни техники и натурални методи."
   },
   {
     "Id": "1dccdb69-fbd1-43c4-8c17-95796b5aa95e",
     "UserId": "29965aaa-46cf-4829-93b8-e38401be7547",
-    "Occupation": "Laser Technician",
+    "Occupation": "Лазерен специалист",
     "ExperienceYears": 6,
-    "Biography": "I am a licensed laser removal specialist with 7 years of experience in hair removal, tattoo removal, and skin resurfacing treatments. My focus is on providing safe, effective, and customized solutions for each client to achieve smooth and healthy skin."
+    "Biography": "Аз съм лицензиран специалист по лазерни процедури с 7 години опит в лазерната епилация, премахването на татуировки и процедурите за обновяване на кожата. Фокусът ми е върху това да предоставям безопасни, ефективни и индивидуално съобразени решения за всеки клиент с цел постигане на гладка и здрава кожа."
   },
   {
     "Id": "a0617bdf-80af-4316-a9c9-c2fd77170f7f",
     "UserId": "c9f4e7b1-2d33-4a11-8f56-abcdef123456",
-    "Occupation": "Massage Therapist",
+    "Occupation": "Масажист",
     "ExperienceYears": 6,
-    "Biography": "I am a certified massage therapist with 6 years of experience in Swedish, deep tissue, and therapeutic massage. My goal is to help clients relax, relieve stress, and improve overall well-being through personalized treatments."
+    "Biography": "Аз съм сертифициран масажист с 6 години опит в шведския, дълбокотъканния и лечебния масаж. Моята цел е да помогна на клиентите да се отпуснат, да облекчат стреса и да подобрят общото си благосъстояние чрез персонализирани процедури."
   }
 ]

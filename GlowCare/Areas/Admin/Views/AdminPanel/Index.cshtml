@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<h2 class="mb-4">Admin Panel</h2>
+
+<div class="d-flex flex-column gap-2">
+    <a asp-area="Admin"
+       asp-controller="AdminPanel"
+       asp-action="UserManagement"
+       class="btn btn-primary">
+        User Management
+    </a>
+
+    <a asp-area="Admin"
+       asp-controller="AdminPanel"
+       asp-action="PendingApplications"
+       class="btn btn-warning">
+        Pending Specialist Applications
+    </a>
+</div>

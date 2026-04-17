@@ -32,7 +32,11 @@ public class GlowUser
     public ICollection<Procedure> Procedures { get; set; }
         = new List<Procedure>();
 
-    public bool? IsSpecialist { get; set; }
+    public bool IsSpecialist { get; set; }
 
+    public bool IsDeleted { get; set; } = false;
+
+    public ICollection<SpecialistApplication> SpecialistApplications { get; set; }
+    = new List<SpecialistApplication>();
 }
 
