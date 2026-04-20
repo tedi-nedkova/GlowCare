@@ -18,13 +18,13 @@ public interface IProcedureService
         Guid userId);
 
     Task<Procedure> EditProcedureAsync(
-        EditProcedureViewModel model, 
+        EditProcedureViewModel model,
         int id);
 
     Task<EditProcedureViewModel> GetEditProcedureAsync(
         int id);
 
-    Task <IEnumerable<DetailsProcedureViewModel>> GetAllProcedureDetailsByUserIdAsync(
+    Task<IEnumerable<DetailsProcedureViewModel>> GetAllProcedureDetailsByUserIdAsync(
         Guid userId);
 
     Task<AvailabilityCheckResultViewModel> IsSlotAvailableAsync(
@@ -38,5 +38,9 @@ public interface IProcedureService
 
     Task<IEnumerable<SelectListItem>> GetServicesByEmployeeIdAsync(
         Guid employeeId);
+
+    Task RejectProcedureAsync(
+        int procedureId,
+        Guid specialistUserId);
 }
 

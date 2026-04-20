@@ -1,6 +1,8 @@
 ﻿using GlowCare.Core.Contracts;
+using GlowCare.Core.Helpers;
 using GlowCare.Entities.Contracts.Interfaces;
 using GlowCare.Entities.Models;
+using GlowCare.Entities.Models.Enums;
 using GlowCare.ViewModels.Procedures;
 using GlowCare.ViewModels.Shared;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +18,8 @@ public class ProcedureService(
            IRepository<Employee, int> employeeRepository,
            IRepository<Schedule, int> scheduleRepository,
            IRepository<GlowCare.Entities.Models.EmployeeService, int> employeeServiceRepository,
-           UserManager<GlowUser> userManager)
+           UserManager<GlowUser> userManager,
+           IUserService userService)
            : IProcedureService
 {
     public async Task CreateProcedureAsync(
@@ -25,7 +28,7 @@ public class ProcedureService(
     {
         if (model == null)
         {
-            throw new NullReferenceException("Entity not found.");
+            throw new NullReferenceException("Записът не беше намерен.");
         }
 
         Procedure procedure = new()
@@ -34,8 +37,9 @@ public class ProcedureService(
             EmployeeId = model.EmployeeId,
             ServiceId = model.ServiceId,
             AppointmentDate = model.AppointmentDate,
-            Status = Entities.Models.Enums.Status.Scheduled,
+            Status = Status.Scheduled,
             Notes = model.Notes,
+            RewardPointsGranted = false,
         };
 
         await procedureRepository.AddAsync(procedure);
@@ -47,12 +51,12 @@ public class ProcedureService(
 
         if (procedure == null)
         {
-            throw new NullReferenceException("Entity not found.");
+            throw new NullReferenceException("Записът не беше намерен.");
         }
 
         if (procedure.IsDeleted)
         {
-            throw new ArgumentException("Entity is already deleted.");
+            throw new ArgumentException("Записът вече е изтрит.");
         }
 
         procedure.IsDeleted = true;
@@ -64,17 +68,23 @@ public class ProcedureService(
         int id)
     {
         Procedure procedure = await procedureRepository.GetByIdAsync(id)
-            ?? throw new NullReferenceException("Entity not found.");
+            ?? throw new NullReferenceException("Записът не беше намерен.");
 
         if (procedure.IsDeleted)
         {
-            throw new ArgumentException("Entity is already deleted.");
+            throw new ArgumentException("Записът вече е изтрит.");
         }
 
         procedure.EmployeeId = model.EmployeeId;
         procedure.ServiceId = model.ServiceId;
         procedure.AppointmentDate = model.AppointmentDate;
         procedure.Notes = model.Notes;
+
+        if (procedure.Status == Status.Completed && procedure.AppointmentDate > DateTime.Now)
+        {
+            procedure.Status = Status.Scheduled;
+            procedure.RewardPointsGranted = false;
+        }
 
         await procedureRepository.UpdateAsync(procedure);
 
@@ -83,12 +93,17 @@ public class ProcedureService(
 
     public async Task<IEnumerable<DetailsProcedureViewModel>> GetAllProcedureDetailsByUserIdAsync(Guid userId)
     {
-        var user = await userManager.FindByIdAsync(userId.ToString());
+        var user = await userManager.Users
+            .Include(u => u.Membership)
+            .FirstOrDefaultAsync(u => u.Id == userId);
 
         if (user == null)
         {
-            throw new NullReferenceException("User not found.");
+            throw new NullReferenceException("Потребителят не беше намерен.");
         }
+
+        await userService.UpdateUserMembershipAsync(user);
+        await SyncCompletedProceduresForUserAsync(user);
 
         var procedures = await procedureRepository
             .GetAllAttached()
@@ -96,13 +111,17 @@ public class ProcedureService(
                 .ThenInclude(e => e!.User)
             .Include(p => p.Service)
             .Where(p => !p.IsDeleted && p.UserId == userId)
+            .OrderByDescending(p => p.AppointmentDate)
             .Select(p => new DetailsProcedureViewModel
             {
                 Id = p.Id,
+                EmployeeId = p.EmployeeId,
                 SpecialistName = $"{p.Employee!.User.FirstName} {p.Employee!.User.LastName}",
                 Service = p.Service!.Name,
                 Price = p.Service.Price,
-                AppointmentDate = p.AppointmentDate.ToString(AppointmentDateFormat)
+                AppointmentDate = p.AppointmentDate.ToString(AppointmentDateFormat),
+                Status = BulgarianTextHelper.GetProcedureStatusText(p.Status!.Value),
+                EarnedPoints = p.Status == Status.Completed ? p.Service.Points : 0
             })
             .ToListAsync();
 
@@ -118,25 +137,25 @@ public class ProcedureService(
 
         Procedure entity = entities
             .FirstOrDefault(e => e.Id == id)
-            ?? throw new NullReferenceException("Entity not found.");
+            ?? throw new NullReferenceException("Записът не беше намерен.");
 
         if (entity.IsDeleted)
         {
-            throw new NullReferenceException("Entity is already deleted.");
+            throw new NullReferenceException("Записът вече е изтрит.");
         }
 
-        if (entity.UserId == null || entity.UserId != userId)
+        if (entity.UserId != userId)
         {
-            throw new NullReferenceException("Invalid client id.");
+            throw new NullReferenceException("Невалиден идентификатор на клиент.");
         }
 
-        var user = entity.User;
-        Service service = entity.Service ?? throw new NullReferenceException("Service not found.");
+        var userEntity = entity.User;
+        Service service = entity.Service ?? throw new NullReferenceException("Услугата не беше намерена.");
 
         return new DeleteProcedureViewModel
         {
             Id = entity.Id,
-            ClientName = $"{user!.FirstName} {user!.LastName}",
+            ClientName = $"{userEntity!.FirstName} {userEntity!.LastName}",
             ServiceName = service.Name,
         };
     }
@@ -144,11 +163,11 @@ public class ProcedureService(
     public async Task<EditProcedureViewModel> GetEditProcedureAsync(int id)
     {
         var entity = await procedureRepository.GetByIdAsync(id)
-            ?? throw new NullReferenceException("Entity not found.");
+            ?? throw new NullReferenceException("Записът не беше намерен.");
 
         if (entity.IsDeleted)
         {
-            throw new ArgumentException("Entity already deleted.");
+            throw new ArgumentException("Записът вече е изтрит.");
         }
 
         return new EditProcedureViewModel
@@ -197,7 +216,7 @@ public class ProcedureService(
             return new AvailabilityCheckResultViewModel
             {
                 IsAvailable = false,
-                Message = "Избраният час не е зает, но специалистът не работи в този ден."
+                Message = "Специалистът не работи в този ден."
             };
         }
 
@@ -222,7 +241,7 @@ public class ProcedureService(
             return new AvailabilityCheckResultViewModel
             {
                 IsAvailable = false,
-                Message = $"Избраният час не е зает, но е извън работното време на специалиста ({schedule.StartTime} - {schedule.EndTime})."
+                Message = $"Избраният час е извън работното време на специалиста ({schedule.StartTime} - {schedule.EndTime})."
             };
         }
 
@@ -230,7 +249,7 @@ public class ProcedureService(
             .Where(p =>
                 p.EmployeeId == employeeId &&
                 !p.IsDeleted &&
-                p.Status != Entities.Models.Enums.Status.Cancelled &&
+                p.Status != Status.Cancelled &&
                 p.AppointmentDate.Date == requestedTime.Date)
             .Include(p => p.Service)
             .ToListAsync();
@@ -260,31 +279,23 @@ public class ProcedureService(
         return new AvailabilityCheckResultViewModel
         {
             IsAvailable = true,
-            Message = "Избраният час е свободен."
+            Message = $"Часът е свободен. Продължителност: {service.DurationInMinutes} минути."
         };
     }
 
     public async Task<IEnumerable<SelectListItem>> GetEmployeeSelectListAsync()
-    {
-        return await employeeRepository
-            .GetAllAttached()
+        => await employeeRepository.GetAllAttached()
+            .Where(e => !e.IsDeleted)
             .Include(e => e.User)
-            .Where(e => !e.IsDeleted
-                && e.User != null
-                && !e.User.IsDeleted
-                && e.User.IsSpecialist)
             .Select(e => new SelectListItem
             {
                 Value = e.Id.ToString(),
-                Text = e.User.FirstName + " " + e.User.LastName + " - " + e.Occupation
+                Text = $"{e.User!.FirstName} {e.User.LastName}"
             })
             .ToListAsync();
-    }
 
     public async Task<IEnumerable<SelectListItem>> GetServiceSelectListAsync()
-    {
-        return await serviceRepository
-            .GetAllAttached()
+        => await serviceRepository.GetAllAttached()
             .Where(s => !s.IsDeleted)
             .Select(s => new SelectListItem
             {
@@ -292,20 +303,73 @@ public class ProcedureService(
                 Text = s.Name
             })
             .ToListAsync();
-    }
 
     public async Task<IEnumerable<SelectListItem>> GetServicesByEmployeeIdAsync(Guid employeeId)
     {
-        return await employeeServiceRepository
-            .GetAllAttached()
+        return await employeeServiceRepository.GetAllAttached()
             .Where(es => es.EmployeeId == employeeId)
             .Include(es => es.Service)
             .Where(es => es.Service != null && !es.Service.IsDeleted)
             .Select(es => new SelectListItem
             {
-                Value = es.Service!.Id.ToString(),
-                Text = es.Service.Name
+                Value = es.ServiceId.ToString(),
+                Text = es.Service!.Name
             })
+            .Distinct()
             .ToListAsync();
+    }
+
+    public async Task RejectProcedureAsync(int procedureId, Guid specialistUserId)
+    {
+        Procedure procedure = await procedureRepository
+            .GetAllAttached()
+            .Include(p => p.Employee)
+            .FirstOrDefaultAsync(p => p.Id == procedureId && !p.IsDeleted)
+            ?? throw new NullReferenceException("Процедурата не беше намерена.");
+
+        if (procedure.Employee == null || procedure.Employee.UserId != specialistUserId)
+        {
+            throw new UnauthorizedAccessException("Нямате право да откажете този час.");
+        }
+
+        if (procedure.Status != Status.Scheduled || procedure.AppointmentDate <= DateTime.Now)
+        {
+            throw new InvalidOperationException("Могат да бъдат отказвани само бъдещи планирани часове.");
+        }
+
+        procedure.Status = Status.Cancelled;
+        await procedureRepository.UpdateAsync(procedure);
+    }
+
+    private async Task SyncCompletedProceduresForUserAsync(GlowUser user)
+    {
+        var procedures = await procedureRepository
+            .GetAllAttached()
+            .Where(p => p.UserId == user.Id
+                && !p.IsDeleted
+                && p.Status == Status.Scheduled
+                && p.AppointmentDate <= DateTime.Now)
+            .Include(p => p.Service)
+            .ToListAsync();
+
+        if (!procedures.Any())
+        {
+            return;
+        }
+
+        foreach (var procedure in procedures)
+        {
+            procedure.Status = Status.Completed;
+
+            if (!procedure.RewardPointsGranted && procedure.Service != null)
+            {
+                user.LoyaltyPoints += procedure.Service.Points;
+                procedure.RewardPointsGranted = true;
+            }
+
+            await procedureRepository.UpdateAsync(procedure);
+        }
+
+        await userService.UpdateUserMembershipAsync(user);
     }
 }

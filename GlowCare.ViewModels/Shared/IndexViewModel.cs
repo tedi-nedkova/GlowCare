@@ -6,7 +6,7 @@ namespace GlowCare.ViewModels.Shared;
 public class IndexViewModel
 {
 
-    public Guid EmployeeId { get; set; } 
+    public Guid EmployeeId { get; set; }
 
     public int ServiceId { get; set; }
 
@@ -18,5 +18,5 @@ public class IndexViewModel
 
     public IEnumerable<ServiceInfoViewModel> ServicesInfo { get; set; }
         = new List<ServiceInfoViewModel>();
-}
 
+}

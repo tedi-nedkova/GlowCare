@@ -110,6 +110,7 @@ namespace GlowCare.Entities.Migrations
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false),
+                    LoyaltyPoints = table.Column<int>(type: "int", nullable: false),
                     MembershipId = table.Column<int>(type: "int", nullable: true),
                     IsSpecialist = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -326,6 +327,7 @@ namespace GlowCare.Entities.Migrations
                     AppointmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: true),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RewardPointsGranted = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -380,9 +382,11 @@ namespace GlowCare.Entities.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Rating = table.Column<int>(type: "int", nullable: true),
+                    Rating = table.Column<int>(type: "int", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ServiceId = table.Column<int>(type: "int", nullable: false),
                     ProcedureId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -404,6 +408,11 @@ namespace GlowCare.Entities.Migrations
                         column: x => x.ProcedureId,
                         principalTable: "Procedures",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Reviews_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
@@ -418,14 +427,14 @@ namespace GlowCare.Entities.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Age", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "Gender", "IsDeleted", "IsSpecialist", "LastName", "LockoutEnabled", "LockoutEnd", "MembershipId", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "Age", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "Gender", "IsDeleted", "IsSpecialist", "LastName", "LockoutEnabled", "LockoutEnd", "LoyaltyPoints", "MembershipId", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("29965aaa-46cf-4829-93b8-e38401be7547"), 0, 38, "f7960d3d-e123-4a8d-9f3a-b0164d010020", "maria.petrova@gmail.com", true, "Мария", 1, false, true, "Петрова", false, null, null, "MARIA.PETROVA@EXAMPLE.COM", "MARIA.PETROVA", "AQAAAAIAAYagAAAAEHVvexRV9zEeXZn2/NUG5aHdeCbQodn1Glckn/4DVKVmtMqPMITRhI9dqDX0SbzQow==", "0899123456", true, "68e7add5-6f2f-4792-a2e6-01f596c74a52", false, "maria.petrova" },
-                    { new Guid("a7d3c5e2-9b41-4f12-8f34-123456789abc"), 0, 32, "6e5fc66b-0347-4688-a1c3-f78e9f6a861f", "elena.dimitrova@gmail.com", true, "Елена", 1, false, true, "Димитрова", false, null, null, "ELENA.DIMITROVA@EXAMPLE.COM", "ELENA.DIMITROVA", "AQAAAAIAAYagAAAAEP/a9M/E4mKQ3tDcG6+Z2G3GxmDbYT5Lj/s4uOl0P1MhCSFuI8UprqCwyyygAWJuGw==", "0888123456", true, "bfb94cc6-d1c4-4315-8f5e-f1d3535f4c01", false, "elena.dimitrova" },
-                    { new Guid("ac31b0bb-d05a-438d-be06-9bfe3323cf08"), 0, 30, "70898beb-868d-4d0f-9840-2702692ec96c", "johndoe@gmail.com", true, "Джон", 0, false, true, "Доу", false, null, null, "JOHNDOE@EXAMPLE.COM", "JOHN.DOE", "AQAAAAIAAYagAAAAEPgIn8rXgN3w5ACcEfBm4Wr8KsrOBatgOjtcN9K9VbYybDrRT2ss/OzzweeNxTsd7w==", "0875757574", true, "a6241046-575b-4a3f-a668-c6aa755a232f", false, "john.doe" },
-                    { new Guid("c9f4e7b1-2d33-4a11-8f56-abcdef123456"), 0, 30, "dbd427f3-623d-4eba-93e1-1c08a9d113f0", "ivana.koleva@gmail.com", true, "Ивана", 1, false, true, "Колева", false, null, null, "IVANA.KOLEVA@EXAMPLE.COM", "IVANA.KOLEVA", "AQAAAAIAAYagAAAAEAZ+tF0KvqfLsMAaTDlU3urqTvqow6XGf//OaVbGTZnZphpdgG0VSY4NK7Los6ph9g==", "0888234567", true, "e0ff1671-f59e-407c-a1bc-b6034b44ac41", false, "ivana.koleva" },
-                    { new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760"), 0, 18, "d475a375-50f0-4edd-a06d-d30e3e7f0015", "teodora_nedkova@abv.bg", true, "Теодора", 1, false, false, "Недкова", false, null, null, "TEODORA_NEDKOVA@ABV.BG", "TEODORA.NEDKOVA", "AQAAAAIAAYagAAAAECDIc3bfAJ4/uXNepLvaG82SzfuknmR4kdOhTV4XouT4vaZzLCQM8ZgdMGHHzyfDuA==", "0878654562", true, "258513a82f1147ba92a0e43f1602b7c3", false, "teodora.nedkova" }
+                    { new Guid("29965aaa-46cf-4829-93b8-e38401be7547"), 0, 38, "bc9f05f9-f5ed-488f-be50-042269a0b535", "maria.petrova@gmail.com", true, "Мария", 1, false, true, "Петрова", false, null, 0, null, "MARIA.PETROVA@EXAMPLE.COM", "MARIA.PETROVA", "AQAAAAIAAYagAAAAEKrkNTH44NyUYS/ri95dStaVSePtw9jP8CxU9gSSlNCPqao4GWWgEE8lmdmbQDrXlQ==", "0899123456", true, "68e7add5-6f2f-4792-a2e6-01f596c74a52", false, "maria.petrova" },
+                    { new Guid("a7d3c5e2-9b41-4f12-8f34-123456789abc"), 0, 32, "ed285af6-afde-4d6d-bb5c-301ad7976685", "elena.dimitrova@gmail.com", true, "Елена", 1, false, true, "Димитрова", false, null, 0, null, "ELENA.DIMITROVA@EXAMPLE.COM", "ELENA.DIMITROVA", "AQAAAAIAAYagAAAAEPNkR0U8ZdJdKjt7dgUuHJH1mXdV4dd3DbU+RT1JWFtwnev+Yzh9koBdUnaRwarvmA==", "0888123456", true, "bfb94cc6-d1c4-4315-8f5e-f1d3535f4c01", false, "elena.dimitrova" },
+                    { new Guid("ac31b0bb-d05a-438d-be06-9bfe3323cf08"), 0, 30, "a36bcf8d-8d8f-48bf-8e3d-37374de443a4", "johndoe@gmail.com", true, "Джон", 0, false, true, "Доу", false, null, 0, null, "JOHNDOE@EXAMPLE.COM", "JOHN.DOE", "AQAAAAIAAYagAAAAEPs8oXqGMkNTZ5F7dUJK574rZgbQ4awLiBi6wEM9j24E3NdR0XkEE/Q/H+M3zO05xg==", "0875757574", true, "a6241046-575b-4a3f-a668-c6aa755a232f", false, "john.doe" },
+                    { new Guid("c9f4e7b1-2d33-4a11-8f56-abcdef123456"), 0, 30, "5b1d1952-daf1-4b84-9066-e020680aa137", "ivana.koleva@gmail.com", true, "Ивана", 1, false, true, "Колева", false, null, 0, null, "IVANA.KOLEVA@EXAMPLE.COM", "IVANA.KOLEVA", "AQAAAAIAAYagAAAAEEwcZvvP6JjlIZJq3bGhu2aCkR7QTnFy/nRwdZcBhJfSjfW7mr2w/9+vr7HDWAoANw==", "0888234567", true, "e0ff1671-f59e-407c-a1bc-b6034b44ac41", false, "ivana.koleva" },
+                    { new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760"), 0, 18, "26787bf6-fe04-4c6b-8fd8-5138797e088a", "teodora_nedkova@abv.bg", true, "Теодора", 1, false, false, "Недкова", false, null, 0, null, "TEODORA_NEDKOVA@ABV.BG", "TEODORA.NEDKOVA", "AQAAAAIAAYagAAAAEIH+iMaji0kSK21C0pSLT6Ek3804hcDvoGQZePJqDf/hnlDy947TtDWbS0HOh+J3uA==", "0878654562", true, "258513a82f1147ba92a0e43f1602b7c3", false, "teodora.nedkova" }
                 });
 
             migrationBuilder.InsertData(
@@ -453,8 +462,8 @@ namespace GlowCare.Entities.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Age", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "Gender", "IsDeleted", "IsSpecialist", "LastName", "LockoutEnabled", "LockoutEnd", "MembershipId", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900"), 0, 30, "1aec1e1c-d752-4ed9-97a3-2337c19d3d18", "nikol.georgieva@gmail.com", true, "Никол", 1, false, false, "Георгиева", false, null, 1, "NIKOL.GEORGIEVA@EXAMPLE.COM", "NIKOL.GEORGIEVA", "AQAAAAIAAYagAAAAECdjymZGHltvc+ioP7ndf8UHQ10jDxFojmmMTVi4HrhXVxBeirHWi1CUMAwyasNMQQ==", "0855123456", true, "e9c2550f-30cc-4116-a85c-20265258d5a5", false, "nikol.georgieva" });
+                columns: new[] { "Id", "AccessFailedCount", "Age", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "Gender", "IsDeleted", "IsSpecialist", "LastName", "LockoutEnabled", "LockoutEnd", "LoyaltyPoints", "MembershipId", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900"), 0, 30, "d49d8d27-059b-4edf-8b3c-d918f5e3df73", "nikol.georgieva@gmail.com", true, "Никол", 1, false, false, "Георгиева", false, null, 0, 1, "NIKOL.GEORGIEVA@EXAMPLE.COM", "NIKOL.GEORGIEVA", "AQAAAAIAAYagAAAAEAcfmbstqbRNutuFSU7jMjsRr+VXgKOmvrZtmS5pDbZpcCEcIEE5y5mD1KTmTVNIUA==", "0855123456", true, "e9c2550f-30cc-4116-a85c-20265258d5a5", false, "nikol.georgieva" });
 
             migrationBuilder.InsertData(
                 table: "Employees",
@@ -523,12 +532,12 @@ namespace GlowCare.Entities.Migrations
 
             migrationBuilder.InsertData(
                 table: "Procedures",
-                columns: new[] { "Id", "AppointmentDate", "EmployeeId", "IsDeleted", "Notes", "ServiceId", "Status", "UserId" },
+                columns: new[] { "Id", "AppointmentDate", "EmployeeId", "IsDeleted", "Notes", "RewardPointsGranted", "ServiceId", "Status", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 9, 28, 10, 30, 0, 0, DateTimeKind.Unspecified), new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), false, "Първоначална консултация, заявен е задълбочен анализ на кожата.", 5, 1, new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900") },
-                    { 2, new DateTime(2025, 9, 29, 14, 0, 0, 0, DateTimeKind.Unspecified), new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"), false, "Последваща сесия за масажна терапия.", 6, 2, new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760") },
-                    { 3, new DateTime(2025, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"), false, "Планирана е процедура за подмладяване на лицето.", 8, 0, new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760") }
+                    { 1, new DateTime(2025, 9, 28, 10, 30, 0, 0, DateTimeKind.Unspecified), new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), false, "Първоначална консултация, заявен е задълбочен анализ на кожата.", false, 5, 1, new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900") },
+                    { 2, new DateTime(2025, 9, 29, 14, 0, 0, 0, DateTimeKind.Unspecified), new Guid("b75e8e37-95e4-44ef-a32c-10aebaff55b3"), false, "Последваща сесия за масажна терапия.", false, 6, 2, new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760") },
+                    { 3, new DateTime(2025, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), new Guid("1dccdb69-fbd1-43c4-8c17-95796b5aa95e"), false, "Планирана е процедура за подмладяване на лицето.", false, 8, 0, new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760") }
                 });
 
             migrationBuilder.InsertData(
@@ -558,8 +567,8 @@ namespace GlowCare.Entities.Migrations
 
             migrationBuilder.InsertData(
                 table: "Reviews",
-                columns: new[] { "Id", "Comment", "CreatedAt", "EmployeeId", "ProcedureId", "Rating", "UserId" },
-                values: new object[] { 1, "Отлично обслужване! Процедурата беше извършена професионално и се чувствах много комфортно.", new DateTime(2026, 4, 17, 6, 22, 15, 255, DateTimeKind.Utc).AddTicks(1042), new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), 1, 5, new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760") });
+                columns: new[] { "Id", "Comment", "CreatedAt", "EmployeeId", "IsDeleted", "ProcedureId", "Rating", "ServiceId", "UserId" },
+                values: new object[] { 1, "Отлично обслужване! Процедурата беше извършена професионално и се чувствах много комфортно.", new DateTime(2026, 4, 18, 20, 9, 30, 754, DateTimeKind.Utc).AddTicks(504), new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), false, 1, 5, 5, new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -644,6 +653,11 @@ namespace GlowCare.Entities.Migrations
                 name: "IX_Reviews_ProcedureId",
                 table: "Reviews",
                 column: "ProcedureId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_ServiceId",
+                table: "Reviews",
+                column: "ServiceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_UserId",

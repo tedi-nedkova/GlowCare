@@ -1,0 +1,234 @@
+.specialist-apply-page {
+        min-height: 100vh;
+        padding: 60px 20px;
+        background: radial-gradient(circle at top left, rgba(69, 187, 145, 0.10), transparent 24%), radial-gradient(circle at top right, rgba(69, 187, 145, 0.08), transparent 22%), radial-gradient(circle at bottom left, rgba(69, 187, 145, 0.08), transparent 24%), radial-gradient(circle at bottom right, rgba(69, 187, 145, 0.10), transparent 24%), linear-gradient(180deg, #f8fcfa 0%, #f4faf7 100%);
+    }
+
+    .specialist-apply-wrapper {
+        max-width: 820px;
+        margin: 0 auto;
+    }
+
+    .specialist-apply-header {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .specialist-apply-title {
+        margin: 0 0 10px;
+        font-size: 38px;
+        font-weight: 800;
+        color: #1f2d2a;
+        line-height: 1.15;
+    }
+
+    .specialist-apply-subtitle {
+        margin: 0 auto;
+        max-width: 620px;
+        font-size: 16px;
+        line-height: 1.6;
+        color: #667873;
+    }
+
+    .specialist-status-box {
+        margin-bottom: 16px;
+        padding: 14px 18px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+        .specialist-status-box.error {
+            background-color: #fff3f3;
+            border-color: #f1c8c8;
+            color: #9f2f2f;
+        }
+
+        .specialist-status-box.success {
+            background-color: #edf9f2;
+            border-color: #cfe9d8;
+            color: #206a47;
+        }
+
+        .specialist-status-box.info {
+            background-color: #eef7fb;
+            border-color: #cfe3ee;
+            color: #2c617c;
+        }
+
+        .specialist-status-box.warning {
+            background-color: #fff8e8;
+            border-color: #f0dfab;
+            color: #876300;
+        }
+
+    .specialist-apply-card {
+        background-color: #ffffff;
+        border: 1px solid #e4efe9;
+        box-shadow: 0 18px 45px rgba(26, 43, 36, 0.07);
+        overflow: hidden;
+    }
+
+    .specialist-apply-card-header {
+        padding: 28px 30px 18px;
+        border-bottom: 1px solid #edf3f0;
+    }
+
+    .specialist-apply-card-title {
+        margin: 0 0 6px;
+        font-size: 24px;
+        font-weight: 700;
+        color: #1f2d2a;
+    }
+
+    .specialist-apply-card-text {
+        margin: 0;
+        color: #6a7b75;
+        line-height: 1.6;
+        font-size: 15px;
+    }
+
+    .specialist-apply-card-body {
+        padding: 28px 30px 32px;
+    }
+
+    .specialist-form-group {
+        margin-bottom: 22px;
+    }
+
+    .specialist-form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #22312d;
+    }
+
+    .specialist-form-control {
+        width: 100%;
+        min-height: 52px;
+        padding: 14px 16px;
+        border: 1px solid #d9e5df;
+        background-color: #fbfdfc;
+        color: #22312d;
+        font-size: 15px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+        .specialist-form-control:focus {
+            outline: none;
+            border-color: #56b691;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(69, 187, 145, 0.13);
+        }
+
+    textarea.specialist-form-control {
+        min-height: 160px;
+        resize: vertical;
+    }
+
+    .specialist-validation {
+        display: block;
+        margin-top: 7px;
+        color: #c0392b;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .specialist-form-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+    }
+
+    .specialist-btn-primary,
+    .specialist-btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 170px;
+        padding: 13px 22px;
+        border-radius: 14px;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 700;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+
+    .specialist-btn-primary {
+        background-color: #1f2d2a;
+        color: #ffffff;
+        border: 1px solid #1f2d2a;
+    }
+
+        .specialist-btn-primary:hover {
+            background-color: #111918;
+            border-color: #111918;
+            color: #ffffff;
+        }
+
+    .specialist-btn-secondary {
+        background-color: #ffffff;
+        color: #34433f;
+        border: 1px solid #d8e3de;
+    }
+
+        .specialist-btn-secondary:hover {
+            background-color: #f5f8f7;
+            color: #1f2d2a;
+        }
+
+    .specialist-empty-box {
+        padding: 18px 20px;
+        border-radius: 14px;
+        background-color: #f7faf9;
+        border: 1px solid #e2ece8;
+        color: #667873;
+        font-size: 15px;
+    }
+
+    .specialist-rejection-box {
+        margin-top: 12px;
+        padding: 16px 18px;
+        border-radius: 14px;
+        background-color: #fffdf7;
+        border: 1px solid #f1e2bb;
+    }
+
+    .specialist-rejection-title {
+        margin: 0 0 8px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #6f5610;
+    }
+
+    .specialist-rejection-text {
+        margin: 0;
+        color: #6c5a28;
+        line-height: 1.6;
+        white-space: pre-wrap;
+    }
+
+    @@media (max-width: 767.98px) {
+        .specialist-apply-page {
+            padding: 36px 14px;
+        }
+
+        .specialist-apply-title {
+            font-size: 30px;
+        }
+
+        .specialist-apply-card-header,
+        .specialist-apply-card-body {
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+
+        .specialist-btn-primary,
+        .specialist-btn-secondary {
+            width: 100%;
+        }
+    }

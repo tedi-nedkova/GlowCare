@@ -55,36 +55,37 @@ namespace GlowCare.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [Display(Name = "First Name")]
+            [Required(ErrorMessage = "Името е задължително.")]
+            [Display(Name = "Име")]
             public string FirstName { get; set; }
 
-            [Required]
-            [Display(Name = "Last Name")]
+            [Required(ErrorMessage = "Фамилията е задължителна.")]
+            [Display(Name = "Фамилия")]
             public string LastName { get; set; }
 
-            [Required]
-            [Display(Name = "Age")]
+            [Required(ErrorMessage = "Възрастта е задължителна.")]
+            [Range(0, 120, ErrorMessage = "Въведете валидна възраст.")]
+            [Display(Name = "Възраст")]
             public int Age { get; set; }
 
-            [Required]
-            [Display(Name = "Gender")]
+            [Required(ErrorMessage = "Полето „Пол“ е задължително.")]
+            [Display(Name = "Пол")]
             public Gender Gender { get; set; }
 
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
+            [Required(ErrorMessage = "Имейлът е задължителен.")]
+            [EmailAddress(ErrorMessage = "Моля, въведете валиден имейл адрес.")]
+            [Display(Name = "Имейл")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Паролата е задължителна.")]
+            [StringLength(100, ErrorMessage = "Паролата трябва да е между {2} и {1} символа.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Парола")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Потвърди парола")]
+            [Compare("Password", ErrorMessage = "Паролата и потвърждението не съвпадат.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -98,7 +99,13 @@ namespace GlowCare.Areas.Identity.Pages.Account
                 .Select(g => new SelectListItem
                 {
                     Value = g.ToString(),
-                    Text = g.ToString()
+                    Text = g switch
+                    {
+                        Gender.Male => "Мъж",
+                        Gender.Female => "Жена",
+                        Gender.Other => "Друго",
+                        _ => g.ToString()
+                    }
                 })
                 .ToList();
         }
@@ -137,8 +144,8 @@ namespace GlowCare.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Потвърдете своя имейл",
+                        $"Моля, потвърдете своя акаунт, като <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>натиснете тук</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -168,9 +175,8 @@ namespace GlowCare.Areas.Identity.Pages.Account
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(GlowUser)}'. " +
-                    $"Ensure that '{nameof(GlowUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
-                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
+                throw new InvalidOperationException($"Не може да бъде създаден екземпляр от '{nameof(GlowUser)}'. " +
+                    $"Уверете се, че '{nameof(GlowUser)}' не е абстрактен клас и има конструктор без параметри, или променете страницата за регистрация в /Areas/Identity/Pages/Account/Register.cshtml.");
             }
         }
 
@@ -178,7 +184,7 @@ namespace GlowCare.Areas.Identity.Pages.Account
         {
             if (!_userManager.SupportsUserEmail)
             {
-                throw new NotSupportedException("The default UI requires a user store with email support.");
+                throw new NotSupportedException("Стандартният интерфейс изисква потребителско хранилище с поддръжка на имейл.");
             }
             return (IUserEmailStore<GlowUser>)_userStore;
         }

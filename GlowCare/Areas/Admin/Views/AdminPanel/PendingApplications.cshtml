@@ -1,84 +1,115 @@
 ﻿@model IEnumerable<GlowCare.ViewModels.SpecialistRequest.SpecialistApplicationViewModel>
 
 @{
-    ViewData["Title"] = "Pending Applications";
+    ViewData["Title"] = "Чакащи заявки";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="mb-4">Pending Specialist Applications</h2>
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
+
+<div class="pending-applications-page">
+    <div class="container">
+        <div class="pending-header">
+            <a asp-area="Admin"
+               asp-controller="AdminPanel"
+               asp-action="Index"
+               class="back-link">
+                <i class="fa fa-arrow-left"></i>
+                <span>Назад</span>
+            </a>
+
+            <h1 class="page-title">Чакащи заявки</h1>
+        </div>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success status-alert mb-4">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger status-alert mb-4">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        @if (!Model.Any())
+        {
+            <div class="empty-state-card">
+                <h4 class="empty-state-title">Няма чакащи заявки</h4>
+                <p class="empty-state-text">
+                    В момента няма подадени заявки за специалист, които да очакват преглед.
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="applications-table-card">
+                <div class="table-responsive">
+                    <table class="table applications-table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Имейл</th>
+                                <th>Професия</th>
+                                <th>Опит</th>
+                                <th>Подадена на</th>
+                                <th class="text-end">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var application in Model)
+                            {
+                                <tr>
+                                    <td data-label="Имейл">
+                                        <div class="email-text">@application.Email</div>
+                                    </td>
+
+                                    <td data-label="Професия">
+                                        <span class="occupation-badge">@application.Occupation</span>
+                                    </td>
+
+                                    <td data-label="Опит">
+                                        <span class="experience-badge">@application.ExperienceYears г.</span>
+                                    </td>
+
+                                    <td data-label="Подадена на">
+                                        <span class="date-badge">@application.CreatedOn.ToString("dd.MM.yyyy HH:mm")</span>
+                                    </td>
+
+                                    <td data-label="Действия">
+                                        <div class="actions-wrap">
+                                            <a asp-area="Admin"
+                                               asp-controller="AdminPanel"
+                                               asp-action="ApplicationDetails"
+                                               asp-route-id="@application.Id"
+                                               class="btn btn-details btn-sm">
+                                                Детайли
+                                            </a>
+
+                                            <form asp-area="Admin"
+                                                  asp-controller="AdminPanel"
+                                                  asp-action="Approve"
+                                                  method="post"
+                                                  class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@application.Id" />
+                                                <button type="submit"
+                                                        class="btn btn-approve btn-sm"
+                                                        onclick="return confirm('Сигурни ли сте, че искате да одобрите тази заявка?');">
+                                                    Одобри
+                                                </button>
+                                            </form>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
     </div>
-}
-
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
-}
-
-@if (!Model.Any())
-{
-    <div class="alert alert-info">
-        There are no pending specialist applications at the moment.
-    </div>
-}
-else
-{
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Applicant Email</th>
-                <th>Occupation</th>
-                <th>Experience</th>
-                <th>Created On</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var application in Model)
-            {
-                <tr>
-                    <td>@application.Email</td>
-                    <td>@application.Occupation</td>
-                    <td>@application.ExperienceYears years</td>
-                    <td>@application.CreatedOn.ToString("dd.MM.yyyy HH:mm")</td>
-                    <td>
-                        <a asp-area="Admin"
-                           asp-controller="AdminPanel"
-                           asp-action="ApplicationDetails"
-                           asp-route-id="@application.Id"
-                           class="btn btn-info btn-sm">
-                            Details
-                        </a>
-
-                        <form asp-area="Admin"
-                              asp-controller="AdminPanel"
-                              asp-action="Approve"
-                              method="post"
-                              class="d-inline">
-                            <input type="hidden" name="id" value="@application.Id" />
-                            <button type="submit" class="btn btn-success btn-sm">
-                                Approve
-                            </button>
-                        </form>
-
-                        <form asp-area="Admin"
-                              asp-controller="AdminPanel"
-                              asp-action="Decline"
-                              method="post"
-                              class="d-inline">
-                            <input type="hidden" name="id" value="@application.Id" />
-                            <button type="submit" class="btn btn-sm">
-                                Decline
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+</div>

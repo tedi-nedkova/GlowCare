@@ -2,7 +2,7 @@
 using GlowCare.Entities;
 using GlowCare.Entities.Contracts.Interfaces;
 
-namespace Portify.Entities.Repositories;
+namespace GlowCare.Entities.Repositories;
 
 public class Repository<TType, TId>(
     GlowCareDbContext context)

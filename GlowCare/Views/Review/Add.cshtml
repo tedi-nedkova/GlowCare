@@ -1,28 +1,84 @@
 ﻿@model GlowCare.ViewModels.Reviews.AddReviewViewModel
 
 @{
-    ViewData["Title"] = "Add Review";
+    ViewData["Title"] = "Остави ревю";
 }
 
-<h2>Add Review</h2>
 
-<form asp-action="Add" method="post">
-    <input asp-for="ProcedureId" type="hidden" />
 
-    <div>
-        <label asp-for="Rating"></label>
-        <input asp-for="Rating" type="number" min="1" max="5" />
-        <span asp-validation-for="Rating"></span>
+<div class="review-page">
+    <div class="container">
+        <div class="review-card">
+            <h1 class="review-title">Остави ревю</h1>
+            <p class="review-subtitle">
+                Сподели мнение за <strong>@Model.SpecialistName</strong> и избери процедурата,
+                за която искаш да дадеш оценка.
+            </p>
+
+            <form asp-action="Add" method="post">
+                @Html.AntiForgeryToken()
+                <input asp-for="EmployeeId" type="hidden" />
+
+                <div asp-validation-summary="ModelOnly" class="validation-message"></div>
+
+                <div class="review-field">
+                    <label asp-for="ProcedureId" class="review-label">Процедура</label>
+
+                    @if (!Model.AvailableProcedures.Any())
+                    {
+                        <div class="validation-message">
+                            Нямаш процедура при този специалист, за която да оставиш ревю.
+                        </div>
+                    }
+                    else
+                    {
+                        <select asp-for="ProcedureId" class="review-select">
+                            <option value="">Избери процедура</option>
+                            @foreach (var procedure in Model.AvailableProcedures)
+                            {
+                                <option value="@procedure.ProcedureId">@procedure.DisplayName</option>
+                            }
+                        </select>
+                    }
+
+                    <span asp-validation-for="ProcedureId" class="validation-message"></span>
+                </div>
+
+                <div class="review-field">
+                    <label class="review-label">Оценка</label>
+                    <div class="star-rating">
+                        <input asp-for="Rating" type="radio" id="star5" value="5" />
+                        <label for="star5" title="5 звезди">★</label>
+
+                        <input asp-for="Rating" type="radio" id="star4" value="4" />
+                        <label for="star4" title="4 звезди">★</label>
+
+                        <input asp-for="Rating" type="radio" id="star3" value="3" />
+                        <label for="star3" title="3 звезди">★</label>
+
+                        <input asp-for="Rating" type="radio" id="star2" value="2" />
+                        <label for="star2" title="2 звезди">★</label>
+
+                        <input asp-for="Rating" type="radio" id="star1" value="1" />
+                        <label for="star1" title="1 звезда">★</label>
+                    </div>
+                    <span asp-validation-for="Rating" class="validation-message"></span>
+                </div>
+
+                <div class="review-field">
+                    <label asp-for="Comment" class="review-label">Коментар</label>
+                    <textarea asp-for="Comment" class="review-textarea" placeholder="Напиши как е минала процедурата, какво ти е харесало и какво впечатление ти е направил специалистът..."></textarea>
+                    <span asp-validation-for="Comment" class="validation-message"></span>
+                </div>
+
+                <div class="review-actions">
+                    <button type="submit" class="review-btn">Публикувай ревю</button>
+                    <a asp-controller="Employee" asp-action="Details" asp-route-id="@Model.EmployeeId" class="review-btn-secondary">Назад към профила</a>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <div>
-        <label asp-for="Comment"></label>
-        <textarea asp-for="Comment"></textarea>
-        <span asp-validation-for="Comment"></span>
-    </div>
-
-    <button type="submit">Submit Review</button>
-</form>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

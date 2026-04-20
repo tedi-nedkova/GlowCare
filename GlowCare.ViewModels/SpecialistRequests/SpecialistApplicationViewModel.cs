@@ -20,6 +20,8 @@ public class SpecialistApplicationViewModel
 
     public RequestStatus Status { get; set; }
 
+    public string StatusText { get; set; } = null!;
+
     public DateTime CreatedOn { get; set; }
 
     public string? RejectionReason { get; set; }

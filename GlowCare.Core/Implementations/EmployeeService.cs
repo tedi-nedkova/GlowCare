@@ -7,38 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace GlowCare.Core.Implementations
 {
     public class EmployeeService(
-        IRepository<Employee, Guid> employeeRepository,
-        IRepository<GlowCare.Entities.Models.EmployeeService, int> employeeServiceRepository)
-        : IEmployeeService
+    IRepository<Employee, Guid> employeeRepository,
+    IRepository<GlowCare.Entities.Models.EmployeeService, int> employeeServiceRepository,
+    IRepository<Review, int> reviewRepository)
+    : IEmployeeService
     {
-        public async Task<IEnumerable<EmployeeInfoViewModel>> GetAllEmployeesAsync()
-        {
-            List<Employee> employees = await employeeRepository
-                .GetAllAttached()
-                .AsNoTracking()
-                .Include(e => e.User)
-                .Where(e => !e.IsDeleted && !e.User.IsDeleted && e.User.IsSpecialist)
-                .OrderBy(e => e.User.FirstName)
-                .ThenBy(e => e.User.LastName)
-                .ToListAsync();
-
-            Dictionary<Guid, List<string>> servicesByEmployee = await GetServicesByEmployeeAsync(employees.Select(e => e.Id));
-
-            return employees.Select(employee => new EmployeeInfoViewModel
-            {
-                Id = employee.Id,
-                FullName = $"{employee.User.FirstName} {employee.User.LastName}",
-                Occupation = employee.Occupation,
-                ExperienceYears = employee.ExperienceYears,
-                Biography = employee.Biography,
-                Email = employee.User.Email,
-                PhoneNumber = employee.User.PhoneNumber,
-                Services = servicesByEmployee.TryGetValue(employee.Id, out List<string>? services)
-                    ? services
-                    : new List<string>()
-            });
-        }
-
         public async Task<EmployeeInfoViewModel?> GetEmployeeByIdAsync(Guid id)
         {
             var employee = await employeeRepository
@@ -55,6 +28,18 @@ namespace GlowCare.Core.Implementations
                 return null;
             }
 
+            List<Review> reviews = await reviewRepository
+                .GetAllAttached()
+                .AsNoTracking()
+                .Where(r => r.EmployeeId == id && !r.IsDeleted)
+                .ToListAsync();
+
+            double averageRating = reviews
+                .Select(r => (double?)r.Rating)
+                .Average() ?? 0d;
+
+            int reviewsCount = reviews.Count;
+
             return new EmployeeInfoViewModel
             {
                 Id = employee.Id,
@@ -64,6 +49,8 @@ namespace GlowCare.Core.Implementations
                 Biography = employee.Biography,
                 Email = employee.User.Email,
                 PhoneNumber = employee.User.PhoneNumber,
+                AverageRating = averageRating,
+                ReviewsCount = reviewsCount,
                 Services = employee.EmployeeServices
                     .Where(es => !es.Service.IsDeleted)
                     .Select(es => es.Service.Name)
@@ -145,26 +132,32 @@ namespace GlowCare.Core.Implementations
 
         private async Task<Dictionary<Guid, List<string>>> GetServicesByEmployeeAsync(IEnumerable<Guid> employeeIds)
         {
-            List<Guid> ids = employeeIds.Distinct().ToList();
+            List<Guid> ids = employeeIds
+                .Distinct()
+                .ToList();
 
             if (ids.Count == 0)
             {
                 return new Dictionary<Guid, List<string>>();
             }
 
-            return await employeeServiceRepository
+            var employeeServices = await employeeServiceRepository
                 .GetAllAttached()
-                .AsNoTracking()
-                .Include(es => es.Service)
                 .Where(es => ids.Contains(es.EmployeeId) && !es.Service.IsDeleted)
+                .Select(es => new
+                {
+                    es.EmployeeId,
+                    ServiceName = es.Service.Name
+                })
+                .ToListAsync();
+
+            return employeeServices
                 .GroupBy(es => es.EmployeeId)
-                .ToDictionaryAsync(
-                    group => group.Key,
-                    group => group
-                        .Select(es => es.Service.Name)
-                        .Distinct()
-                        .OrderBy(name => name)
-                        .ToList());
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Select(x => x.ServiceName)
+                          .Distinct()
+                          .ToList());
         }
 
         private static string GetDayNameInBulgarian(DayOfWeek dayOfWeek)

@@ -1,0 +1,191 @@
+@model GlowCare.ViewModels.SpecialistRequest.SpecialistApplicationViewModel
+
+@{
+    ViewData["Title"] = "Детайли за заявка";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string statusClass = Model.Status switch
+    {
+        GlowCare.Entities.Models.Enums.RequestStatus.Accepted => "status-accepted",
+        GlowCare.Entities.Models.Enums.RequestStatus.Declined => "status-declined",
+        GlowCare.Entities.Models.Enums.RequestStatus.Revoked => "status-revoked",
+        _ => "status-pending"
+    };
+}
+
+<div class="application-details-page">
+    <div class="container">
+        <div class="details-page-header">
+            <a asp-area="Admin"
+               asp-controller="AdminPanel"
+               asp-action="PendingApplications"
+               class="details-back-link">
+                <i class="fa fa-arrow-left"></i>
+                <span>Назад към заявките</span>
+            </a>
+
+            <div class="details-header-row">
+                <div>
+                    <h1 class="details-title">Детайли за заявка</h1>
+                </div>
+
+                <div class="details-status-wrap">
+                    <span class="details-status-pill @statusClass">@Model.StatusText</span>
+                </div>
+            </div>
+        </div>
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger mb-4">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success mb-4">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        <div class="details-layout">
+            <div class="details-main-column">
+                <div class="details-card">
+                    <div class="details-card-header">
+                        <h2 class="details-card-title">Информация за кандидата</h2>
+                    </div>
+
+                    <div class="details-grid">
+                        <div class="details-item">
+                            <span class="details-label">Кандидат</span>
+                            <div class="details-value">
+                                @(!string.IsNullOrWhiteSpace(Model.UserFullName) ? Model.UserFullName : "Няма данни")
+                            </div>
+                        </div>
+
+                        <div class="details-item">
+                            <span class="details-label">Имейл</span>
+                            <div class="details-value">@Model.Email</div>
+                        </div>
+
+                        <div class="details-item">
+                            <span class="details-label">Професия</span>
+                            <div class="details-value">@Model.Occupation</div>
+                        </div>
+
+                        <div class="details-item">
+                            <span class="details-label">Години опит</span>
+                            <div class="details-value">@Model.ExperienceYears г.</div>
+                        </div>
+
+                        <div class="details-item details-item-wide">
+                            <span class="details-label">Подадена на</span>
+                            <div class="details-value">@Model.CreatedOn.ToString("dd.MM.yyyy HH:mm")</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="details-card mt-4">
+                    <div class="details-card-header">
+                        <h2 class="details-card-title">Биография</h2>
+                        <p class="details-card-subtitle">Описание, въведено от кандидата.</p>
+                    </div>
+
+                    <div class="details-text-box">
+                        @(string.IsNullOrWhiteSpace(Model.Biography) ? "Не е добавена биография." : Model.Biography)
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.RejectionReason))
+                {
+                    <div class="details-card mt-4 rejection-card">
+                        <div class="details-card-header">
+                            <h2 class="details-card-title">Причина за отхвърляне</h2>
+                            <p class="details-card-subtitle">Това съобщение се вижда от потребителя.</p>
+                        </div>
+
+                        <div class="details-text-box rejection-box">
+                            @Model.RejectionReason
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="details-side-column">
+                <div class="details-card sticky-card">
+                    <div class="details-card-header">
+                        <h2 class="details-card-title">Действия</h2>
+                    </div>
+
+                    @if (Model.Status == GlowCare.Entities.Models.Enums.RequestStatus.Pending)
+                    {
+                        <div class="details-actions-stack">
+                            <form asp-area="Admin"
+                                  asp-controller="AdminPanel"
+                                  asp-action="Approve"
+                                  method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@Model.Id" />
+                                <button type="submit"
+                                        class="btn btn-approve w-100"
+                                        onclick="return confirm('Сигурни ли сте, че искате да одобрите тази заявка?');">
+                                    Одобри заявката
+                                </button>
+                            </form>
+
+                            <a asp-area="Admin"
+                               asp-controller="AdminPanel"
+                               asp-action="PendingApplications"
+                               class="btn btn-outline-secondary w-100">
+                                Обратно
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="details-actions-stack">
+                            <a asp-area="Admin"
+                               asp-controller="AdminPanel"
+                               asp-action="PendingApplications"
+                               class="btn btn-outline-secondary w-100">
+                                Обратно
+                            </a>
+                        </div>
+                    }
+                </div>
+
+                @if (Model.Status == GlowCare.Entities.Models.Enums.RequestStatus.Pending)
+                {
+                    <div class="details-card mt-4 decline-card">
+                        <div class="details-card-header">
+                            <h2 class="details-card-title">Отхвърляне на заявката</h2>
+                        </div>
+
+                        <form asp-area="Admin"
+                              asp-controller="AdminPanel"
+                              asp-action="Decline"
+                              method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="Id" value="@Model.Id" />
+
+                            <label for="RejectionReason" class="form-label fw-semibold">Причина за отхвърляне</label>
+                            <textarea name="RejectionReason"
+                                  id="RejectionReason"
+                                  class="form-control details-textarea"
+                                  placeholder="Например: липсва достатъчно информация за квалификацията или е нужно по-подробно описание на опита."></textarea>
+
+                            <div class="mt-3">
+                                <button type="submit"
+                                        class="btn btn-danger w-100"
+                                        onclick="return confirm('Сигурни ли сте, че искате да отхвърлите тази заявка?');">
+                                    Отхвърли заявката
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

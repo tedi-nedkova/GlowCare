@@ -1,16 +1,22 @@
 ﻿@model GlowCare.ViewModels.Users.UserManagementViewModel
 
 @{
-    ViewData["Title"] = "User Management";
+    ViewData["Title"] = "Управление на потребители";
     string[] assignableRoleOptions = new[] { "Admin" };
 }
 
-<div class="user-management-page py-5">
+<div class="admin-users-page py-5">
     <div class="container">
-        <div class="page-header-card shadow-sm rounded-4 mb-4">
+        <div class="admin-users-header mb-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
             <div>
-                <h1 class="fw-bold mb-1">User Management</h1>
-                <p class="text-muted mb-0">Assign roles, remove roles, and manage user access.</p>
+                <a asp-area="Admin"
+                   asp-controller="AdminPanel"
+                   asp-action="Index"
+                   class="back-link mb-3 d-inline-flex">
+                    <i class="fa fa-arrow-left"></i> Назад
+                </a>
+
+                <h1 class="page-title mb-1">Управление на потребители</h1>
             </div>
         </div>
 
@@ -31,13 +37,13 @@
         @if (Model.Users == null || !Model.Users.Any())
         {
             <div class="empty-state-card shadow-sm rounded-4">
-                <h4 class="mb-2">No users found</h4>
-                <p class="text-muted mb-0">There are currently no users to manage.</p>
+                <h4 class="mb-2">Няма намерени потребители</h4>
+                <p class="text-muted mb-0">В момента няма потребители за управление.</p>
             </div>
         }
         else
         {
-            <div class="row g-4">
+            <div class="users-admin-list">
                 @foreach (var user in Model.Users)
                 {
                     var currentRoles = user.Roles?.ToList() ?? new List<string>();
@@ -48,147 +54,154 @@
 
                     var removableRoles = currentRoles.ToList();
 
-                    <div class="col-12">
-                        <div class="user-card shadow-sm rounded-4">
-                            <div class="row g-4 align-items-center">
-                                <div class="col-lg-3">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="user-avatar">
-                                            @(user.FirstName.FirstOrDefault())@(user.LastName.FirstOrDefault())
-                                        </div>
-                                        <div>
-                                            <h5 class="mb-1 fw-semibold">@user.FirstName @user.LastName</h5>
-                                            <p class="text-muted mb-0">@user.Email</p>
-                                        </div>
-                                    </div>
+                    <article class="user-admin-card">
+                        <div class="user-admin-top">
+                            <div class="user-admin-profile">
+                                <div class="user-admin-avatar">
+                                    @(user.FirstName.FirstOrDefault())@(user.LastName.FirstOrDefault())
                                 </div>
 
-                                <div class="col-lg-3">
-                                    <div class="section-box">
-                                        <p class="section-label mb-2">Current Roles</p>
-
-                                        @if (currentRoles.Any())
-                                        {
-                                            <div class="d-flex flex-wrap gap-2">
-                                                @foreach (var role in currentRoles)
-                                                {
-                                                    string badgeClass = role == "Admin"
-                                                    ? "role-badge role-admin"
-                                                    : role == "Specialist"
-                                                    ? "role-badge role-specialist"
-                                                    : "role-badge role-default";
-
-                                                    <span class="@badgeClass">@role</span>
-                                                }
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <span class="role-badge role-default">No Roles</span>
-                                        }
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="section-box">
-                                        <p class="section-label mb-2">Assign Role</p>
-
-                                        <form asp-area="Admin"
-                                              asp-controller="AdminPanel"
-                                              asp-action="AdminRoleAssign"
-                                              method="post"
-                                              class="role-form">
-                                            <input type="hidden" name="userId" value="@user.Id" />
-
-                                            <div class="input-group">
-                                                <select name="roleName"
-                                                        class="form-select rounded-start-pill"
-                                                        @(assignableRoles.Any() ? null : "disabled")>
-                                                    @if (assignableRoles.Any())
-                                                    {
-                                                        <option value="">Choose role</option>
-                                                        @foreach (var role in assignableRoles)
-                                                        {
-                                                            <option value="@role">@role</option>
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        <option value="">No roles available</option>
-                                                    }
-                                                </select>
-
-                                                <button type="submit"
-                                                        class="btn btn-assign rounded-end-pill"
-                                                        @(assignableRoles.Any() ? null : "disabled")>
-                                                    Assign
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="section-box">
-                                        <p class="section-label mb-2">Remove Role / Deactivate</p>
-
-                                        <form asp-area="Admin"
-                                              asp-controller="AdminPanel"
-                                              asp-action="RemoveUserRole"
-                                              method="post"
-                                              class="role-form mb-2">
-                                            <input type="hidden" name="userId" value="@user.Id" />
-
-                                            <div class="input-group">
-                                                <select name="roleName"
-                                                        class="form-select rounded-start-pill"
-                                                        @(removableRoles.Any() ? null : "disabled")>
-                                                    @if (removableRoles.Any())
-                                                    {
-                                                        <option value="">Choose role</option>
-                                                        @foreach (var role in removableRoles)
-                                                        {
-                                                            <option value="@role">@role</option>
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        <option value="">No removable roles</option>
-                                                    }
-                                                </select>
-
-                                                <button type="submit"
-                                                        class="btn btn-remove rounded-end-pill"
-                                                        onclick="return confirm('Are you sure you want to remove the selected role from this user?');"
-                                                        @(removableRoles.Any() ? null : "disabled")>
-                                                    Remove
-                                                </button>
-                                            </div>
-                                        </form>
-
-                                        <form asp-area="Admin"
-                                              asp-controller="AdminPanel"
-                                              asp-action="DeleteUser"
-                                              method="post"
-                                              onsubmit="return confirm('Are you sure you want to deactivate this user?');">
-                                            <input type="hidden" name="userId" value="@user.Id" />
-                                            <button type="submit" class="btn btn-danger rounded-pill px-4 w-100">
-                                                Deactivate User
-                                            </button>
-                                        </form>
-                                    </div>
+                                <div>
+                                    <h2 class="user-admin-name">@user.FirstName @user.LastName</h2>
+                                    <p class="user-admin-email">@user.Email</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                        <div class="user-admin-grid">
+                            <section class="user-info-box">
+                                <p class="user-box-label">Текущи роли</p>
+
+                                @if (currentRoles.Any())
+                                {
+                                    <div class="user-role-tags">
+                                        @foreach (var role in currentRoles)
+                                        {
+                                            string badgeClass = role == "Admin"
+                                            ? "role-badge role-admin"
+                                            : role == "Specialist"
+                                            ? "role-badge role-specialist"
+                                            : "role-badge role-default";
+
+                                            string roleText = role == "Admin"
+                                            ? "Админ"
+                                            : role == "Specialist"
+                                            ? "Специалист"
+                                            : role;
+
+                                            <span class="@badgeClass">@roleText</span>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="role-badge role-default">Няма роли</span>
+                                }
+                            </section>
+
+                            <section class="user-info-box">
+                                <p class="user-box-label">Добавяне на роля</p>
+
+                                <form asp-area="Admin"
+                                      asp-controller="AdminPanel"
+                                      asp-action="AdminRoleAssign"
+                                      method="post"
+                                      class="role-form-modern">
+                                    <input type="hidden" name="userId" value="@user.Id" />
+
+                                    <select name="roleName"
+                                            class="user-select-input"
+                                            @(assignableRoles.Any() ? null : "disabled")>
+                                        @if (assignableRoles.Any())
+                                        {
+                                            <option value="">Изберете роля</option>
+                                            @foreach (var role in assignableRoles)
+                                            {
+                                                string roleText = role == "Admin" ? "Админ" : role;
+                                                <option value="@role">@roleText</option>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <option value="">Няма налични роли</option>
+                                        }
+                                    </select>
+
+                                    <button type="submit"
+                                            class="user-btn user-btn-dark"
+                                            @(assignableRoles.Any() ? null : "disabled")>
+                                        Добави
+                                    </button>
+                                </form>
+                            </section>
+
+                            <section class="user-info-box">
+                                <p class="user-box-label">Премахване на роля</p>
+
+                                <form asp-area="Admin"
+                                      asp-controller="AdminPanel"
+                                      asp-action="RemoveUserRole"
+                                      method="post"
+                                      class="role-form-modern">
+                                    <input type="hidden" name="userId" value="@user.Id" />
+
+                                    <select name="roleName"
+                                            class="user-select-input"
+                                            @(removableRoles.Any() ? null : "disabled")>
+                                        @if (removableRoles.Any())
+                                        {
+                                            <option value="">Изберете роля</option>
+                                            @foreach (var role in removableRoles)
+                                            {
+                                                string roleText = role == "Admin"
+                                                ? "Админ"
+                                                : role == "Specialist"
+                                                ? "Специалист"
+                                                : role;
+
+                                                <option value="@role">@roleText</option>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <option value="">Няма роли за премахване</option>
+                                        }
+                                    </select>
+
+                                    <button type="submit"
+                                            class="user-btn user-btn-outline-danger"
+                                            onclick="return confirm('Сигурни ли сте, че искате да премахнете избраната роля от този потребител?');"
+                                            @(removableRoles.Any() ? null : "disabled")>
+                                        Премахни
+                                    </button>
+                                </form>
+                            </section>
+
+                            <section class="user-info-box danger-box">
+                                <p class="user-box-label">Деактивиране</p>
+
+                                <form asp-area="Admin"
+                                      asp-controller="AdminPanel"
+                                      asp-action="DeleteUser"
+                                      method="post"
+                                      onsubmit="return confirm('Сигурни ли сте, че искате да деактивирате този потребител?');">
+                                    <input type="hidden" name="userId" value="@user.Id" />
+                                    <button type="submit" class="user-btn user-btn-danger w-100">
+                                        <i class="fa fa-user-times me-2"></i>
+                                        Деактивирай потребител
+                                    </button>
+                                </form>
+                            </section>
+                        </div>
+                    </article>
                 }
             </div>
         }
 
         @if (Model.TotalPages > 1)
         {
-            <nav aria-label="User pagination" class="mt-5">
-                <ul class="pagination justify-content-center custom-pagination">
+            <nav aria-label="Навигация по страници" class="mt-5">
+                <ul class="pagination justify-content-center custom-pagination mb-0">
                     @for (int i = 1; i <= Model.TotalPages; i++)
                     {
                         <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
@@ -206,134 +219,3 @@
         }
     </div>
 </div>
-
-<style>
-    .user-management-page {
-        background: #f8fafc;
-        min-height: 100vh;
-    }
-
-    .page-header-card,
-    .empty-state-card,
-    .user-card {
-        background: #ffffff;
-        border: 1px solid #eef1f4;
-    }
-
-    .page-header-card,
-    .empty-state-card {
-        padding: 1.75rem;
-    }
-
-    .user-card {
-        padding: 1.5rem;
-        transition: all 0.2s ease;
-    }
-
-        .user-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.06) !important;
-        }
-
-    .user-avatar {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #f9d7e5, #d9c6ff);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        color: #2d2d2d;
-        font-size: 1rem;
-        flex-shrink: 0;
-    }
-
-    .section-box {
-        background: #fbfcfe;
-        border: 1px solid #edf0f3;
-        border-radius: 1rem;
-        padding: 1rem;
-        height: 100%;
-    }
-
-    .section-label {
-        font-size: 0.78rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: #6c757d;
-        font-weight: 700;
-    }
-
-    .role-badge {
-        display: inline-block;
-        padding: 0.45rem 0.9rem;
-        border-radius: 999px;
-        font-size: 0.8rem;
-        font-weight: 600;
-    }
-
-    .role-admin {
-        background: #ffe3e3;
-        color: #c92a2a;
-    }
-
-    .role-specialist {
-        background: #e3f2fd;
-        color: #1565c0;
-    }
-
-    .role-default {
-        background: #f1f3f5;
-        color: #495057;
-    }
-
-    .role-form .form-select {
-        border: 1px solid #dce3ea;
-        min-height: 42px;
-        box-shadow: none;
-    }
-
-        .role-form .form-select:focus {
-            border-color: #b8c4d1;
-            box-shadow: none;
-        }
-
-    .btn-assign {
-        background: #198754;
-        color: white;
-        border: none;
-        min-width: 95px;
-    }
-
-        .btn-assign:hover {
-            background: #157347;
-            color: white;
-        }
-
-    .btn-remove {
-        background: #f59f00;
-        color: white;
-        border: none;
-        min-width: 95px;
-    }
-
-        .btn-remove:hover {
-            background: #e08a00;
-            color: white;
-        }
-
-    .custom-pagination .page-link {
-        border-radius: 999px !important;
-        margin: 0 4px;
-        border: none;
-        color: #212529;
-        background: white;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
-
-    .custom-pagination .page-item.active .page-link {
-        background: #212529;
-        color: white;
-    }
-</style>

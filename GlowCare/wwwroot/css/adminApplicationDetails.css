@@ -1,0 +1,240 @@
+.application-details-page {
+    min-height: 100vh;
+    padding: 56px 24px 80px;
+    background: radial-gradient(circle at top left, rgba(69, 187, 145, 0.08), transparent 24%), radial-gradient(circle at top right, rgba(69, 187, 145, 0.06), transparent 22%), radial-gradient(circle at bottom left, rgba(69, 187, 145, 0.06), transparent 24%), radial-gradient(circle at bottom right, rgba(69, 187, 145, 0.08), transparent 24%), linear-gradient(180deg, #f8fcfa 0%, #f4faf7 100%);
+}
+
+.details-page-header {
+    margin-bottom: 24px;
+}
+
+.details-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #2b7a60;
+    text-decoration: none;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+    .details-back-link:hover {
+        color: #1f5e49;
+        text-decoration: none;
+    }
+
+.details-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 16px;
+}
+
+.details-title {
+    margin: 0 0 8px;
+    font-size: 34px;
+    font-weight: 800;
+    color: #1f2d2a;
+}
+
+.details-subtitle {
+    margin: 0;
+    color: #677873;
+    font-size: 15px;
+}
+
+.details-status-wrap {
+    flex-shrink: 0;
+}
+
+.details-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.details-card {
+    background: #ffffff;
+    border: 1px solid #e3eee8;
+    border-radius: 10px;
+    box-shadow: 0 18px 42px rgba(23, 36, 31, 0.06);
+    padding: 28px;
+}
+
+.details-card-header {
+    margin-bottom: 18px;
+}
+
+.details-card-title {
+    margin: 0 0 6px;
+    font-size: 22px;
+    font-weight: 800;
+    color: #1f2d2a;
+}
+
+.details-card-subtitle {
+    margin: 0;
+    font-size: 14px;
+    color: #6a7b75;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.details-item {
+    padding: 16px;
+    border: 1px solid #e8efec;
+    border-radius: 12px;
+    background: #fafdfb;
+}
+
+.details-item-wide {
+    grid-column: span 2;
+}
+
+.details-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #6b7c76;
+}
+
+.details-value {
+    color: #22312d;
+    font-size: 15px;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+.details-text-box {
+    padding: 18px;
+    border: 1px solid #e7efeb;
+    border-radius: 12px;
+    background: #f8fbf9;
+    color: #43534d;
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+.rejection-card {
+    border-color: #f0d8d8;
+}
+
+.rejection-box {
+    background: #fff8f8;
+    border-color: #efd6d6;
+    color: #7d3838;
+}
+
+.details-status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.status-pending {
+    background: #fff5dc;
+    color: #8b6a07;
+}
+
+.status-accepted {
+    background: #ebf8ef;
+    color: #22734f;
+}
+
+.status-declined {
+    background: #fff1f1;
+    color: #b33a3a;
+}
+
+.status-revoked {
+    background: #edf2f7;
+    color: #46525e;
+}
+
+.details-actions-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sticky-card {
+    position: sticky;
+    top: 24px;
+}
+
+.decline-card {
+    border-color: #efdede;
+}
+
+.details-textarea {
+    min-height: 150px;
+    resize: vertical;
+    border-radius: 12px;
+    border: 1px solid #d9e5df;
+    background: #fbfdfc;
+}
+
+.btn-approve {
+    background-color: #45bb91;
+}
+
+.details-textarea:focus {
+    border-color: #56b691;
+    box-shadow: 0 0 0 4px rgba(69, 187, 145, 0.13);
+}
+
+.details-note {
+    margin-top: 10px;
+    color: #6d7c77;
+    font-size: 13px;
+}
+
+@media (max-width: 1199.98px) {
+    .details-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sticky-card {
+        position: static;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .details-item-wide {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .application-details-page {
+        padding: 36px 14px 56px;
+    }
+
+    .details-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .details-title {
+        font-size: 28px;
+    }
+
+    .details-card {
+        padding: 20px 18px;
+    }
+}

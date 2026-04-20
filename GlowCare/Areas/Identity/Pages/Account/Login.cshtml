@@ -2,7 +2,7 @@
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Вход";
 }
 
 <div class="login-main-section">
@@ -10,11 +10,8 @@
         <div class="auth-single-wrap">
             <div class="auth-single-card">
                 <div class="auth-heading">
-                    <h1 class="auth-title">Welcome back</h1>
+                    <h1 class="auth-title">Добре дошли отново</h1>
                     <div class="auth-title-line"></div>
-                    <p class="auth-subtitle">
-                        Log in to manage your procedures, appointments and profile in GlowCare.
-                    </p>
                 </div>
 
                 <form id="account" method="post" class="auth-form">
@@ -25,7 +22,7 @@
                                class="form-control auth-input"
                                autocomplete="username"
                                aria-required="true"
-                               placeholder="Email" />
+                               placeholder="Имейл" />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
 
@@ -36,15 +33,15 @@
                                    class="form-control auth-input auth-input-password"
                                    autocomplete="current-password"
                                    aria-required="true"
-                                   placeholder="Password" />
+                                   placeholder="Парола" />
 
                             <button type="button"
                                     id="togglePassword"
                                     class="auth-password-toggle"
-                                    aria-label="Show password"
+                                    aria-label="Покажи паролата"
                                     aria-pressed="false">
                                 <i class="fa fa-eye"></i>
-                                <span class="auth-password-toggle-text">Show</span>
+                                <span class="auth-password-toggle-text">Покажи</span>
                             </button>
                         </div>
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
@@ -58,15 +55,12 @@
                     </div>
 
                     <button id="login-submit" type="submit" class="btn auth-btn">
-                        Log in
+                        Вход
                     </button>
 
                     <div class="auth-links">
                         <p>
-                            <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                        </p>
-                        <p>
-                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Create an account</a>
+                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Създай акаунт</a>
                         </p>
                     </div>
                 </form>
@@ -77,30 +71,4 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-
-    <script>
-        const togglePassword = document.getElementById("togglePassword");
-        const passwordInput = document.getElementById("passwordInput");
-
-        if (togglePassword && passwordInput) {
-            togglePassword.addEventListener("click", function () {
-                const isHidden = passwordInput.type === "password";
-                const icon = this.querySelector("i");
-                const text = this.querySelector(".auth-password-toggle-text");
-
-                passwordInput.type = isHidden ? "text" : "password";
-
-                if (icon) {
-                    icon.className = isHidden ? "fa fa-eye-slash" : "fa fa-eye";
-                }
-
-                if (text) {
-                    text.textContent = isHidden ? "Hide" : "Show";
-                }
-
-                this.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
-                this.setAttribute("aria-pressed", isHidden ? "true" : "false");
-            });
-        }
-    </script>
 }

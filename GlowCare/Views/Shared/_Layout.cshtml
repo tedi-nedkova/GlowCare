@@ -3,7 +3,7 @@
 @inject UserManager<GlowUser> userManager
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,9 +21,26 @@
     <link rel="stylesheet" href="~/slick/slick-theme.css">
     <link rel="stylesheet" href="~/css/procedureForm.css">
     <link rel="stylesheet" href="~/css/servicesInfoCards.css">
+    <link rel="stylesheet" href="~/css/userManagement.css">
     <link rel="stylesheet" href="~/css/auth.css">
     <link rel="stylesheet" href="~/css/datepicker.css">
     <link rel="stylesheet" href="~/css/tooplate-style.css">
+    <link rel="stylesheet" href="~/css/serviceIndex.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/reviewIndex.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/profileIndex.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/employeeIndex.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/procedureCheckAvailabilityPopup.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/reviewAdd.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/employeeDetails.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/employeeApply.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/adminUserManagement.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/adminServiceManagement.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/adminReviewsManagement.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/adminPendingApplications.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/adminPanelIndex.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/adminEditService.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/adminAddService.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/adminApplicationDetails.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -78,12 +95,9 @@
                             </li>
                         }
 
-                        var applicationUser = await userManager.GetUserAsync(User);
-                        string fullName = $"{applicationUser.FirstName} {applicationUser.LastName}";
-
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Profile">
-                                Здравейте, @fullName!
+                            <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="Index">
+                               Моят профил
                             </a>
                         </li>
 
@@ -155,6 +169,9 @@
     <script src="~/js/datepicker.min.js"></script>
     <script src="~/js/jquery.singlePageNav.min.js"></script>
     <script src="~/slick/slick.min.js"></script>
+    <script src="~/js/identity-register.js" asp-append-version="true"></script>
+    <script src="~/js/identity-login.js" asp-append-version="true"></script>
+    <script src="~/js/home-index.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

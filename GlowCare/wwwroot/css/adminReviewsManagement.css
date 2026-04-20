@@ -1,0 +1,77 @@
+.admin-reviews-page {
+            background: linear-gradient(180deg, #f8fffc 0%, #f3f8f7 100%);
+            min-height: calc(100vh - 100px);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: #2f9f79;
+            text-decoration: none;
+        }
+
+        .page-title {
+            color: #1f2d2a;
+            font-weight: 700;
+        }
+
+        .reviews-admin-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .review-admin-card {
+            background: #fff;
+            padding: 1.5rem;
+        }
+
+        .review-header-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 0.85rem;
+        }
+
+            .review-header-row h3 {
+                margin: 0;
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: #1f2d2a;
+            }
+
+        .review-date {
+            color: #6c757d;
+            font-size: 0.92rem;
+        }
+
+        .review-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+            .review-tags span {
+                display: inline-flex;
+                align-items: center;
+                padding: 0.35rem 0.75rem;
+                border-radius: 999px;
+                background: #eef7f3;
+                color: #2f9f79;
+                font-size: 0.88rem;
+                font-weight: 600;
+            }
+
+        .review-comment {
+            color: #49545a;
+            line-height: 1.8;
+        }
+
+        .empty-state-card {
+            background: #fff;
+            padding: 2rem;
+        }

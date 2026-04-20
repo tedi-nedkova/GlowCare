@@ -32,6 +32,7 @@ public class Program
                 .RegisterRepositories()
                 .RegisterUserDefinedServices();
 
+
         builder.Services.AddRazorPages();
         builder.Services
             .AddControllersWithViews()

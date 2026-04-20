@@ -1,58 +1,30 @@
 ﻿@model GlowCare.ViewModels.Procedures.AvailabilityCheckResultViewModel
 
-<div class="availability-popup-content">
+<div class="availability-popup">
     @if (Model.IsAvailable)
     {
-        <div class="alert alert-success">
-            @Model.Message
-        </div>
+        <h3 class="availability-title">Часът е свободен</h3>
+        <p class="availability-message">@Model.Message</p>
 
-        <div class="text-center mt-3">
-            <button type="button" id="confirmBookButton" class="btn btn-success">Потвърди</button>
-            <button type="button" id="cancelButton" class="btn btn-secondary">Отказ</button>
+        <div class="availability-actions">
+            <button type="button" id="confirmBookButton" class="availability-btn availability-btn-primary">
+                Потвърди
+            </button>
+            <button type="button" id="cancelButton" class="availability-btn availability-btn-secondary">
+                Отказ
+            </button>
         </div>
     }
     else
     {
-        <div class="alert alert-warning">
-            @Model.Message
-        </div>
+        <h3 class="availability-title">Часът не е наличен</h3>
+        <p class="availability-message">@Model.Message</p>
 
-        <div class="text-center mt-3">
-            <button type="button" id="cancelButton" class="btn btn-secondary">Затвори</button>
+        <div class="availability-actions">
+            <button type="button" id="cancelButton" class="availability-btn availability-btn-secondary">
+                Затвори
+            </button>
         </div>
     }
 </div>
 
-<style>
-    #availabilityModal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.45);
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-    }
-
-    .availability-popup {
-        background: white;
-        padding: 25px;
-        border-radius: 10px;
-        text-align: center;
-        min-width: 320px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    }
-
-        .availability-popup h3 {
-            margin-bottom: 20px;
-        }
-
-    .popup-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-    }
-</style>

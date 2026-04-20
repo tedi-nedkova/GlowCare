@@ -1,0 +1,223 @@
+.pending-applications-page {
+        min-height: 100vh;
+        padding: 56px 24px 80px;
+        background: radial-gradient(circle at top left, rgba(69, 187, 145, 0.08), transparent 24%), radial-gradient(circle at top right, rgba(69, 187, 145, 0.06), transparent 22%), radial-gradient(circle at bottom left, rgba(69, 187, 145, 0.06), transparent 24%), radial-gradient(circle at bottom right, rgba(69, 187, 145, 0.08), transparent 24%), linear-gradient(180deg, #f8fcfa 0%, #f4faf7 100%);
+    }
+
+    .pending-header {
+        margin-bottom: 24px;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #2b7a60;
+        text-decoration: none;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+        .back-link:hover {
+            color: #1f5e49;
+            text-decoration: none;
+        }
+
+    .page-title {
+        margin: 0 0 8px;
+        font-size: 34px;
+        font-weight: 800;
+        color: #1f2d2a;
+    }
+
+    .page-subtitle {
+        margin: 0;
+        color: #677873;
+        font-size: 15px;
+    }
+
+    .status-alert {
+        border-radius: 12px;
+        border: 1px solid transparent;
+        box-shadow: 0 10px 24px rgba(31, 45, 42, 0.05);
+    }
+
+    .empty-state-card,
+    .applications-table-card {
+        background: #ffffff;
+        border: 1px solid #e3eee8;
+        border-radius: 16px;
+        box-shadow: 0 18px 42px rgba(23, 36, 31, 0.06);
+    }
+
+    .empty-state-card {
+        padding: 32px;
+        text-align: center;
+    }
+
+    .empty-state-title {
+        margin-bottom: 8px;
+        font-size: 24px;
+        font-weight: 700;
+        color: #1f2d2a;
+    }
+
+    .empty-state-text {
+        margin: 0;
+        color: #6c7c77;
+        font-size: 15px;
+    }
+
+    .applications-table-card {
+        overflow: hidden;
+    }
+
+    .applications-table {
+        margin-bottom: 0;
+        --bs-table-bg: transparent;
+    }
+
+        .applications-table thead th {
+            background: #f3f8f5;
+            color: #4f625c;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 16px 18px;
+            border-bottom: 1px solid #e1ebe6;
+            white-space: nowrap;
+        }
+
+        .applications-table tbody td {
+            padding: 18px;
+            vertical-align: middle;
+            border-top: 1px solid #eef3f1;
+            color: #24332f;
+        }
+
+        .applications-table tbody tr:hover {
+            background-color: #fafdfb;
+        }
+
+    .email-text {
+        font-weight: 700;
+        color: #1f2d2a;
+        word-break: break-word;
+    }
+
+    .occupation-badge,
+    .experience-badge,
+    .date-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 10px;
+        border-radius: 8px;
+        border: 1px solid #dde7e2;
+        background: #f7faf8;
+        color: #42534d;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .actions-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+    }
+
+    .btn-details,
+    .btn-approve {
+        min-width: 96px;
+        border-radius: 8px;
+        font-weight: 700;
+        padding: 8px 14px;
+        transition: 0.2s ease;
+    }
+
+    .btn-details {
+        background: #ffffff;
+        border: 1px solid #ced9d3;
+        color: #2d3d38;
+    }
+
+        .btn-details:hover {
+            background: #f5f8f7;
+            color: #1f2d2a;
+            border-color: #bfcfc7;
+        }
+
+    .btn-approve {
+        background: #1f7a57;
+        border: 1px solid #1f7a57;
+        color: #ffffff;
+    }
+
+        .btn-approve:hover {
+            background: #176344;
+            border-color: #176344;
+            color: #ffffff;
+        }
+
+    @@media (max-width: 991.98px) {
+        .applications-table thead {
+            display: none;
+        }
+
+        .applications-table,
+        .applications-table tbody,
+        .applications-table tr,
+        .applications-table td {
+            display: block;
+            width: 100%;
+        }
+
+            .applications-table tbody tr {
+                padding: 16px;
+                border-bottom: 1px solid #eef3f1;
+            }
+
+            .applications-table tbody td {
+                border: 0;
+                padding: 8px 0;
+            }
+
+                .applications-table tbody td::before {
+                    content: attr(data-label);
+                    display: block;
+                    margin-bottom: 4px;
+                    color: #6d7c77;
+                    font-size: 12px;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                }
+
+        .actions-wrap {
+            justify-content: flex-start;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .pending-applications-page {
+            padding: 36px 14px 56px;
+        }
+
+        .page-title {
+            font-size: 28px;
+        }
+
+        .empty-state-card {
+            padding: 24px 18px;
+        }
+
+        .actions-wrap .btn,
+        .actions-wrap form {
+            width: 100%;
+        }
+
+            .actions-wrap form .btn {
+                width: 100%;
+            }
+    }

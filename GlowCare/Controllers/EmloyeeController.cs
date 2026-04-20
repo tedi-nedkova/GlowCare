@@ -1,4 +1,5 @@
 ﻿using GlowCare.Core.Contracts;
+using GlowCare.Entities.Models.Enums;
 using GlowCare.ViewModels.SpecialistRequest;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -49,21 +50,41 @@ public class EmployeeController(
 
         bool hasPending = await specialistApplicationService.UserHasPendingApplicationAsync(userId);
         bool isSpecialist = await specialistApplicationService.UserIsAlreadySpecialistAsync(userId);
+        SpecialistApplicationViewModel? latestApplication =
+            await specialistApplicationService.GetLatestByUserIdAsync(userId);
+
+        ApplySpecialistViewModel model = await specialistApplicationService.GetApplicationDraftAsync(userId)
+              ?? new ApplySpecialistViewModel();
 
         if (hasPending)
         {
-            TempData["ErrorMessage"] = "You already have a pending application.";
-            return RedirectToAction("Index", "Home");
+            ViewBag.HideApplicationForm = true;
+
+            if (TempData.Peek("ApplicationSuccessMessage") == null)
+            {
+                ViewBag.ApplicationInfoMessage = "Заявката ви в момента се разглежда.";
+            }
+
+            return View(model);
         }
 
         if (isSpecialist)
         {
-            TempData["ErrorMessage"] = "You are already a specialist.";
-            return RedirectToAction("Index", "Home");
+            ViewBag.HideApplicationForm = true;
+            ViewBag.ApplicationInfoMessage = "Вече сте специалист.";
+            TempData.Remove("ApplicationSuccessMessage");
+            TempData.Remove("ApplicationErrorMessage");
+
+            return View(model);
         }
 
-        ApplySpecialistViewModel model = await specialistApplicationService.GetApplicationDraftAsync(userId)
-              ?? new ApplySpecialistViewModel();
+        if (latestApplication?.Status == RequestStatus.Declined)
+        {
+            ViewBag.ApplicationWarningMessage = "Последната ви заявка беше отхвърлена.";
+            ViewBag.ApplicationRejectionReason = latestApplication.RejectionReason;
+        }
+
+        TempData.Remove("ApplicationErrorMessage");
 
         return View(model);
     }
@@ -84,15 +105,16 @@ public class EmployeeController(
 
             if (string.IsNullOrWhiteSpace(userIdValue))
             {
-                TempData["ErrorMessage"] = "User could not be identified.";
+                TempData["ApplicationErrorMessage"] = "Потребителят не можа да бъде разпознат.";
                 return RedirectToAction("Index", "Home");
             }
 
             Guid userId = Guid.Parse(userIdValue);
 
+            TempData.Remove("ApplicationErrorMessage");
             await specialistApplicationService.ApplyAsync(userId, model);
 
-            TempData["SuccessMessage"] = "Your application was submitted successfully.";
+            TempData["ApplicationSuccessMessage"] = "Заявката беше изпратена успешно.";
             return RedirectToAction(nameof(Apply));
         }
         catch (InvalidOperationException ex)
@@ -103,7 +125,7 @@ public class EmployeeController(
         catch (Exception ex)
         {
             logger.LogError(ex, "An error occurred while submitting specialist application.");
-            TempData["ErrorMessage"] = "Unexpected error occurred while submitting your application.";
+            TempData["ApplicationErrorMessage"] = "Възникна неочаквана грешка при изпращането на заявката.";
             return RedirectToAction("Index", "Home");
         }
     }

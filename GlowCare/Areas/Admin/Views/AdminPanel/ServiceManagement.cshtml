@@ -1,0 +1,220 @@
+@model GlowCare.ViewModels.Services.AdminServiceManagementViewModel
+
+@{
+    ViewData["Title"] = "Управление на услуги";
+}
+
+<div class="admin-services-page py-5">
+    <div class="container">
+        <div class="admin-services-header mb-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <a asp-area="Admin"
+                   asp-controller="AdminPanel"
+                   asp-action="Index"
+                   class="back-link mb-3 d-inline-flex">
+                    <i class="fa fa-arrow-left"></i> Назад
+                </a>
+
+                <h1 class="mb-1 page-title">Управление на услуги</h1>
+               
+            </div>
+
+            <a asp-area="Admin"
+               asp-controller="AdminPanel"
+               asp-action="AddService"
+               class="services-add-btn">
+                <i class="fa fa-plus-circle me-2"></i> Добави услуга
+            </a>
+        </div>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success rounded-4 shadow-sm border-0">@TempData["SuccessMessage"]</div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger rounded-4 shadow-sm border-0">@TempData["ErrorMessage"]</div>
+        }
+
+        <div class="services-toolbar shadow-sm rounded-4">
+            <div class="services-toolbar-top">
+                <div>
+                    <span class="section-kicker">Списък</span>
+                    <h3 class="services-toolbar-title">Активни услуги</h3>
+                </div>
+
+                <div class="services-count-badge">
+                    Общо: <strong>@Model.TotalServices</strong>
+                </div>
+            </div>
+
+            <form asp-area="Admin"
+                  asp-controller="AdminPanel"
+                  asp-action="ServiceManagement"
+                  method="get"
+                  class="services-search-form">
+                <input type="text"
+                       name="searchTerm"
+                       value="@Model.SearchTerm"
+                       class="services-search-input"
+                       placeholder="Търси по име на услуга..." />
+
+                <button type="submit" class="services-search-btn">
+                    Търси
+                </button>
+
+                <a asp-area="Admin"
+                   asp-controller="AdminPanel"
+                   asp-action="ServiceManagement"
+                   class="services-clear-btn">
+                    Изчисти
+                </a>
+            </form>
+
+            <div class="services-results-text">
+                @if (!string.IsNullOrWhiteSpace(Model.SearchTerm))
+                {
+                    <span>Резултати за: <strong>@Model.SearchTerm</strong></span>
+                }
+                else
+                {
+                    <span>Показани са всички активни услуги.</span>
+                }
+            </div>
+        </div>
+
+        @if (Model.Services.Any())
+        {
+            <div class="services-admin-grid">
+                @foreach (var service in Model.Services)
+                {
+                    <article class="service-admin-card">
+                        <div class="service-admin-card-top">
+                            <div>
+                                <h2 class="service-admin-name">@service.Name</h2>
+
+                                <div class="service-meta-tags">
+                                    <span class="service-meta-tag">@service.CategoryName</span>
+                                    <span class="service-meta-tag">
+                                        <i class="fa fa-clock-o"></i>
+                                        @service.DurationInMinutes мин.
+                                    </span>
+                                    <span class="service-meta-tag">
+                                        <i class="fa fa-money"></i>
+                                        @service.Price.ToString("0.00") €
+                                    </span>
+                                    <span class="service-meta-tag">
+                                        <i class="fa fa-star"></i>
+                                        @service.Points т.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="service-assigned-block">
+                            <h3 class="service-assigned-title">Назначени специалисти</h3>
+
+                            @if (service.AssignedSpecialists.Any())
+                            {
+                                <div class="service-specialist-tags">
+                                    @foreach (var specialist in service.AssignedSpecialists)
+                                    {
+                                        <span class="service-specialist-tag">@specialist</span>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <p class="service-empty-text mb-0">Няма назначени специалисти.</p>
+                            }
+                        </div>
+
+                        <div class="service-card-actions">
+                            <a asp-area="Admin"
+                               asp-controller="AdminPanel"
+                               asp-action="EditService"
+                               asp-route-id="@service.Id"
+                               class="service-btn-outline">
+                                <i class="fa fa-pencil me-2"></i> Редактирай
+                            </a>
+
+                            <form asp-area="Admin"
+                                  asp-controller="AdminPanel"
+                                  asp-action="DeleteService"
+                                  method="post"
+                                  onsubmit="return confirm('Сигурен ли си, че искаш да изтриеш услугата?');">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@service.Id" />
+                                <input type="hidden" name="searchTerm" value="@Model.SearchTerm" />
+                                <input type="hidden" name="pageNumber" value="@Model.CurrentPage" />
+
+                                <button type="submit" class="service-btn-danger">
+                                    <i class="fa fa-trash me-2"></i> Изтрий
+                                </button>
+                            </form>
+                        </div>
+                    </article>
+                }
+            </div>
+
+            @if (Model.TotalPages > 1)
+            {
+                <nav aria-label="Навигация между страниците" class="mt-4">
+                    <ul class="pagination justify-content-center custom-pagination mb-0">
+                        <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : string.Empty)">
+                            <a class="page-link"
+                               asp-area="Admin"
+                               asp-controller="AdminPanel"
+                               asp-action="ServiceManagement"
+                               asp-route-searchTerm="@Model.SearchTerm"
+                               asp-route-pageNumber="@(Model.CurrentPage - 1)">
+                                ‹
+                            </a>
+                        </li>
+
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == Model.CurrentPage ? "active" : string.Empty)">
+                                <a class="page-link"
+                                   asp-area="Admin"
+                                   asp-controller="AdminPanel"
+                                   asp-action="ServiceManagement"
+                                   asp-route-searchTerm="@Model.SearchTerm"
+                                   asp-route-pageNumber="@i">
+                                    @i
+                                </a>
+                            </li>
+                        }
+
+                        <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : string.Empty)">
+                            <a class="page-link"
+                               asp-area="Admin"
+                               asp-controller="AdminPanel"
+                               asp-action="ServiceManagement"
+                               asp-route-searchTerm="@Model.SearchTerm"
+                               asp-route-pageNumber="@(Model.CurrentPage + 1)">
+                                ›
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            }
+        }
+        else
+        {
+            <div class="empty-state-card shadow-sm rounded-4">
+                @if (!string.IsNullOrWhiteSpace(Model.SearchTerm))
+                {
+                    <h4 class="mb-2">Няма намерени услуги</h4>
+                    <p class="text-muted mb-0">Не беше намерена услуга с име, което съвпада с „@Model.SearchTerm“.</p>
+                }
+                else
+                {
+                    <h4 class="mb-2">Все още няма активни услуги</h4>
+                    <p class="text-muted mb-0">Добави първата услуга от бутона горе вдясно.</p>
+                }
+            </div>
+        }
+    </div>
+</div>

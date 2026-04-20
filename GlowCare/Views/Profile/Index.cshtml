@@ -1,0 +1,223 @@
+﻿@model GlowCare.ViewModels.Users.UserProfileViewModel
+
+@{
+    ViewData["Title"] = "Моят профил";
+}
+
+
+
+<div class="profile-shell">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="profile-card profile-summary-card h-100">
+                    <div class="card-body">
+                        <h2 class="profile-name">@Model.FullName</h2>
+
+                        <div class="profile-info-list">
+                            <div class="profile-info-item">
+                                <div class="profile-info-icon">
+                                    <i class="fa fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <div class="profile-info-label">Имейл</div>
+                                    <div class="profile-info-value">@Model.Email</div>
+                                </div>
+                            </div>
+
+                            <div class="profile-info-item">
+                                <div class="profile-info-icon">
+                                    <i class="fa fa-birthday-cake"></i>
+                                </div>
+                                <div>
+                                    <div class="profile-info-label">Възраст</div>
+                                    <div class="profile-info-value">@Model.Age</div>
+                                </div>
+                            </div>
+
+                            <div class="profile-info-item">
+                                <div class="profile-info-icon">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <div>
+                                    <div class="profile-info-label">Пол</div>
+                                    <div class="profile-info-value">@Model.Gender</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (!Model.IsAdmin && !Model.IsSpecialist)
+                        {
+                            <div class="membership-highlight">
+                                <h4 class="mb-3">Текущ membership</h4>
+                                <p class="mb-1"><strong>@Model.CurrentMembershipTitle</strong></p>
+                                <p class="mb-0 text-muted">Отстъпка: @Model.CurrentMembershipDiscountPercentage%</p>
+                            </div>
+
+                            <div class="points-box">
+                                <div class="small text-uppercase">Натрупани точки</div>
+                                <div class="points-number">@Model.TotalPoints</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                @if (TempData["ProfileMessage"] != null)
+                {
+                    <div class="alert-soft">@TempData["ProfileMessage"]</div>
+                }
+
+                @if (TempData["ProfileError"] != null)
+                {
+                    <div class="alert-soft alert-error">@TempData["ProfileError"]</div>
+                }
+
+                @if (Model.IsAdmin)
+                {
+                    <div class="profile-card mb-4">
+                        <div class="card-body">
+                            <div class="section-head">
+                                <h3 class="section-title-modern">Администраторски профил</h3>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="profile-card mb-4">
+                        <div class="card-body">
+                            <div class="section-head">
+                                <h3 class="section-title-modern">@(Model.IsSpecialist ? "Записани часове при мен" : "Моите процедури")</h3>
+
+                                @if (!Model.IsSpecialist)
+                                {
+                                    <a asp-controller="Home" asp-action="Index" class="profile-action-btn">
+                                        Запази нов час
+                                    </a>
+                                }
+                            </div>
+
+                            @if (Model.Procedures.Any())
+                            {
+                                <div class="table-responsive modern-table-wrap">
+                                    <table class="table modern-table align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Процедура</th>
+                                                <th>@(Model.IsSpecialist ? "Клиент" : "Специалист")</th>
+                                                <th>Дата</th>
+                                                <th>Статус</th>
+                                                @if (Model.IsSpecialist)
+                                                {
+                                                    <th>Действия</th>
+                                                }
+                                                else
+                                                {
+                                                    <th>Точки</th>
+                                                }
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var procedure in Model.Procedures)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <div class="service-name">@procedure.ServiceName</div>
+                                                        <div class="service-price">@procedure.Price.ToString("F2") €</div>
+                                                    </td>
+                                                    <td>@(Model.IsSpecialist? procedure.ClientName: procedure.SpecialistName)</td>
+                                                    <td>@procedure.AppointmentDate</td>
+                                                    <td>
+                                                        <span class="modern-badge status-default">@procedure.Status</span>
+                                                    </td>
+                                                    @if (Model.IsSpecialist)
+                                                    {
+                                                        <td>
+                                                            @if (procedure.CanBeRejectedBySpecialist)
+                                                            {
+                                                                <form asp-controller="Procedure" asp-action="Reject" asp-route-id="@procedure.Id" method="post" class="d-inline">
+                                                                    <button type="submit" class="danger-action-btn">Откажи час</button>
+                                                                </form>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-muted">—</span>
+                                                            }
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>
+                                                            @if (procedure.EarnedPoints > 0)
+                                                            {
+                                                                <span class="points-earned">+@procedure.EarnedPoints</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-muted">0</span>
+                                                            }
+                                                        </td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                            else
+                            {
+                                <p class="empty-state">@(Model.IsSpecialist ? "Все още няма записани часове при този специалист." : "Все още нямате записани процедури.")</p>
+                            }
+                        </div>
+                    </div>
+
+                    @if (!Model.IsSpecialist)
+                    {
+                        <div class="profile-card">
+                            <div class="card-body">
+                                <div class="section-head">
+                                    <h3 class="section-title-modern">Membership нива и отстъпки</h3>
+                                </div>
+
+                                <div class="row g-3 membership-grid">
+                                    @foreach (var membership in Model.Memberships)
+                                    {
+                                        <div class="col-md-6">
+                                            <div class="membership-card h-100 @(membership.IsCurrent ? "current-membership" : "")">
+                                                <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+                                                    <h5 class="membership-name mb-0">@membership.Title</h5>
+
+                                                    @if (membership.IsCurrent)
+                                                    {
+                                                        <span class="modern-badge active-badge">Активен</span>
+                                                    }
+                                                    else if (membership.IsUnlocked)
+                                                    {
+                                                        <span class="modern-badge success-badge">Отключен</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="modern-badge locked-badge">Заключен</span>
+                                                    }
+                                                </div>
+
+                                                <p class="membership-meta">
+                                                    Отстъпка: <strong>@membership.DiscountPercentage%</strong>
+                                                </p>
+                                                <p class="membership-points">
+                                                    Необходими точки: @membership.RequiredPoints
+                                                </p>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

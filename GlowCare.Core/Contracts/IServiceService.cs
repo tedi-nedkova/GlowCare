@@ -1,6 +1,4 @@
-﻿using GlowCare.Entities.Models;
-using GlowCare.ViewModels.Services;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using GlowCare.ViewModels.Services;
 
 namespace GlowCare.Core.Contracts;
 
@@ -13,21 +11,24 @@ public interface IServiceService
     Task DeleteServiceAsync(
         DeleteServiceViewModel model);
 
-    Task<DeleteServiceViewModel> GetDeleteProcedureAsync(
-        int id,
-        Guid userId);
+    Task EditServiceAsync(
+        EditServiceViewModel model);
 
-    Task<Procedure> EditProcedureAsync(
-        EditServiceViewModel model,
+    Task<EditServiceViewModel> GetEditServiceAsync(
         int id);
 
-    Task<EditServiceViewModel> GetEditProcedureAsync(
-        int id);
+    Task<AdminServiceManagementViewModel> GetAdminServiceManagementViewModelAsync(
+        string? searchTerm = null,
+        int pageNumber = 1,
+        int pageSize = 6,
+        AddServiceViewModel? formModel = null);
 
-    Task<IEnumerable<DetailsServiceViewModel>> GetAllProcedureDetailsByUserIdAsync(
-        Guid userId);
+    Task PopulateEditServiceLookupDataAsync(
+        EditServiceViewModel model);
 
     Task<IEnumerable<ServiceInfoViewModel>> GetAllServicesAsync();
+
+    Task<IEnumerable<AdminServiceListItemViewModel>> GetAllServicesForAdminAsync();
 
     Task<IEnumerable<ServiceInfoViewModel>> GetFilteredServicesAsync(
         int? categoryId,
@@ -35,4 +36,5 @@ public interface IServiceService
         string? availabilityRange);
 
     Task<IEnumerable<ServiceCategoryOptionViewModel>> GetCategoryOptionsAsync();
+
 }

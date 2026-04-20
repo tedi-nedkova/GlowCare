@@ -1,7 +1,7 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Регистрация";
 }
 
 <div class="login-main-section">
@@ -9,11 +9,8 @@
         <div class="auth-single-wrap">
             <div class="auth-single-card">
                 <div class="auth-heading">
-                    <h1 class="auth-title">Create account</h1>
+                    <h1 class="auth-title">Създай акаунт</h1>
                     <div class="auth-title-line"></div>
-                    <p class="auth-subtitle">
-                        Create your GlowCare profile to book procedures, manage appointments and access your account easily.
-                    </p>
                 </div>
 
                 <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="auth-form">
@@ -23,7 +20,7 @@
                         <input asp-for="Input.FirstName"
                                class="form-control auth-input"
                                aria-required="true"
-                               placeholder="First name" />
+                               placeholder="Име" />
                         <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                     </div>
 
@@ -31,7 +28,7 @@
                         <input asp-for="Input.LastName"
                                class="form-control auth-input"
                                aria-required="true"
-                               placeholder="Last name" />
+                               placeholder="Фамилия" />
                         <span asp-validation-for="Input.LastName" class="text-danger"></span>
                     </div>
 
@@ -39,7 +36,7 @@
                         <input asp-for="Input.Age"
                                class="form-control auth-input"
                                aria-required="true"
-                               placeholder="Age" />
+                               placeholder="Възраст" />
                         <span asp-validation-for="Input.Age" class="text-danger"></span>
                     </div>
 
@@ -47,7 +44,7 @@
                         <select asp-for="Input.Gender"
                                 class="form-control auth-select"
                                 asp-items="Model.GenderOptions">
-                            <option value="">Select gender</option>
+                            <option value="">Избери пол</option>
                         </select>
                         <span asp-validation-for="Input.Gender" class="text-danger"></span>
                     </div>
@@ -57,7 +54,7 @@
                                class="form-control auth-input"
                                autocomplete="username"
                                aria-required="true"
-                               placeholder="Email" />
+                               placeholder="Имейл" />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
 
@@ -68,15 +65,15 @@
                                    class="form-control auth-input auth-input-password"
                                    autocomplete="new-password"
                                    aria-required="true"
-                                   placeholder="Password" />
+                                   placeholder="Парола" />
 
                             <button type="button"
                                     id="toggleRegisterPassword"
                                     class="auth-password-toggle"
-                                    aria-label="Show password"
+                                    aria-label="Покажи паролата"
                                     aria-pressed="false">
                                 <i class="fa fa-eye"></i>
-                                <span class="auth-password-toggle-text">Show</span>
+                                <span class="auth-password-toggle-text">Покажи</span>
                             </button>
                         </div>
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
@@ -89,27 +86,27 @@
                                    class="form-control auth-input auth-input-password"
                                    autocomplete="new-password"
                                    aria-required="true"
-                                   placeholder="Confirm password" />
+                                   placeholder="Потвърди парола" />
 
                             <button type="button"
                                     id="toggleRegisterConfirmPassword"
                                     class="auth-password-toggle"
-                                    aria-label="Show password"
+                                    aria-label="Покажи паролата"
                                     aria-pressed="false">
                                 <i class="fa fa-eye"></i>
-                                <span class="auth-password-toggle-text">Show</span>
+                                <span class="auth-password-toggle-text">Покажи</span>
                             </button>
                         </div>
                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
 
                     <button id="registerSubmit" type="submit" class="btn auth-btn">
-                        Register
+                        Регистрация
                     </button>
 
                     <div class="auth-links">
                         <p>
-                            <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" id="reg-already-have-an-account">Already have an account? Log in</a>
+                            <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" id="reg-already-have-an-account">Вече имаш акаунт? Влез</a>
                         </p>
                     </div>
                 </form>
@@ -120,37 +117,4 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-
-    <script>
-        function setupPasswordToggle(buttonId, inputId) {
-            const toggleButton = document.getElementById(buttonId);
-            const passwordInput = document.getElementById(inputId);
-
-            if (!toggleButton || !passwordInput) {
-                return;
-            }
-
-            toggleButton.addEventListener("click", function () {
-                const isHidden = passwordInput.type === "password";
-                const icon = this.querySelector("i");
-                const text = this.querySelector(".auth-password-toggle-text");
-
-                passwordInput.type = isHidden ? "text" : "password";
-
-                if (icon) {
-                    icon.className = isHidden ? "fa fa-eye-slash" : "fa fa-eye";
-                }
-
-                if (text) {
-                    text.textContent = isHidden ? "Hide" : "Show";
-                }
-
-                this.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
-                this.setAttribute("aria-pressed", isHidden ? "true" : "false");
-            });
-        }
-
-        setupPasswordToggle("toggleRegisterPassword", "registerPasswordInput");
-        setupPasswordToggle("toggleRegisterConfirmPassword", "registerConfirmPasswordInput");
-    </script>
 }

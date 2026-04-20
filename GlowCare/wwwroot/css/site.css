@@ -19,6 +19,7 @@ html {
 
 body {
     margin-bottom: 60px;
+    font-weight: 300;
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
 
@@ -69,3 +70,23 @@ body {
     font-size: 13px;
     font-family: 'Open Sans', sans-serif;
 }
+
+.profile-summary-card, .membership-card {
+    border-radius: 24px;
+}
+
+.membership-highlight {
+    background: #f8f1f5;
+}
+
+.points-box {
+    background: #111111;
+    color: #ffffff;
+}
+
+.current-membership {
+    border: 2px solid #111111;
+    background: #fffafc;
+}
+
+

@@ -1,15 +1,111 @@
-﻿@{
-    ViewData["Title"] = "Reviews";
+﻿@model GlowCare.ViewModels.Reviews.ReviewIndexViewModel
+
+@{
+    ViewData["Title"] = "Ревюта";
 }
 
-<h2>Reviews</h2>
 
-<p>This is the reviews page.</p>
 
-<p>
-    Reviews can currently be added from the Procedures page.
-</p>
+<div class="reviews-page">
+    <div class="container">
+        <div class="reviews-shell">
+            <div class="reviews-header">
+                <h1 class="reviews-title">Ревюта</h1>
+                <p class="reviews-subtitle">
+                    Всички отзиви за <strong>@Model.SpecialistName</strong>.
+                </p>
 
-<p>
-    <a asp-controller="Procedure" asp-action="MyProcedures">Go to My Procedures</a>
-</p>
+                <div class="reviews-summary">
+                    @if (Model.ReviewsCount > 0)
+                    {
+                        var roundedRating = (int)Math.Round(Model.AverageRating, MidpointRounding.AwayFromZero);
+
+                        <div class="reviews-stars">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= roundedRating)
+                                {
+                                    <span class="reviews-star filled">★</span>
+                                }
+                                else
+                                {
+                                    <span class="reviews-star">★</span>
+                                }
+                            }
+                        </div>
+
+                        <div class="reviews-summary-text">
+                            <strong>@Model.AverageRating.ToString("0.0")</strong>
+                            <span>(@Model.ReviewsCount ревюта)</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="reviews-summary-text">
+                            Все още няма ревюта за този специалист.
+                        </div>
+                    }
+                </div>
+
+                <div class="reviews-actions">
+                    <a asp-controller="Review"
+                       asp-action="Add"
+                       asp-route-employeeId="@Model.EmployeeId"
+                       class="reviews-primary-btn">
+                        Остави ревю
+                    </a>
+
+                    <a asp-controller="Employee"
+                       asp-action="Details"
+                       asp-route-id="@Model.EmployeeId"
+                       class="reviews-secondary-btn">
+                        Назад към профила
+                    </a>
+                </div>
+            </div>
+
+            @if (Model.Reviews.Any())
+            {
+                <div class="reviews-list">
+                    @foreach (var review in Model.Reviews)
+                    {
+                        <article class="review-card">
+                            <div class="review-card-top">
+                                <div>
+                                    <div class="review-author">@review.AuthorName</div>
+                                    <div class="review-service">@review.ServiceName</div>
+                                </div>
+
+                                <div class="review-date">
+                                    @review.CreatedAt.ToString("dd.MM.yyyy")
+                                </div>
+                            </div>
+
+                            <div class="review-rating">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= review.Rating)
+                                    {
+                                        <span class="reviews-star filled">★</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="reviews-star">★</span>
+                                    }
+                                }
+                            </div>
+
+                            <p class="review-text">@review.Comment</p>
+                        </article>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="reviews-empty">
+                    Все още няма публикувани ревюта за този специалист.
+                </div>
+            }
+        </div>
+    </div>
+</div>

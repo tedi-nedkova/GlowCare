@@ -27,9 +27,6 @@ public class Employee
 
     public bool IsDeleted { get; set; }
 
-    public ICollection<Certificate> Certificates { get; set; }
-        = new List<Certificate>();
-
     public ICollection<Procedure> Procedures { get; set; }
         = new List<Procedure>();
 

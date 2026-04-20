@@ -1,21 +1,85 @@
 ﻿@{
-    ViewData["Title"] = "Admin Panel";
+    ViewData["Title"] = "Админ панел";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="mb-4">Admin Panel</h2>
+<div class="admin-panel-page">
+    <div class="container">
+        <div class="admin-panel-shell">
+            <div class="row g-4 admin-panel-cards">
+                <div class="col-md-6">
+                    <a asp-area="Admin"
+                       asp-controller="AdminPanel"
+                       asp-action="UserManagement"
+                       class="admin-action-card admin-action-card-primary text-decoration-none">
+                        
+                        <div class="admin-card-content">
+                            <h3>Управление на потребители</h3>
+                            <p>
+                                Преглеждайте, управлявайте и организирайте потребителските акаунти в платформата.
+                            </p>
+                            <span class="admin-card-link">
+                                Отвори секцията <i class="fa fa-arrow-right"></i>
+                            </span>
+                        </div>
+                    </a>
+                </div>
 
-<div class="d-flex flex-column gap-2">
-    <a asp-area="Admin"
-       asp-controller="AdminPanel"
-       asp-action="UserManagement"
-       class="btn btn-primary">
-        User Management
-    </a>
+                <div class="col-md-6">
+                    <a asp-area="Admin"
+                       asp-controller="AdminPanel"
+                       asp-action="PendingApplications"
+                       class="admin-action-card admin-action-card-warning text-decoration-none">
 
-    <a asp-area="Admin"
-       asp-controller="AdminPanel"
-       asp-action="PendingApplications"
-       class="btn btn-warning">
-        Pending Specialist Applications
-    </a>
+                        <div class="admin-card-content">
+                            <h3>Чакащи заявки за специалист</h3>
+                            <p>
+                                Преглеждайте новите заявки за специалисти и одобрявайте подходящите професионалисти.
+                            </p>
+                            <span class="admin-card-link">
+                                Прегледай заявките <i class="fa fa-arrow-right"></i>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6">
+                    <a asp-area="Admin"
+                       asp-controller="AdminPanel"
+                       asp-action="ServiceManagement"
+                       class="admin-action-card admin-action-card-primary text-decoration-none">
+
+                        <div class="admin-card-content">
+                            <h3>Управление на услуги</h3>
+                            <p>
+                                Добавяйте нови услуги и ги назначавайте към един или повече специалисти.
+                            </p>
+                            <span class="admin-card-link">
+                                Управлявай услугите <i class="fa fa-arrow-right"></i>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6">
+                    <a asp-area="Admin"
+                       asp-controller="AdminPanel"
+                       asp-action="ReviewsManagement"
+                       class="admin-action-card admin-action-card-warning text-decoration-none">
+
+                        <div class="admin-card-content">
+                            <h3>Управление на ревюта</h3>
+                            <p>
+                                Преглеждайте всички ревюта в сайта и премахвайте неподходящите чрез soft delete.
+                            </p>
+                            <span class="admin-card-link">
+                                Прегледай ревютата <i class="fa fa-arrow-right"></i>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+

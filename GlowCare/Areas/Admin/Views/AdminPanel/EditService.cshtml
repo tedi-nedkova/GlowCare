@@ -1,0 +1,197 @@
+@model GlowCare.ViewModels.Services.EditServiceViewModel
+
+@{
+    ViewData["Title"] = "Редактиране на услуга";
+}
+
+<div class="tm-main-content admin-service-create-page" id="top">
+    <section class="tm-section tm-bg-img admin-service-hero">
+        <div class="admin-service-hero-overlay"></div>
+
+        <div class="container position-relative">
+            <div class="admin-service-hero-content">
+                <div>
+                    <span class="admin-service-kicker">Администрация</span>
+                    <h1 class="admin-service-title">Редактиране на услуга</h1>
+                    <p class="admin-service-subtitle">
+                        Промени информацията за услугата и избери специалистите, които да я изпълняват.
+                    </p>
+                </div>
+
+                <a asp-area="Admin"
+                   asp-controller="AdminPanel"
+                   asp-action="ServiceManagement"
+                   class="btn admin-back-btn">
+                    <i class="fa fa-arrow-left me-2"></i> Назад
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="tm-section admin-service-form-section">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 100 100"
+             preserveAspectRatio="none"
+             class="tm-section-down-arrow admin-down-arrow">
+            <polygon fill="#45bb91" points="0,0 100,0 50,60"></polygon>
+        </svg>
+
+        <div class="container admin-service-container">
+            <div class="admin-service-shell">
+                <div class="admin-service-card">
+                    <div class="admin-card-header">
+                        <div>
+                            <h2 class="admin-card-title">Данни за услугата</h2>
+                            <p class="admin-card-subtitle">
+                                Редактирай името, категорията, описанието и останалите детайли.
+                            </p>
+                        </div>
+
+                        <div class="admin-card-icon">
+                            <i class="fa fa-pencil"></i>
+                        </div>
+                    </div>
+
+                    <form asp-area="Admin" asp-controller="AdminPanel" asp-action="EditService" method="post" class="admin-service-form">
+                        @Html.AntiForgeryToken()
+                        <input asp-for="Id" type="hidden" />
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger small mb-4"></div>
+
+                        <div class="row g-4">
+                            <div class="col-lg-6">
+                                <div class="admin-field-card">
+                                    <label asp-for="Name" class="form-label admin-form-label">Име на услугата</label>
+                                    <div class="admin-input-wrap">
+                                        <i class="fa fa-tag admin-input-icon"></i>
+                                        <input asp-for="Name"
+                                               class="form-control admin-form-control"
+                                               placeholder="Например: Дълбоко почистване" />
+                                    </div>
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="admin-field-card">
+                                    <label asp-for="CategoryId" class="form-label admin-form-label">Категория</label>
+                                    <div class="admin-input-wrap">
+                                        <i class="fa fa-th-large admin-input-icon"></i>
+                                        <select asp-for="CategoryId" class="form-select admin-form-control admin-form-select">
+                                            <option value="">Избери категория</option>
+                                            @foreach (var category in Model.Categories)
+                                            {
+                                                <option value="@category.Id">@category.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="admin-field-card mt-4">
+                            <label asp-for="Description" class="form-label admin-form-label">Описание</label>
+                            <div class="admin-textarea-wrap">
+                                <i class="fa fa-pencil admin-input-icon textarea-icon"></i>
+                                <textarea asp-for="Description"
+                                          class="form-control admin-form-control admin-textarea"
+                                          rows="5"
+                                          placeholder="Кратко описание на услугата"></textarea>
+                            </div>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row g-4 mt-1">
+                            <div class="col-md-4">
+                                <div class="admin-field-card stats-card">
+                                    <label asp-for="DurationInMinutes" class="form-label admin-form-label">Продължителност</label>
+                                    <div class="admin-suffix-input">
+                                        <input asp-for="DurationInMinutes" class="form-control admin-form-control" />
+                                        <span class="admin-suffix">мин</span>
+                                    </div>
+                                    <span asp-validation-for="DurationInMinutes" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="admin-field-card stats-card">
+                                    <label asp-for="Price" class="form-label admin-form-label">Цена</label>
+                                    <div class="admin-suffix-input">
+                                        <input asp-for="Price" class="form-control admin-form-control" />
+                                        <span class="admin-suffix">€</span>
+                                    </div>
+                                    <span asp-validation-for="Price" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="admin-field-card stats-card">
+                                    <label asp-for="Points" class="form-label admin-form-label">Точки лоялност</label>
+                                    <div class="admin-input-wrap">
+                                        <i class="fa fa-star admin-input-icon"></i>
+                                        <input asp-for="Points" class="form-control admin-form-control" />
+                                    </div>
+                                    <span asp-validation-for="Points" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="admin-specialists-section mt-4">
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-3">
+                                <div>
+                                    <label class="form-label admin-form-label mb-1">Назначи към специалисти</label>
+                                    <p class="admin-specialists-subtitle mb-0">
+                                        Избери кои специалисти да изпълняват тази услуга.
+                                    </p>
+                                </div>
+
+                                <span class="admin-helper-badge">По избор</span>
+                            </div>
+
+                            @if (Model.Specialists.Any())
+                            {
+                                <div class="admin-specialists-grid">
+                                    @foreach (var specialist in Model.Specialists)
+                                    {
+                                        <label class="admin-specialist-pill">
+                                            <input type="checkbox"
+                                                   name="SelectedEmployeeIds"
+                                                   value="@specialist.Id"
+                                                   @(specialist.IsSelected ? "checked" : string.Empty) />
+                                            <span class="checkmark-circle"></span>
+                                            <span class="specialist-name">@specialist.FullName</span>
+                                        </label>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="admin-empty-state">
+                                    <i class="fa fa-users me-2"></i>Няма налични специалисти за назначаване.
+                                </div>
+                            }
+                        </div>
+
+                        <div class="admin-actions-row">
+                            <button type="submit" class="btn admin-submit-btn">
+                                 Запази промените
+                            </button>
+
+                            <a asp-area="Admin"
+                               asp-controller="AdminPanel"
+                               asp-action="ServiceManagement"
+                               class="btn admin-cancel-btn">
+                                Отказ
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

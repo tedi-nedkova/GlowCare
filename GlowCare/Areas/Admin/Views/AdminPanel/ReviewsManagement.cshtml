@@ -1,0 +1,80 @@
+﻿@model GlowCare.ViewModels.Reviews.AdminReviewManagementViewModel
+
+@{
+    ViewData["Title"] = "Управление на ревюта";
+}
+
+<div class="admin-reviews-page py-5">
+    <div class="container">
+        <div class="mb-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <a asp-area="Admin"
+               asp-controller="AdminPanel"
+               asp-action="Index"
+               class="back-link">
+                <i class="fa fa-arrow-left"></i> Назад
+            </a>
+
+            <h1 class="mb-0 page-title">Всички ревюта</h1>
+        </div>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success rounded-4 shadow-sm border-0">@TempData["SuccessMessage"]</div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger rounded-4 shadow-sm border-0">@TempData["ErrorMessage"]</div>
+        }
+
+        @if (Model.Reviews.Any())
+        {
+            <div class="reviews-admin-list">
+                @foreach (var review in Model.Reviews)
+                {
+                    <div class="review-admin-card shadow-sm rounded-4">
+                        <div class="row g-3 align-items-start">
+                            <div class="col-lg-9">
+                                <div class="review-header-row">
+                                    <h3>@review.AuthorName</h3>
+                                    <span class="review-date">@review.CreatedAt.ToString("dd.MM.yyyy HH:mm")</span>
+                                </div>
+
+                                <div class="review-tags">
+                                    <span>@review.SpecialistName</span>
+                                    <span>@review.ServiceName</span>
+                                    <span>@review.Rating / 5</span>
+                                </div>
+
+                                <p class="review-comment mb-0">@review.Comment</p>
+                            </div>
+
+                            <div class="col-lg-3 text-lg-end">
+                                <form asp-area="Admin"
+                                      asp-controller="AdminPanel"
+                                      asp-action="DeleteReview"
+                                      method="post"
+                                      onsubmit="return confirm('Сигурен ли си, че искаш да изтриеш това ревю?');">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@review.Id" />
+                                    <button type="submit" class="btn btn-outline-danger rounded-4 px-4">
+                                        <i class="fa fa-trash me-2"></i> Изтрий
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="empty-state-card shadow-sm rounded-4">
+                <h4 class="mb-2">Няма активни ревюта</h4>
+                <p class="text-muted mb-0">Всички ревюта са изтрити или все още няма добавени такива.</p>
+            </div>
+        }
+    </div>
+</div>
+
+

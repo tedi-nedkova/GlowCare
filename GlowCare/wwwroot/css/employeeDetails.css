@@ -1,0 +1,273 @@
+.specialist-details-page {
+        padding: 56px 0 84px;
+        background: radial-gradient(circle at top right, rgba(69, 187, 145, 0.12), transparent 24%), linear-gradient(180deg, #f8fcfa 0%, #f5fbf8 100%);
+        min-height: 100vh;
+    }
+
+    .specialist-details-grid {
+        display: grid;
+        grid-template-columns: 360px minmax(0, 1fr);
+        gap: 28px;
+        align-items: start;
+    }
+
+    .specialist-side-card,
+    .specialist-main-card {
+        background: #fff;
+        border: 1px solid rgba(69, 187, 145, 0.14);
+        box-shadow: 0 18px 42px rgba(20, 33, 40, 0.06);
+    }
+
+    .specialist-side-card {
+        padding: 30px 26px;
+        position: sticky;
+        top: 24px;
+    }
+
+    .specialist-main-card {
+        padding: 32px;
+    }
+
+    .specialist-avatar-large {
+        width: 92px;
+        height: 92px;
+        margin: 0 auto 18px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #45bb91 0%, #78d1b4 100%);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        font-weight: 700;
+        box-shadow: 0 16px 28px rgba(69, 187, 145, 0.24);
+    }
+
+    .specialist-side-name {
+        margin: 0 0 8px;
+        text-align: center;
+        color: #1d2b36;
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .specialist-side-role {
+        margin: 0 0 20px;
+        text-align: center;
+        color: #45bb91;
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    .specialist-contact-list {
+        display: grid;
+        gap: 12px;
+        margin: 0 0 24px;
+    }
+
+    .specialist-contact-item {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: #f5fbf8;
+        color: #5f6c77;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+        .specialist-contact-item i {
+            color: #45bb91;
+            font-size: 16px;
+            margin-top: 4px;
+        }
+
+    .specialist-side-actions {
+        display: grid;
+        gap: 12px;
+    }
+
+    .specialist-primary-btn,
+    .specialist-secondary-btn {
+        min-height: 48px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none !important;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+        transition: all 0.2s ease;
+    }
+
+    .specialist-primary-btn {
+        background: #141621;
+        color: #fff !important;
+        box-shadow: 0 10px 20px rgba(20, 33, 40, 0.1);
+    }
+
+        .specialist-primary-btn:hover {
+            background: #45bb91;
+            transform: translateY(-1px);
+        }
+
+    .specialist-secondary-btn {
+        background: #fff;
+        border: 1px solid rgba(69, 187, 145, 0.25);
+        color: #1d2b36 !important;
+    }
+
+        .specialist-secondary-btn:hover {
+            border-color: #45bb91;
+            color: #45bb91 !important;
+        }
+
+    .specialist-section + .specialist-section {
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px solid #edf4f1;
+    }
+
+    .specialist-section-title {
+        margin: 0 0 14px;
+        color: #1d2b36;
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .specialist-section-text {
+        margin: 0;
+        color: #6f7c88;
+        font-size: 15px;
+        line-height: 1.9;
+    }
+
+    .specialist-services-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .specialist-service-chip {
+        padding: 10px 14px;
+        border-radius: 5px;
+        background: rgba(69, 187, 145, 0.10);
+        color: #2f8f73;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    @@media (max-width: 991px) {
+        .specialist-details-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .specialist-side-card {
+            position: static;
+        }
+    }
+
+    @@media (max-width: 575px) {
+        .specialist-details-page {
+            padding: 38px 0 64px;
+        }
+
+        .specialist-main-card,
+        .specialist-side-card {
+            padding: 24px 20px;
+        }
+
+        .specialist-side-name {
+            font-size: 24px;
+        }
+    }
+
+    .specialist-working-hours-list {
+        display: grid;
+        gap: 12px;
+    }
+
+    .specialist-working-hour-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 16px;
+        background: #f5fbf8;
+        border: 1px solid rgba(69, 187, 145, 0.12);
+    }
+
+    .specialist-working-day {
+        color: #1d2b36;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .specialist-working-time {
+        color: #45bb91;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .specialist-rating-box {
+        margin: 18px 0 22px;
+        padding: 14px 18px;
+        background: #f4faf7;
+        border: 1px solid rgba(69, 187, 145, 0.14);
+        border-radius: 18px;
+    }
+
+    .specialist-rating-stars {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 6px;
+    }
+
+    .rating-star {
+        font-size: 22px;
+        color: #d8e1dd;
+        line-height: 1;
+    }
+
+        .rating-star.filled {
+            color: #ffbf3f;
+        }
+
+    .specialist-rating-text {
+        color: #5f6f7b;
+        font-size: 14px;
+    }
+
+        .specialist-rating-text strong {
+            color: #1d2b36;
+            margin-right: 6px;
+        }
+
+    .review-index-btn {
+        margin-top: 12px;
+    }
+
+    .specialist-rating-box {
+        text-align: center;
+    }
+
+    .specialist-rating-stars {
+        justify-content: center;
+    }
+
+    .specialist-top-back {
+        margin-bottom: 18px;
+    }
+
+        .specialist-top-back .specialist-secondary-btn {
+            min-width: 90px;
+        }
+
+    @@media (max-width: 575px) {
+        .specialist-top-back .specialist-secondary-btn {
+            width: 100%;
+        }
+    }

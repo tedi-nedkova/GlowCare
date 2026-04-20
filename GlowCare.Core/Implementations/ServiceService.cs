@@ -1,30 +1,30 @@
 ﻿using GlowCare.Core.Contracts;
+using GlowCare.Entities;
 using GlowCare.Entities.Contracts.Interfaces;
 using GlowCare.Entities.Models;
 using GlowCare.ViewModels.Services;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace GlowCare.Core.Implementations;
 
 public class ServiceService(
+    GlowCareDbContext dbContext,
     IRepository<Service, int> serviceRepository,
     IRepository<Category, int> categoryRepository,
+    IRepository<Employee, Guid> employeeRepository,
     IRepository<GlowCare.Entities.Models.EmployeeService, int> employeeServiceRepository,
     IRepository<Schedule, int> scheduleRepository,
-    IRepository<Procedure, int> procedureRepository,
-    UserManager<GlowUser> userManager
-    ) : IServiceService
+    IRepository<Procedure, int> procedureRepository)
+    : IServiceService
 {
     public async Task CreateServiceAsync(AddServiceViewModel model, Guid userId)
     {
         if (model == null)
         {
-            throw new NullReferenceException("Entity not found");
+            throw new NullReferenceException("Записът не беше намерен.");
         }
 
-        var service = new Service
+        Service service = new()
         {
             Name = model.Name,
             CategoryId = model.CategoryId,
@@ -35,6 +35,30 @@ public class ServiceService(
         };
 
         await serviceRepository.AddAsync(service);
+
+        IEnumerable<Guid> selectedEmployeeIds = (model.SelectedEmployeeIds ?? Array.Empty<Guid>())
+            .Where(id => id != Guid.Empty)
+            .Distinct();
+
+        if (!selectedEmployeeIds.Any())
+        {
+            return;
+        }
+
+        List<Guid> validEmployeeIds = await employeeRepository
+            .GetAllAttached()
+            .Where(e => selectedEmployeeIds.Contains(e.Id) && !e.IsDeleted && !e.User.IsDeleted && e.User.IsSpecialist)
+            .Select(e => e.Id)
+            .ToListAsync();
+
+        foreach (Guid employeeId in validEmployeeIds)
+        {
+            await employeeServiceRepository.AddAsync(new GlowCare.Entities.Models.EmployeeService
+            {
+                EmployeeId = employeeId,
+                ServiceId = service.Id
+            });
+        }
     }
 
     public async Task DeleteServiceAsync(DeleteServiceViewModel model)
@@ -43,16 +67,191 @@ public class ServiceService(
 
         if (service == null)
         {
-            throw new NullReferenceException("Entity not found.");
+            throw new NullReferenceException("Записът не беше намерен.");
         }
 
         if (service.IsDeleted)
         {
-            throw new ArgumentException("Entity is already deleted.");
+            throw new ArgumentException("Записът вече е изтрит.");
         }
 
         service.IsDeleted = true;
         await serviceRepository.UpdateAsync(service);
+    }
+
+    public async Task EditServiceAsync(EditServiceViewModel model)
+    {
+        if (model == null)
+        {
+            throw new NullReferenceException("Записът не беше намерен.");
+        }
+
+        Service? service = await serviceRepository
+            .GetAllAttached()
+            .Include(s => s.EmployeeServices)
+            .FirstOrDefaultAsync(s => s.Id == model.Id && !s.IsDeleted);
+
+        if (service == null)
+        {
+            throw new NullReferenceException("Записът не беше намерен.");
+        }
+
+        service.Name = model.Name;
+        service.CategoryId = model.CategoryId;
+        service.Description = model.Description;
+        service.DurationInMinutes = model.DurationInMinutes;
+        service.Price = model.Price;
+        service.Points = model.Points;
+
+        IEnumerable<Guid> selectedEmployeeIds = model.SelectedEmployeeIds ?? Array.Empty<Guid>();
+
+        HashSet<Guid> validSelectedEmployeeIds = (await employeeRepository
+            .GetAllAttached()
+            .Where(e => selectedEmployeeIds.Contains(e.Id) && !e.IsDeleted && !e.User.IsDeleted && e.User.IsSpecialist)
+            .Select(e => e.Id)
+            .ToListAsync())
+            .ToHashSet();
+
+        List<GlowCare.Entities.Models.EmployeeService> assignmentsToRemove = service.EmployeeServices
+            .Where(es => !validSelectedEmployeeIds.Contains(es.EmployeeId))
+            .ToList();
+
+        if (assignmentsToRemove.Count > 0)
+        {
+            dbContext.RemoveRange(assignmentsToRemove);
+        }
+
+        HashSet<Guid> currentEmployeeIds = service.EmployeeServices
+            .Select(es => es.EmployeeId)
+            .ToHashSet();
+
+        IEnumerable<Guid> employeeIdsToAdd = validSelectedEmployeeIds
+            .Except(currentEmployeeIds);
+
+        foreach (Guid employeeId in employeeIdsToAdd)
+        {
+            service.EmployeeServices.Add(new GlowCare.Entities.Models.EmployeeService
+            {
+                EmployeeId = employeeId,
+                ServiceId = service.Id
+            });
+        }
+
+        await dbContext.SaveChangesAsync();
+    }
+
+    public async Task<EditServiceViewModel> GetEditServiceAsync(int id)
+    {
+        Service? service = await serviceRepository
+            .GetAllAttached()
+            .AsNoTracking()
+            .Where(s => s.Id == id && !s.IsDeleted)
+            .Include(s => s.EmployeeServices)
+            .FirstOrDefaultAsync();
+
+        if (service == null)
+        {
+            throw new NullReferenceException("Записът не беше намерен.");
+        }
+
+        EditServiceViewModel model = new()
+        {
+            Id = service.Id,
+            CategoryId = service.CategoryId,
+            Name = service.Name,
+            Description = service.Description,
+            DurationInMinutes = service.DurationInMinutes,
+            Price = service.Price,
+            Points = service.Points,
+            SelectedEmployeeIds = service.EmployeeServices
+                .Select(es => es.EmployeeId)
+                .Distinct()
+                .ToList()
+        };
+
+        await PopulateEditServiceLookupDataAsync(model);
+        return model;
+    }
+
+    public async Task<AdminServiceManagementViewModel> GetAdminServiceManagementViewModelAsync(
+        string? searchTerm = null,
+        int pageNumber = 1,
+        int pageSize = 6,
+        AddServiceViewModel? formModel = null)
+    {
+        pageSize = pageSize <= 0 ? 6 : pageSize;
+        pageNumber = pageNumber <= 0 ? 1 : pageNumber;
+
+        string? normalizedSearchTerm = string.IsNullOrWhiteSpace(searchTerm)
+            ? null
+            : searchTerm.Trim();
+
+        AddServiceViewModel newServiceModel = formModel ?? new AddServiceViewModel();
+        HashSet<Guid> selectedEmployeeIds = (newServiceModel.SelectedEmployeeIds ?? Array.Empty<Guid>())
+            .Where(id => id != Guid.Empty)
+            .ToHashSet();
+
+        newServiceModel.Specialists = await BuildSpecialistOptionsAsync(selectedEmployeeIds);
+
+        IQueryable<Service> servicesQuery = serviceRepository
+            .GetAllAttached()
+            .AsNoTracking()
+            .Where(s => !s.IsDeleted);
+
+        if (!string.IsNullOrWhiteSpace(normalizedSearchTerm))
+        {
+            servicesQuery = servicesQuery.Where(s => EF.Functions.Like(s.Name, $"%{normalizedSearchTerm}%"));
+        }
+
+        int totalServices = await servicesQuery.CountAsync();
+        int totalPages = Math.Max(1, (int)Math.Ceiling(totalServices / (double)pageSize));
+
+        if (pageNumber > totalPages)
+        {
+            pageNumber = totalPages;
+        }
+
+        List<Service> services = await servicesQuery
+            .Include(s => s.Category)
+            .Include(s => s.EmployeeServices)
+                .ThenInclude(es => es.Employee)
+                    .ThenInclude(e => e.User)
+            .OrderBy(s => s.Name)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return new AdminServiceManagementViewModel
+        {
+            NewService = newServiceModel,
+            Categories = await GetCategoryOptionsAsync(),
+            SearchTerm = normalizedSearchTerm,
+            CurrentPage = pageNumber,
+            TotalPages = totalPages,
+            TotalServices = totalServices,
+            Services = services.Select(s => new AdminServiceListItemViewModel
+            {
+                Id = s.Id,
+                Name = s.Name,
+                CategoryName = s.Category != null ? s.Category.Name : string.Empty,
+                Price = s.Price,
+                DurationInMinutes = s.DurationInMinutes,
+                Points = s.Points,
+                AssignedSpecialists = s.EmployeeServices
+                    .Where(es => !es.Employee.IsDeleted && !es.Employee.User.IsDeleted && es.Employee.User.IsSpecialist)
+                    .Select(es => $"{es.Employee.User.FirstName} {es.Employee.User.LastName}")
+                    .Distinct()
+                    .OrderBy(name => name)
+                    .ToList()
+            })
+            .ToList()
+        };
+    }
+
+    public async Task PopulateEditServiceLookupDataAsync(EditServiceViewModel model)
+    {
+        model.Categories = await GetCategoryOptionsAsync();
+        model.Specialists = await BuildSpecialistOptionsAsync(model.SelectedEmployeeIds ?? Array.Empty<Guid>());
     }
 
     public async Task<IEnumerable<ServiceInfoViewModel>> GetAllServicesAsync()
@@ -75,22 +274,53 @@ public class ServiceService(
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<AdminServiceListItemViewModel>> GetAllServicesForAdminAsync()
+    {
+        List<Service> services = await serviceRepository
+            .GetAllAttached()
+            .AsNoTracking()
+            .Where(s => !s.IsDeleted)
+            .Include(s => s.Category)
+            .Include(s => s.EmployeeServices)
+                .ThenInclude(es => es.Employee)
+                    .ThenInclude(e => e.User)
+            .OrderBy(s => s.Name)
+            .ToListAsync();
+
+        return services.Select(s => new AdminServiceListItemViewModel
+        {
+            Id = s.Id,
+            Name = s.Name,
+            CategoryName = s.Category != null ? s.Category.Name : string.Empty,
+            Price = s.Price,
+            DurationInMinutes = s.DurationInMinutes,
+            Points = s.Points,
+            AssignedSpecialists = s.EmployeeServices
+                .Where(es => !es.Employee.IsDeleted && !es.Employee.User.IsDeleted && es.Employee.User.IsSpecialist)
+                .Select(es => $"{es.Employee.User.FirstName} {es.Employee.User.LastName}")
+                .Distinct()
+                .OrderBy(name => name)
+                .ToList()
+        })
+        .ToList();
+    }
+
     public async Task<IEnumerable<ServiceInfoViewModel>> GetFilteredServicesAsync(
         int? categoryId,
         string? priceRange,
         string? availabilityRange)
     {
-        var services = await serviceRepository
+        List<Service> services = await serviceRepository
             .GetAllAttached()
             .Where(s => !s.IsDeleted)
             .Include(s => s.Category)
             .ToListAsync();
 
-        var result = new List<ServiceInfoViewModel>();
+        List<ServiceInfoViewModel> result = new List<ServiceInfoViewModel>();
 
-        foreach (var service in services)
+        foreach (Service service in services)
         {
-            var earliestSlot = await GetEarliestAvailableSlotForServiceAsync(service.Id, DateTime.Now);
+            DateTime? earliestSlot = await GetEarliestAvailableSlotForServiceAsync(service.Id, DateTime.Now);
 
             result.Add(new ServiceInfoViewModel
             {
@@ -126,10 +356,10 @@ public class ServiceService(
 
         if (!string.IsNullOrWhiteSpace(availabilityRange))
         {
-            var now = DateTime.Now;
-            var todayEnd = now.Date.AddDays(1).AddTicks(-1);
-            var next3DaysEnd = now.Date.AddDays(3).AddDays(1).AddTicks(-1);
-            var thisWeekEnd = now.Date.AddDays(7).AddDays(1).AddTicks(-1);
+            DateTime now = DateTime.Now;
+            DateTime todayEnd = now.Date.AddDays(1).AddTicks(-1);
+            DateTime next3DaysEnd = now.Date.AddDays(3).AddDays(1).AddTicks(-1);
+            DateTime thisWeekEnd = now.Date.AddDays(7).AddDays(1).AddTicks(-1);
 
             result = availabilityRange switch
             {
@@ -170,9 +400,31 @@ public class ServiceService(
             .ToListAsync();
     }
 
+    private async Task<List<SpecialistOptionViewModel>> BuildSpecialistOptionsAsync(IEnumerable<Guid>? selectedEmployeeIds = null)
+    {
+        HashSet<Guid> selectedIds = selectedEmployeeIds?
+            .Where(id => id != Guid.Empty)
+            .ToHashSet() ?? new HashSet<Guid>();
+
+        return await employeeRepository
+            .GetAllAttached()
+            .AsNoTracking()
+            .Include(e => e.User)
+            .Where(e => !e.IsDeleted && !e.User.IsDeleted && e.User.IsSpecialist)
+            .OrderBy(e => e.User.FirstName)
+            .ThenBy(e => e.User.LastName)
+            .Select(e => new SpecialistOptionViewModel
+            {
+                Id = e.Id,
+                FullName = $"{e.User.FirstName} {e.User.LastName}",
+                IsSelected = selectedIds.Contains(e.Id)
+            })
+            .ToListAsync();
+    }
+
     private async Task<DateTime?> GetEarliestAvailableSlotForServiceAsync(int serviceId, DateTime from)
     {
-        var service = await serviceRepository
+        Service? service = await serviceRepository
             .GetAllAttached()
             .FirstOrDefaultAsync(s => s.Id == serviceId && !s.IsDeleted);
 
@@ -181,7 +433,7 @@ public class ServiceService(
             return null;
         }
 
-        var employeeIds = await employeeServiceRepository
+        List<Guid> employeeIds = await employeeServiceRepository
             .GetAllAttached()
             .Where(es => es.ServiceId == serviceId)
             .Select(es => es.EmployeeId)
@@ -193,12 +445,12 @@ public class ServiceService(
             return null;
         }
 
-        var schedules = await scheduleRepository
+        List<Schedule> schedules = await scheduleRepository
             .GetAllAttached()
             .Where(s => employeeIds.Contains(s.EmployeeId))
             .ToListAsync();
 
-        var procedures = await procedureRepository
+        List<Procedure> procedures = await procedureRepository
             .GetAllAttached()
             .Where(p =>
                 employeeIds.Contains(p.EmployeeId) &&
@@ -210,24 +462,24 @@ public class ServiceService(
 
         for (int dayOffset = 0; dayOffset < 7; dayOffset++)
         {
-            var currentDate = from.Date.AddDays(dayOffset);
+            DateTime currentDate = from.Date.AddDays(dayOffset);
 
-            var daySchedules = schedules
+            List<Schedule> daySchedules = schedules
                 .Where(s => s.DayOfWeek == currentDate.DayOfWeek)
                 .ToList();
 
-            foreach (var schedule in daySchedules)
+            foreach (Schedule schedule in daySchedules)
             {
-                if (!TimeSpan.TryParse(schedule.StartTime, out var startTime) ||
-                    !TimeSpan.TryParse(schedule.EndTime, out var endTime))
+                if (!TimeSpan.TryParse(schedule.StartTime, out TimeSpan startTime) ||
+                    !TimeSpan.TryParse(schedule.EndTime, out TimeSpan endTime))
                 {
                     continue;
                 }
 
-                var workStart = currentDate.Add(startTime);
-                var workEnd = currentDate.Add(endTime);
+                DateTime workStart = currentDate.Add(startTime);
+                DateTime workEnd = currentDate.Add(endTime);
 
-                var slotStart = workStart;
+                DateTime slotStart = workStart;
 
                 if (currentDate == from.Date && from > workStart)
                 {
@@ -236,9 +488,9 @@ public class ServiceService(
 
                 while (slotStart.AddMinutes(service.DurationInMinutes) <= workEnd)
                 {
-                    var slotEnd = slotStart.AddMinutes(service.DurationInMinutes);
+                    DateTime slotEnd = slotStart.AddMinutes(service.DurationInMinutes);
 
-                    var employeeProcedures = procedures
+                    List<Procedure> employeeProcedures = procedures
                         .Where(p => p.EmployeeId == schedule.EmployeeId &&
                                     p.AppointmentDate.Date == currentDate.Date)
                         .ToList();
@@ -250,8 +502,8 @@ public class ServiceService(
                             return false;
                         }
 
-                        var existingStart = p.AppointmentDate;
-                        var existingEnd = p.AppointmentDate.AddMinutes(p.Service.DurationInMinutes);
+                        DateTime existingStart = p.AppointmentDate;
+                        DateTime existingEnd = p.AppointmentDate.AddMinutes(p.Service.DurationInMinutes);
 
                         return slotStart < existingEnd && slotEnd > existingStart;
                     });
@@ -271,7 +523,7 @@ public class ServiceService(
 
     private static DateTime RoundUpToNext30Minutes(DateTime dateTime)
     {
-        var minutesToAdd = 30 - (dateTime.Minute % 30);
+        int minutesToAdd = 30 - (dateTime.Minute % 30);
 
         if (minutesToAdd == 30 && dateTime.Second == 0 && dateTime.Millisecond == 0)
         {
@@ -285,25 +537,5 @@ public class ServiceService(
             dateTime.Hour,
             dateTime.Minute,
             0).AddMinutes(minutesToAdd);
-    }
-
-    public Task<Procedure> EditProcedureAsync(EditServiceViewModel model, int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<DetailsServiceViewModel>> GetAllProcedureDetailsByUserIdAsync(Guid userId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<DeleteServiceViewModel> GetDeleteProcedureAsync(int id, Guid userId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<EditServiceViewModel> GetEditProcedureAsync(int id)
-    {
-        throw new NotImplementedException();
     }
 }

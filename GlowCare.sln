@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlowCare.Common", "GlowCare
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlowCare.ViewModels", "GlowCare.ViewModels\GlowCare.ViewModels.csproj", "{8B0C247F-5A8B-4B92-B1DB-88E0349C7751}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlowCare.Tests", "GlowCare.Tests\GlowCare.Tests.csproj", "{C8D485E5-6381-4AB8-8B85-524B44A9F7FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{8B0C247F-5A8B-4B92-B1DB-88E0349C7751}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B0C247F-5A8B-4B92-B1DB-88E0349C7751}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B0C247F-5A8B-4B92-B1DB-88E0349C7751}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8D485E5-6381-4AB8-8B85-524B44A9F7FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8D485E5-6381-4AB8-8B85-524B44A9F7FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8D485E5-6381-4AB8-8B85-524B44A9F7FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8D485E5-6381-4AB8-8B85-524B44A9F7FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,7 +14,6 @@ public class GlowCareDbContext
     {
     }
 
-    public DbSet<Certificate> Certificates { get; set; } = null!;
     public DbSet<Employee> Employees { get; set; } = null!;
     public DbSet<EmployeeService> EmployeesServices { get; set; } = null!;
     public DbSet<Membership> Memberships { get; set; } = null!;
@@ -40,6 +39,12 @@ public class GlowCareDbContext
             .HasOne(r => r.Procedure)
             .WithMany(p => p.Reviews)
             .HasForeignKey(sd => sd.ProcedureId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.Entity<Review>()
+            .HasOne(r => r.Service)
+            .WithMany()
+            .HasForeignKey(r => r.ServiceId)
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.Entity<Procedure>()

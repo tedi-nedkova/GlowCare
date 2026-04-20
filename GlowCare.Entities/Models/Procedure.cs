@@ -10,11 +10,11 @@ public class Procedure
     [Required]
     public int Id { get; set; }
 
-    public Guid UserId { get; set; } 
+    public Guid UserId { get; set; }
     [ForeignKey(nameof(UserId))]
     public GlowUser? User { get; set; }
 
-    public Guid EmployeeId { get; set; } 
+    public Guid EmployeeId { get; set; }
     [ForeignKey(nameof(EmployeeId))]
     public Employee? Employee { get; set; }
     public int ServiceId { get; set; }
@@ -24,11 +24,12 @@ public class Procedure
     [Required]
     public DateTime AppointmentDate { get; set; }
 
- 
 
     public Status? Status { get; set; }
 
     public string? Notes { get; set; }
+
+    public bool RewardPointsGranted { get; set; }
 
     public bool IsDeleted { get; set; }
 

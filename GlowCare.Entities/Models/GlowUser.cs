@@ -6,7 +6,7 @@ using static GlowCare.Common.Constants.GlowUserConstants;
 
 namespace GlowCare.Entities.Models;
 
-public class GlowUser 
+public class GlowUser
     : IdentityUser<Guid>
 {
     [Required]
@@ -24,6 +24,8 @@ public class GlowUser
 
     public ICollection<Review> Reviews { get; set; }
     = new List<Review>();
+
+    public int LoyaltyPoints { get; set; }
 
     public int? MembershipId { get; set; }
     [ForeignKey(nameof(MembershipId))]

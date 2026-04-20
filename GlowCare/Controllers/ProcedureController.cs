@@ -196,6 +196,42 @@ public class ProcedureController(
         return Json(services);
     }
 
+    [Authorize(Roles = "Specialist")]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Reject(int id)
+    {
+        try
+        {
+            string? userIdString = userManager.GetUserId(User);
+
+            if (string.IsNullOrWhiteSpace(userIdString) || !Guid.TryParse(userIdString, out Guid specialistUserId))
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
+            await procedureService.RejectProcedureAsync(id, specialistUserId);
+            TempData["ProfileMessage"] = "Часът беше отказан успешно.";
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            logger.LogWarning(ex, "Unauthorized reject attempt for procedure {ProcedureId}.", id);
+            TempData["ProfileError"] = "Нямате право да отказвате този час.";
+        }
+        catch (InvalidOperationException ex)
+        {
+            logger.LogWarning(ex, "Invalid reject attempt for procedure {ProcedureId}.", id);
+            TempData["ProfileError"] = "Само активни записани часове могат да бъдат отказвани.";
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while rejecting a procedure.");
+            TempData["ProfileError"] = "Възникна грешка при отказването на часа.";
+        }
+
+        return RedirectToAction("Index", "Profile");
+    }
+
     private async Task LoadDropdownsAsync()
     {
         var employees = await procedureService.GetEmployeeSelectListAsync();

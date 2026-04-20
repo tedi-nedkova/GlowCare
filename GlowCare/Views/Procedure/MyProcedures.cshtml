@@ -1,48 +1,53 @@
 ﻿@model IEnumerable<GlowCare.ViewModels.Procedures.DetailsProcedureViewModel>
 
 @{
-    ViewData["Title"] = "My Procedures";
+    ViewData["Title"] = "Моите процедури";
 }
 
-<h2>My Procedures</h2>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h2 class="mb-0">Моите процедури</h2>
+        <a asp-controller="Profile" asp-action="Index" class="btn btn-outline-dark">Към профила</a>
+    </div>
 
-<p>
-    <a asp-controller="Procedure" asp-action="Add">Book New Procedure</a>
-</p>
-
-<table border="1" cellpadding="6">
-    <thead>
-        <tr>
-            <th>Specialist</th>
-            <th>Service</th>
-            <th>Price</th>
-            <th>Appointment Date</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null && Model.Any())
-        {
-            foreach (var procedure in Model)
-            {
-                <tr>
-                    <td>@procedure.SpecialistName</td>
-                    <td>@procedure.Service</td>
-                    <td>@procedure.Price</td>
-                    <td>@procedure.AppointmentDate</td>
-                    <td>
-                        <a asp-controller="Procedure" asp-action="Edit" asp-route-id="@procedure.Id">Edit</a> |
-                        <a asp-controller="Procedure" asp-action="Delete" asp-route-id="@procedure.Id">Delete</a> |
-                        <a asp-controller="Review" asp-action="Add" asp-route-procedureId="@procedure.Id">Add Review</a>
-                    </td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="5">No procedures found.</td>
-            </tr>
-        }
-    </tbody>
-</table>
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle bg-white">
+                <thead>
+                    <tr>
+                        <th>Специалист</th>
+                        <th>Услуга</th>
+                        <th>Цена</th>
+                        <th>Дата</th>
+                        <th>Статус</th>
+                        <th>Точки</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var procedure in Model)
+                    {
+                        <tr>
+                            <td>@procedure.SpecialistName</td>
+                            <td>@procedure.Service</td>
+                            <td>@procedure.Price.ToString("F2") €</td>
+                            <td>@procedure.AppointmentDate</td>
+                            <td>@procedure.Status</td>
+                            <td>@procedure.EarnedPoints</td>
+                            <td>
+                                <a asp-controller="Procedure" asp-action="Edit" asp-route-id="@procedure.Id">Редакция</a> |
+                                <a asp-controller="Procedure" asp-action="Delete" asp-route-id="@procedure.Id">Изтрий</a> |
+                                <a asp-controller="Review" asp-action="Add" asp-route-procedureId="@procedure.Id" asp-route-employeeId="@procedure.EmployeeId">Ревю</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-light border">Няма намерени процедури.</div>
+    }
+</div>

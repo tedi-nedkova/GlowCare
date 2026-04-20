@@ -1,4 +1,5 @@
 ﻿using GlowCare.Core.Contracts;
+using GlowCare.Core.Helpers;
 using GlowCare.Entities.Contracts.Interfaces;
 using GlowCare.Entities.Models;
 using GlowCare.Entities.Models.Enums;
@@ -25,11 +26,13 @@ public class SpecialistApplicationService(
             {
                 Id = a.Id,
                 UserId = a.UserId,
+                UserFullName = $"{a.User.FirstName} {a.User.LastName}",
                 Email = a.User.Email!,
                 Occupation = a.Occupation,
                 ExperienceYears = a.ExperienceYears,
                 Biography = a.Biography,
                 Status = a.Status,
+                StatusText = BulgarianTextHelper.GetRequestStatusText(a.Status),
                 CreatedOn = a.CreatedOn,
                 RejectionReason = a.RejectionReason
             })
@@ -46,11 +49,40 @@ public class SpecialistApplicationService(
             {
                 Id = a.Id,
                 UserId = a.UserId,
+                UserFullName = $"{a.User.FirstName} {a.User.LastName}",
                 Email = a.User.Email!,
                 Occupation = a.Occupation,
                 ExperienceYears = a.ExperienceYears,
                 Biography = a.Biography,
                 Status = a.Status,
+                StatusText = BulgarianTextHelper.GetRequestStatusText(a.Status),
+                CreatedOn = a.CreatedOn,
+                RejectionReason = a.RejectionReason
+            })
+            .FirstOrDefaultAsync();
+    }
+
+
+
+    public async Task<SpecialistApplicationViewModel?> GetLatestByUserIdAsync(Guid userId)
+    {
+        return await specialistApplicationRepository
+            .GetAllAttached()
+            .AsNoTracking()
+            .Include(a => a.User)
+            .Where(a => a.UserId == userId)
+            .OrderByDescending(a => a.CreatedOn)
+            .Select(a => new SpecialistApplicationViewModel
+            {
+                Id = a.Id,
+                UserId = a.UserId,
+                UserFullName = $"{a.User.FirstName} {a.User.LastName}",
+                Email = a.User.Email!,
+                Occupation = a.Occupation,
+                ExperienceYears = a.ExperienceYears,
+                Biography = a.Biography,
+                Status = a.Status,
+                StatusText = BulgarianTextHelper.GetRequestStatusText(a.Status),
                 CreatedOn = a.CreatedOn,
                 RejectionReason = a.RejectionReason
             })
@@ -102,7 +134,7 @@ public class SpecialistApplicationService(
 
         if (application.Status != RequestStatus.Pending)
         {
-            throw new InvalidOperationException("This application has already been reviewed.");
+            throw new InvalidOperationException("Тази заявка вече е прегледана.");
         }
 
         GlowUser user = await userRepository.GetByIdAsync(application.UserId);
@@ -110,7 +142,7 @@ public class SpecialistApplicationService(
         bool alreadyInRole = await userManager.IsInRoleAsync(user, "Specialist");
         if (alreadyInRole || user.IsSpecialist)
         {
-            throw new InvalidOperationException("This user is already a specialist.");
+            throw new InvalidOperationException("Този потребител вече е специалист.");
         }
 
         Employee? existingEmployee = await employeeRepository
@@ -124,13 +156,13 @@ public class SpecialistApplicationService(
         bool applicationUpdated = await specialistApplicationRepository.UpdateAsync(application);
         if (!applicationUpdated)
         {
-            throw new InvalidOperationException("Could not update application.");
+            throw new InvalidOperationException("Заявката не можа да бъде обновена.");
         }
 
         bool userUpdated = await userRepository.UpdateAsync(user);
         if (!userUpdated)
         {
-            throw new InvalidOperationException("Could not update user.");
+            throw new InvalidOperationException("Потребителят не можа да бъде обновен.");
         }
 
         if (existingEmployee == null)
@@ -157,14 +189,14 @@ public class SpecialistApplicationService(
             bool employeeUpdated = await employeeRepository.UpdateAsync(existingEmployee);
             if (!employeeUpdated)
             {
-                throw new InvalidOperationException("Could not update employee profile.");
+                throw new InvalidOperationException("Профилът на специалиста не можа да бъде обновен.");
             }
         }
 
         IdentityResult roleResult = await userManager.AddToRoleAsync(user, "Specialist");
         if (!roleResult.Succeeded)
         {
-            throw new InvalidOperationException("Could not assign Specialist role.");
+            throw new InvalidOperationException("Ролята „Специалист“ не можа да бъде зададена.");
         }
     }
 
@@ -174,17 +206,19 @@ public class SpecialistApplicationService(
 
         if (application.Status != RequestStatus.Pending)
         {
-            throw new InvalidOperationException("This application has already been reviewed.");
+            throw new InvalidOperationException("Тази заявка вече е прегледана.");
         }
 
         application.Status = RequestStatus.Declined;
-        application.RejectionReason = rejectionReason;
+        application.RejectionReason = string.IsNullOrWhiteSpace(rejectionReason)
+            ? null
+            : rejectionReason.Trim();
 
         bool updateResult = await specialistApplicationRepository.UpdateAsync(application);
 
         if (!updateResult)
         {
-            throw new InvalidOperationException("Could not decline application.");
+            throw new InvalidOperationException("Заявката не можа да бъде отхвърлена.");
         }
     }
 
@@ -222,19 +256,19 @@ public class SpecialistApplicationService(
 
         if (user == null)
         {
-            throw new InvalidOperationException("User was not found.");
+            throw new InvalidOperationException("Потребителят не беше намерен.");
         }
 
         bool hasPendingApplication = await UserHasPendingApplicationAsync(userId);
         if (hasPendingApplication)
         {
-            throw new InvalidOperationException("You already have a pending application.");
+            throw new InvalidOperationException("Вече имате чакаща заявка.");
         }
 
         bool isAlreadySpecialist = await UserIsAlreadySpecialistAsync(userId);
         if (isAlreadySpecialist)
         {
-            throw new InvalidOperationException("You are already a specialist.");
+            throw new InvalidOperationException("Вече сте специалист.");
         }
 
         SpecialistApplication application = new()

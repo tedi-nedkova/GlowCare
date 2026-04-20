@@ -22,6 +22,9 @@ namespace GlowCare.ViewModels.Employees
 
         public string? PhoneNumber { get; set; }
 
+        public double AverageRating { get; set; }
+        public int ReviewsCount { get; set; }
+
         public ICollection<string> Services { get; set; } = new List<string>();
         public ICollection<EmployeeScheduleViewModel> WorkingHours { get; set; }
     = new List<EmployeeScheduleViewModel>();

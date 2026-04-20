@@ -1,9 +1,8 @@
 ﻿using GlowCare.Core.Contracts;
 using GlowCare.Core.Implementations;
 using GlowCare.Entities.Contracts.Interfaces;
-using GlowCare.Entities.Models;
+using GlowCare.Entities.Repositories;
 using GlowCare.Services.Implementations;
-using Portify.Entities.Repositories;
 
 namespace GlowCare.Extensions;
 

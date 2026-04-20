@@ -16,6 +16,8 @@ public interface ISpecialistApplicationService
 
     Task<SpecialistApplicationViewModel?> GetByIdAsync(int id);
 
+    Task<SpecialistApplicationViewModel?> GetLatestByUserIdAsync(Guid userId);
+
     Task ApproveAsync(int id);
 
     Task DeclineAsync(int id, string? rejectionReason);

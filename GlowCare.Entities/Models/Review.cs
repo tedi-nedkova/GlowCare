@@ -10,7 +10,7 @@ public class Review
     [Required]
     public int Id { get; set; }
 
-    public Guid UserId { get; set; } 
+    public Guid UserId { get; set; }
     [ForeignKey(nameof(UserId))]
     public GlowUser? User { get; set; }
 
@@ -19,7 +19,7 @@ public class Review
     public Employee? Employee { get; set; }
 
     [Range(MinRating, MaxRating)]
-    public int? Rating { get; set; }
+    public int Rating { get; set; }
 
     [Required]
     [MinLength(CommentMinLength)]
@@ -29,7 +29,13 @@ public class Review
     [Required]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    public int? ProcedureId { get; set; } 
+    public bool IsDeleted { get; set; }
+
+    public int ServiceId { get; set; }
+    [ForeignKey(nameof(ServiceId))]
+    public Service? Service { get; set; }
+
+    public int? ProcedureId { get; set; }
     [ForeignKey(nameof(ProcedureId))]
     public Procedure? Procedure { get; set; }
 }
