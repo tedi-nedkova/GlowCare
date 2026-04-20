@@ -1,0 +1,26 @@
+﻿[
+  {
+    "UserId": "c9f4e7b1-2d33-4a11-8f56-abcdef123456",
+    "RoleId": "5dcbdb75-d5c9-4109-ab52-fd869be79532"
+  },
+  {
+    "UserId": "e5c2a9b3-4a67-4f89-8d23-556677889900",
+    "RoleId": "5dcbdb75-d5c9-4109-ab52-fd869be79532"
+  },
+  {
+    "UserId": "a7d3c5e2-9b41-4f12-8f34-123456789abc",
+    "RoleId": "a3f06ed0-4bca-4e98-8bef-4cd91e64e2a1"
+  },
+  {
+    "UserId": "ac31b0bb-d05a-438d-be06-9bfe3323cf08",
+    "RoleId": "a3f06ed0-4bca-4e98-8bef-4cd91e64e2a1"
+  },
+  {
+    "UserId": "29965aaa-46cf-4829-93b8-e38401be7547",
+    "RoleId": "a3f06ed0-4bca-4e98-8bef-4cd91e64e2a1"
+  },
+  {
+    "UserId": "fc95b3fa-f342-4172-ac8b-5b35951ad760",
+    "RoleId": "8c384109-e13f-4556-a810-ab9ba28161a2"
+  }
+]

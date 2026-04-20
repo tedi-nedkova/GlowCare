@@ -67,31 +67,6 @@ namespace GlowCare.Entities.Migrations
                         });
                 });
 
-            modelBuilder.Entity("GlowCare.Entities.Models.Certificate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CertificateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("Certificates");
-                });
-
             modelBuilder.Entity("GlowCare.Entities.Models.Employee", b =>
                 {
                     b.Property<Guid>("Id")
@@ -378,7 +353,7 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("a7d3c5e2-9b41-4f12-8f34-123456789abc"),
                             AccessFailedCount = 0,
                             Age = 32,
-                            ConcurrencyStamp = "ed285af6-afde-4d6d-bb5c-301ad7976685",
+                            ConcurrencyStamp = "6c330e84-ce7e-470c-b371-59481ff38c36",
                             Email = "elena.dimitrova@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Елена",
@@ -390,7 +365,7 @@ namespace GlowCare.Entities.Migrations
                             LoyaltyPoints = 0,
                             NormalizedEmail = "ELENA.DIMITROVA@EXAMPLE.COM",
                             NormalizedUserName = "ELENA.DIMITROVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPNkR0U8ZdJdKjt7dgUuHJH1mXdV4dd3DbU+RT1JWFtwnev+Yzh9koBdUnaRwarvmA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHyyVPu4HjR6tXTIkpCHggpGqMQDN+tKfN6ylPHsLbdChiVcNRB6vc0F2kSRgtfvQg==",
                             PhoneNumber = "0888123456",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "bfb94cc6-d1c4-4315-8f5e-f1d3535f4c01",
@@ -402,7 +377,7 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("ac31b0bb-d05a-438d-be06-9bfe3323cf08"),
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "a36bcf8d-8d8f-48bf-8e3d-37374de443a4",
+                            ConcurrencyStamp = "22bd1fce-608c-452b-8707-37d6311e23bc",
                             Email = "johndoe@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Джон",
@@ -414,7 +389,7 @@ namespace GlowCare.Entities.Migrations
                             LoyaltyPoints = 0,
                             NormalizedEmail = "JOHNDOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPs8oXqGMkNTZ5F7dUJK574rZgbQ4awLiBi6wEM9j24E3NdR0XkEE/Q/H+M3zO05xg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEC5T2VQ1AXU1NcSEWTXBak9AfKi4KoVVcF3brETP2rqmB1l9K5y3u5O41fGMgYuhAQ==",
                             PhoneNumber = "0875757574",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "a6241046-575b-4a3f-a668-c6aa755a232f",
@@ -426,7 +401,7 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("29965aaa-46cf-4829-93b8-e38401be7547"),
                             AccessFailedCount = 0,
                             Age = 38,
-                            ConcurrencyStamp = "bc9f05f9-f5ed-488f-be50-042269a0b535",
+                            ConcurrencyStamp = "bff06f33-2fbd-4666-8bb8-1d440bd9a465",
                             Email = "maria.petrova@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Мария",
@@ -438,7 +413,7 @@ namespace GlowCare.Entities.Migrations
                             LoyaltyPoints = 0,
                             NormalizedEmail = "MARIA.PETROVA@EXAMPLE.COM",
                             NormalizedUserName = "MARIA.PETROVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKrkNTH44NyUYS/ri95dStaVSePtw9jP8CxU9gSSlNCPqao4GWWgEE8lmdmbQDrXlQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAS4jgsWhKkJDw6Yyn+0XOxpvJsMcYc+jnnH1TBcNc2FqyaY2fCEGiRQFE+Oxa4F/A==",
                             PhoneNumber = "0899123456",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "68e7add5-6f2f-4792-a2e6-01f596c74a52",
@@ -450,7 +425,7 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("c9f4e7b1-2d33-4a11-8f56-abcdef123456"),
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "5b1d1952-daf1-4b84-9066-e020680aa137",
+                            ConcurrencyStamp = "d2e6c78d-524f-4249-b863-e19ee90929ac",
                             Email = "ivana.koleva@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Ивана",
@@ -462,7 +437,7 @@ namespace GlowCare.Entities.Migrations
                             LoyaltyPoints = 0,
                             NormalizedEmail = "IVANA.KOLEVA@EXAMPLE.COM",
                             NormalizedUserName = "IVANA.KOLEVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEwcZvvP6JjlIZJq3bGhu2aCkR7QTnFy/nRwdZcBhJfSjfW7mr2w/9+vr7HDWAoANw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL2w8JNRXmuZACcBEcuGUg9fE1l8gfWdI02Anr0ZW1vL8BWd5y9m4Kc0Kmnt8EnZzg==",
                             PhoneNumber = "0888234567",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "e0ff1671-f59e-407c-a1bc-b6034b44ac41",
@@ -474,7 +449,7 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900"),
                             AccessFailedCount = 0,
                             Age = 30,
-                            ConcurrencyStamp = "d49d8d27-059b-4edf-8b3c-d918f5e3df73",
+                            ConcurrencyStamp = "b52c44a4-51b9-40a4-b502-b068b9c7d037",
                             Email = "nikol.georgieva@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Никол",
@@ -487,7 +462,7 @@ namespace GlowCare.Entities.Migrations
                             MembershipId = 1,
                             NormalizedEmail = "NIKOL.GEORGIEVA@EXAMPLE.COM",
                             NormalizedUserName = "NIKOL.GEORGIEVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAcfmbstqbRNutuFSU7jMjsRr+VXgKOmvrZtmS5pDbZpcCEcIEE5y5mD1KTmTVNIUA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPO5+4nLhTmYZcnk4CW0oKxetKaB9q/n6GJOm/LmQdXoDnMG+n+VeLeCj5kglrZ48Q==",
                             PhoneNumber = "0855123456",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "e9c2550f-30cc-4116-a85c-20265258d5a5",
@@ -499,7 +474,7 @@ namespace GlowCare.Entities.Migrations
                             Id = new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760"),
                             AccessFailedCount = 0,
                             Age = 18,
-                            ConcurrencyStamp = "26787bf6-fe04-4c6b-8fd8-5138797e088a",
+                            ConcurrencyStamp = "446400fd-73b4-4920-a9a2-2ce968451ffc",
                             Email = "teodora_nedkova@abv.bg",
                             EmailConfirmed = true,
                             FirstName = "Теодора",
@@ -511,7 +486,7 @@ namespace GlowCare.Entities.Migrations
                             LoyaltyPoints = 0,
                             NormalizedEmail = "TEODORA_NEDKOVA@ABV.BG",
                             NormalizedUserName = "TEODORA.NEDKOVA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIH+iMaji0kSK21C0pSLT6Ek3804hcDvoGQZePJqDf/hnlDy947TtDWbS0HOh+J3uA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHUMdqZkqY7cuIFRIjgwT2Os0GqmE+KaYgVuQa+YHx4Ptn5OokcaDd/A8DQJIFFiSg==",
                             PhoneNumber = "0878654562",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "258513a82f1147ba92a0e43f1602b7c3",
@@ -704,7 +679,7 @@ namespace GlowCare.Entities.Migrations
                         {
                             Id = 1,
                             Comment = "Отлично обслужване! Процедурата беше извършена професионално и се чувствах много комфортно.",
-                            CreatedAt = new DateTime(2026, 4, 18, 20, 9, 30, 754, DateTimeKind.Utc).AddTicks(504),
+                            CreatedAt = new DateTime(2026, 4, 20, 17, 32, 19, 640, DateTimeKind.Utc).AddTicks(5716),
                             EmployeeId = new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"),
                             IsDeleted = false,
                             ProcedureId = 1,
@@ -1323,6 +1298,38 @@ namespace GlowCare.Entities.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("c9f4e7b1-2d33-4a11-8f56-abcdef123456"),
+                            RoleId = new Guid("5dcbdb75-d5c9-4109-ab52-fd869be79532")
+                        },
+                        new
+                        {
+                            UserId = new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900"),
+                            RoleId = new Guid("5dcbdb75-d5c9-4109-ab52-fd869be79532")
+                        },
+                        new
+                        {
+                            UserId = new Guid("a7d3c5e2-9b41-4f12-8f34-123456789abc"),
+                            RoleId = new Guid("a3f06ed0-4bca-4e98-8bef-4cd91e64e2a1")
+                        },
+                        new
+                        {
+                            UserId = new Guid("ac31b0bb-d05a-438d-be06-9bfe3323cf08"),
+                            RoleId = new Guid("a3f06ed0-4bca-4e98-8bef-4cd91e64e2a1")
+                        },
+                        new
+                        {
+                            UserId = new Guid("29965aaa-46cf-4829-93b8-e38401be7547"),
+                            RoleId = new Guid("a3f06ed0-4bca-4e98-8bef-4cd91e64e2a1")
+                        },
+                        new
+                        {
+                            UserId = new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760"),
+                            RoleId = new Guid("8c384109-e13f-4556-a810-ab9ba28161a2")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -1344,13 +1351,6 @@ namespace GlowCare.Entities.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("GlowCare.Entities.Models.Certificate", b =>
-                {
-                    b.HasOne("GlowCare.Entities.Models.Employee", null)
-                        .WithMany("Certificates")
-                        .HasForeignKey("EmployeeId");
                 });
 
             modelBuilder.Entity("GlowCare.Entities.Models.Employee", b =>
@@ -1544,8 +1544,6 @@ namespace GlowCare.Entities.Migrations
 
             modelBuilder.Entity("GlowCare.Entities.Models.Employee", b =>
                 {
-                    b.Navigation("Certificates");
-
                     b.Navigation("EmployeeServices");
 
                     b.Navigation("Procedures");
