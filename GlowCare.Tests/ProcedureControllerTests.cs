@@ -1,4 +1,4 @@
-using GlowCare.Controllers;
+﻿using GlowCare.Controllers;
 using GlowCare.Core.Contracts;
 using GlowCare.Entities.Models;
 using GlowCare.ViewModels.Procedures;
@@ -155,4 +155,56 @@ public class ProcedureControllerTests
         var redirect = Assert.IsType<RedirectResult>(result);
         Assert.Equal("/Identity/Account/Login", redirect.Url);
     }
+
+    [Fact]
+    public async Task Cancel_ShouldRedirectToLogin_WhenUserIdIsMissing()
+    {
+        var procedureService = new Mock<IProcedureService>();
+        var userManager = ControllerTestHelpers.CreateUserManagerMock();
+        userManager.Setup(x => x.GetUserId(It.IsAny<System.Security.Claims.ClaimsPrincipal>())).Returns((string?)null);
+        var controller = ControllerTestHelpers.AttachHttpContext(new ProcedureController(procedureService.Object, Mock.Of<ILogger<ProcedureController>>(), userManager.Object));
+
+        var result = await controller.Cancel(7);
+
+        var redirect = Assert.IsType<RedirectResult>(result);
+        Assert.Equal("/Identity/Account/Login", redirect.Url);
+    }
+
+    [Fact]
+    public async Task Cancel_ShouldRedirectToProfile_WhenCancellationSucceeds()
+    {
+        var procedureService = new Mock<IProcedureService>();
+        var userId = Guid.NewGuid();
+        var userManager = ControllerTestHelpers.CreateUserManagerMock();
+        userManager.Setup(x => x.GetUserId(It.IsAny<System.Security.Claims.ClaimsPrincipal>())).Returns(userId.ToString());
+        var controller = ControllerTestHelpers.AttachHttpContext(new ProcedureController(procedureService.Object, Mock.Of<ILogger<ProcedureController>>(), userManager.Object), userId);
+
+        var result = await controller.Cancel(11);
+
+        procedureService.Verify(x => x.CancelProcedureAsync(11, userId), Times.Once);
+        var redirect = Assert.IsType<RedirectToActionResult>(result);
+        Assert.Equal("Index", redirect.ActionName);
+        Assert.Equal("Profile", redirect.ControllerName);
+        Assert.Equal("Процедурата беше отказана успешно.", controller.TempData["ProfileMessage"]);
+    }
+
+    [Fact]
+    public async Task Reject_ShouldRedirectToProfile_WhenRejectSucceeds()
+    {
+        var procedureService = new Mock<IProcedureService>();
+        var userId = Guid.NewGuid();
+        var userManager = ControllerTestHelpers.CreateUserManagerMock();
+        userManager.Setup(x => x.GetUserId(It.IsAny<System.Security.Claims.ClaimsPrincipal>())).Returns(userId.ToString());
+        var controller = ControllerTestHelpers.AttachHttpContext(new ProcedureController(procedureService.Object, Mock.Of<ILogger<ProcedureController>>(), userManager.Object), userId);
+
+        var result = await controller.Reject(9);
+
+        procedureService.Verify(x => x.RejectProcedureAsync(9, userId), Times.Once);
+        var redirect = Assert.IsType<RedirectToActionResult>(result);
+        Assert.Equal("Index", redirect.ActionName);
+        Assert.Equal("Profile", redirect.ControllerName);
+        Assert.Equal("Часът беше отказан успешно.", controller.TempData["ProfileMessage"]);
+    }
+
 }
+

@@ -43,6 +43,7 @@ namespace GlowCare.Core.Implementations
             return new EmployeeInfoViewModel
             {
                 Id = employee.Id,
+                UserId = employee.UserId,
                 FullName = $"{employee.User.FirstName} {employee.User.LastName}",
                 Occupation = employee.Occupation,
                 ExperienceYears = employee.ExperienceYears,
@@ -88,6 +89,7 @@ namespace GlowCare.Core.Implementations
                 .Select(employee => new EmployeeInfoViewModel
                 {
                     Id = employee.Id,
+                    UserId = employee.UserId,
                     FullName = $"{employee.User.FirstName} {employee.User.LastName}",
                     Occupation = employee.Occupation,
                     ExperienceYears = employee.ExperienceYears,

@@ -10,6 +10,8 @@ namespace GlowCare.ViewModels.Employees
     {
         public Guid Id { get; set; }
 
+        public Guid UserId { get; set; }
+
         public string FullName { get; set; } = null!;
 
         public string Occupation { get; set; } = null!;
@@ -26,6 +28,8 @@ namespace GlowCare.ViewModels.Employees
         public int ReviewsCount { get; set; }
 
         public ICollection<string> Services { get; set; } = new List<string>();
+        public bool IsCurrentSpecialistOwner { get; set; }
+        public ICollection<GlowCare.ViewModels.Users.UserProfileProcedureViewModel> Procedures { get; set; } = new List<GlowCare.ViewModels.Users.UserProfileProcedureViewModel>();
         public ICollection<EmployeeScheduleViewModel> WorkingHours { get; set; }
     = new List<EmployeeScheduleViewModel>();
     }

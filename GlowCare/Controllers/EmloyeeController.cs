@@ -10,6 +10,7 @@ namespace GlowCare.Controllers;
 public class EmployeeController(
     IEmployeeService employeeService,
     ISpecialistApplicationService specialistApplicationService,
+    IUserService userService,
     ILogger<EmployeeController> logger) : Controller
 {
     [AllowAnonymous]
@@ -30,6 +31,16 @@ public class EmployeeController(
         if (employee == null)
         {
             return NotFound();
+        }
+
+        string? userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (!string.IsNullOrWhiteSpace(userIdValue)
+            && Guid.TryParse(userIdValue, out Guid userId)
+            && employee.UserId == userId)
+        {
+            var profile = await userService.GetUserProfileAsync(userId);
+            employee.IsCurrentSpecialistOwner = profile.IsSpecialist;
+            employee.Procedures = profile.Procedures;
         }
 
         return View(employee);

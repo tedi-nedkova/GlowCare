@@ -196,37 +196,37 @@ public class ProcedureController(
         return Json(services);
     }
 
-    [Authorize(Roles = "Specialist")]
+
+    [Authorize(Roles = "User,Specialist")]
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Reject(int id)
+    public async Task<IActionResult> Cancel(int id)
     {
         try
         {
             string? userIdString = userManager.GetUserId(User);
 
-            if (string.IsNullOrWhiteSpace(userIdString) || !Guid.TryParse(userIdString, out Guid specialistUserId))
+            if (string.IsNullOrWhiteSpace(userIdString) || !Guid.TryParse(userIdString, out Guid userId))
             {
                 return Redirect("/Identity/Account/Login");
             }
 
-            await procedureService.RejectProcedureAsync(id, specialistUserId);
-            TempData["ProfileMessage"] = "Часът беше отказан успешно.";
+            await procedureService.CancelProcedureAsync(id, userId);
+            TempData["ProfileMessage"] = "Процедурата беше отказана успешно.";
         }
         catch (UnauthorizedAccessException ex)
         {
-            logger.LogWarning(ex, "Unauthorized reject attempt for procedure {ProcedureId}.", id);
+            logger.LogWarning(ex, "Unauthorized cancel attempt for procedure {ProcedureId}.", id);
             TempData["ProfileError"] = "Нямате право да отказвате този час.";
         }
         catch (InvalidOperationException ex)
         {
-            logger.LogWarning(ex, "Invalid reject attempt for procedure {ProcedureId}.", id);
-            TempData["ProfileError"] = "Само активни записани часове могат да бъдат отказвани.";
+            logger.LogWarning(ex, "Invalid cancel attempt for procedure {ProcedureId}.", id);
+            TempData["ProfileError"] = "Само бъдещи активни часове могат да бъдат отказвани.";
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "An error occurred while rejecting a procedure.");
-            TempData["ProfileError"] = "Възникна грешка при отказването на часа.";
+            logger.LogError(ex, "An error occurred while cancelling a procedure.");
+            TempData["ProfileError"] = "Възникна грешка при отказването на процедурата.";
         }
 
         return RedirectToAction("Index", "Profile");

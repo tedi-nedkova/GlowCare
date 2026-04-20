@@ -39,8 +39,7 @@ public interface IProcedureService
     Task<IEnumerable<SelectListItem>> GetServicesByEmployeeIdAsync(
         Guid employeeId);
 
-    Task RejectProcedureAsync(
+    Task CancelProcedureAsync(
         int procedureId,
-        Guid specialistUserId);
+        Guid userId);
 }
-

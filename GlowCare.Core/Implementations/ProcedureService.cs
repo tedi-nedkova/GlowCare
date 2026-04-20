@@ -319,7 +319,7 @@ public class ProcedureService(
             .ToListAsync();
     }
 
-    public async Task RejectProcedureAsync(int procedureId, Guid specialistUserId)
+    public async Task CancelProcedureAsync(int procedureId, Guid userId)
     {
         Procedure procedure = await procedureRepository
             .GetAllAttached()
@@ -327,9 +327,12 @@ public class ProcedureService(
             .FirstOrDefaultAsync(p => p.Id == procedureId && !p.IsDeleted)
             ?? throw new NullReferenceException("Процедурата не беше намерена.");
 
-        if (procedure.Employee == null || procedure.Employee.UserId != specialistUserId)
+        bool isClient = procedure.UserId == userId;
+        bool isSpecialist = procedure.Employee != null && procedure.Employee.UserId == userId;
+
+        if (!isClient && !isSpecialist)
         {
-            throw new UnauthorizedAccessException("Нямате право да откажете този час.");
+            throw new UnauthorizedAccessException("Нямате право да отказвате този час.");
         }
 
         if (procedure.Status != Status.Scheduled || procedure.AppointmentDate <= DateTime.Now)
@@ -338,6 +341,8 @@ public class ProcedureService(
         }
 
         procedure.Status = Status.Cancelled;
+        procedure.IsDeleted = true;
+
         await procedureRepository.UpdateAsync(procedure);
     }
 

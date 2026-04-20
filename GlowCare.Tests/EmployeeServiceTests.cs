@@ -144,6 +144,7 @@ public class EmployeeServiceTests
 
         Assert.NotNull(result);
         Assert.Equal(employee.Id, result!.Id);
+        Assert.Equal(user.Id, result.UserId);
         Assert.Equal("Ivan Petrov", result.FullName);
         Assert.Equal(4, result.AverageRating);
         Assert.Equal(2, result.ReviewsCount);

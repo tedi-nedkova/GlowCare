@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GlowCare.Entities.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialMigraion : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -410,11 +410,11 @@ namespace GlowCare.Entities.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Age", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "Gender", "IsDeleted", "IsSpecialist", "LastName", "LockoutEnabled", "LockoutEnd", "LoyaltyPoints", "MembershipId", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("29965aaa-46cf-4829-93b8-e38401be7547"), 0, 38, "bff06f33-2fbd-4666-8bb8-1d440bd9a465", "maria.petrova@gmail.com", true, "Мария", 1, false, true, "Петрова", false, null, 0, null, "MARIA.PETROVA@EXAMPLE.COM", "MARIA.PETROVA", "AQAAAAIAAYagAAAAEAS4jgsWhKkJDw6Yyn+0XOxpvJsMcYc+jnnH1TBcNc2FqyaY2fCEGiRQFE+Oxa4F/A==", "0899123456", true, "68e7add5-6f2f-4792-a2e6-01f596c74a52", false, "maria.petrova" },
-                    { new Guid("a7d3c5e2-9b41-4f12-8f34-123456789abc"), 0, 32, "6c330e84-ce7e-470c-b371-59481ff38c36", "elena.dimitrova@gmail.com", true, "Елена", 1, false, true, "Димитрова", false, null, 0, null, "ELENA.DIMITROVA@EXAMPLE.COM", "ELENA.DIMITROVA", "AQAAAAIAAYagAAAAEHyyVPu4HjR6tXTIkpCHggpGqMQDN+tKfN6ylPHsLbdChiVcNRB6vc0F2kSRgtfvQg==", "0888123456", true, "bfb94cc6-d1c4-4315-8f5e-f1d3535f4c01", false, "elena.dimitrova" },
-                    { new Guid("ac31b0bb-d05a-438d-be06-9bfe3323cf08"), 0, 30, "22bd1fce-608c-452b-8707-37d6311e23bc", "johndoe@gmail.com", true, "Джон", 0, false, true, "Доу", false, null, 0, null, "JOHNDOE@EXAMPLE.COM", "JOHN.DOE", "AQAAAAIAAYagAAAAEC5T2VQ1AXU1NcSEWTXBak9AfKi4KoVVcF3brETP2rqmB1l9K5y3u5O41fGMgYuhAQ==", "0875757574", true, "a6241046-575b-4a3f-a668-c6aa755a232f", false, "john.doe" },
-                    { new Guid("c9f4e7b1-2d33-4a11-8f56-abcdef123456"), 0, 30, "d2e6c78d-524f-4249-b863-e19ee90929ac", "ivana.koleva@gmail.com", true, "Ивана", 1, false, true, "Колева", false, null, 0, null, "IVANA.KOLEVA@EXAMPLE.COM", "IVANA.KOLEVA", "AQAAAAIAAYagAAAAEL2w8JNRXmuZACcBEcuGUg9fE1l8gfWdI02Anr0ZW1vL8BWd5y9m4Kc0Kmnt8EnZzg==", "0888234567", true, "e0ff1671-f59e-407c-a1bc-b6034b44ac41", false, "ivana.koleva" },
-                    { new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760"), 0, 18, "446400fd-73b4-4920-a9a2-2ce968451ffc", "teodora_nedkova@abv.bg", true, "Теодора", 1, false, false, "Недкова", false, null, 0, null, "TEODORA_NEDKOVA@ABV.BG", "TEODORA.NEDKOVA", "AQAAAAIAAYagAAAAEHUMdqZkqY7cuIFRIjgwT2Os0GqmE+KaYgVuQa+YHx4Ptn5OokcaDd/A8DQJIFFiSg==", "0878654562", true, "258513a82f1147ba92a0e43f1602b7c3", false, "teodora.nedkova" }
+                    { new Guid("29965aaa-46cf-4829-93b8-e38401be7547"), 0, 38, "037b1fe2-2be5-4132-8323-39f1ed66af78", "maria.petrova@gmail.com", true, "Мария", 1, false, true, "Петрова", false, null, 0, null, "MARIA.PETROVA@GMAIL.COM", "MARIA.PETROVA", "AQAAAAIAAYagAAAAEHbM+LpVP8JMozVv/fAEKZFi0gPubRz3PnACB4zDDM4RhkHe59Gt1FHjclOepCrevQ==", "0899123456", true, "68e7add5-6f2f-4792-a2e6-01f596c74a52", false, "maria.petrova" },
+                    { new Guid("a7d3c5e2-9b41-4f12-8f34-123456789abc"), 0, 32, "c9d61487-7a0f-43b4-8a5f-de25de3362cc", "elena.dimitrova@gmail.com", true, "Елена", 1, false, true, "Димитрова", false, null, 0, null, "ELENA.DIMITROVA@GMAIL.COM", "ELENA.DIMITROVA", "AQAAAAIAAYagAAAAEOAHB0o8cpIt/Aee4hzR2+CRMM65SCmvBsPVvAGpUSJK3MmqL6Pcbub3uHKN8JxHRg==", "0888123456", true, "bfb94cc6-d1c4-4315-8f5e-f1d3535f4c01", false, "elena.dimitrova" },
+                    { new Guid("ac31b0bb-d05a-438d-be06-9bfe3323cf08"), 0, 30, "ed9be3f2-94dd-4ac7-9ad5-c4c458ca7913", "johndoe@gmail.com", true, "Джон", 0, false, true, "Доу", false, null, 0, null, "JOHNDOE@GMAIL.COM", "JOHN.DOE", "AQAAAAIAAYagAAAAEOugavJdA3S9W/GEW1V+v1BP9LKhqh4scMPmz6F/z0sC4VfGURjHSsbbgyqwoAmlTQ==", "0875757574", true, "a6241046-575b-4a3f-a668-c6aa755a232f", false, "john.doe" },
+                    { new Guid("c9f4e7b1-2d33-4a11-8f56-abcdef123456"), 0, 30, "e45ad3cb-ed39-4572-8af6-a8afe12f73c0", "ivana.koleva@gmail.com", true, "Ивана", 1, false, true, "Колева", false, null, 0, null, "IVANA.KOLEVA@GMAIL.COM", "IVANA.KOLEVA", "AQAAAAIAAYagAAAAELaZmQzOHUvf5AtNhiUJM8HgUd9aa5rjIc7nw73+0AIRDAj0jxsBJ8u5f0GiYwAYSQ==", "0888234567", true, "e0ff1671-f59e-407c-a1bc-b6034b44ac41", false, "ivana.koleva" },
+                    { new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760"), 0, 18, "1b7afdcd-a8f2-4e55-b232-c9c47002afec", "teodora_nedkova@abv.bg", true, "Теодора", 1, false, false, "Недкова", false, null, 0, null, "TEODORA_NEDKOVA@ABV.BG", "TEODORA.NEDKOVA", "AQAAAAIAAYagAAAAENsImyIrAl5nnxybLA999UizwDsQHmevSAE7kiyCW72pVYbsu3CA4yo/EULn06GK7w==", "0878654562", true, "258513a82f1147ba92a0e43f1602b7c3", false, "teodora.nedkova" }
                 });
 
             migrationBuilder.InsertData(
@@ -455,7 +455,7 @@ namespace GlowCare.Entities.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Age", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "Gender", "IsDeleted", "IsSpecialist", "LastName", "LockoutEnabled", "LockoutEnd", "LoyaltyPoints", "MembershipId", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900"), 0, 30, "b52c44a4-51b9-40a4-b502-b068b9c7d037", "nikol.georgieva@gmail.com", true, "Никол", 1, false, false, "Георгиева", false, null, 0, 1, "NIKOL.GEORGIEVA@EXAMPLE.COM", "NIKOL.GEORGIEVA", "AQAAAAIAAYagAAAAEPO5+4nLhTmYZcnk4CW0oKxetKaB9q/n6GJOm/LmQdXoDnMG+n+VeLeCj5kglrZ48Q==", "0855123456", true, "e9c2550f-30cc-4116-a85c-20265258d5a5", false, "nikol.georgieva" });
+                values: new object[] { new Guid("e5c2a9b3-4a67-4f89-8d23-556677889900"), 0, 30, "6608c09a-aef6-4e4d-8467-07a7888cebbc", "nikol.georgieva@gmail.com", true, "Никол", 1, false, false, "Георгиева", false, null, 0, 1, "NIKOL.GEORGIEVA@GMAIL.COM", "NIKOL.GEORGIEVA", "AQAAAAIAAYagAAAAEKTzvbxMXbPt+DyXcyTIkQOL2/inWYHIN5k7jNzrsfB2zaKIJ+aRKACQvijpCTp0rg==", "0855123456", true, "e9c2550f-30cc-4116-a85c-20265258d5a5", false, "nikol.georgieva" });
 
             migrationBuilder.InsertData(
                 table: "Employees",
@@ -565,7 +565,7 @@ namespace GlowCare.Entities.Migrations
             migrationBuilder.InsertData(
                 table: "Reviews",
                 columns: new[] { "Id", "Comment", "CreatedAt", "EmployeeId", "IsDeleted", "ProcedureId", "Rating", "ServiceId", "UserId" },
-                values: new object[] { 1, "Отлично обслужване! Процедурата беше извършена професионално и се чувствах много комфортно.", new DateTime(2026, 4, 20, 17, 32, 19, 640, DateTimeKind.Utc).AddTicks(5716), new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), false, 1, 5, 5, new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760") });
+                values: new object[] { 1, "Отлично обслужване! Процедурата беше извършена професионално и се чувствах много комфортно.", new DateTime(2026, 4, 20, 23, 7, 59, 439, DateTimeKind.Utc).AddTicks(4127), new Guid("66e6b9a6-4c5a-4344-bdae-6edbacc4b608"), false, 1, 5, 5, new Guid("fc95b3fa-f342-4172-ac8b-5b35951ad760") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

@@ -569,4 +569,69 @@ public class ProcedureServiceTests
             return Task.CompletedTask;
         }
     }
+
+    [Fact]
+    public async Task CancelProcedureAsync_ShouldCancelFutureScheduledProcedure_WhenUserOwnsIt()
+    {
+        using GlowCareDbContext context = CreateContext();
+        var service = CreateService(context, out _);
+
+        Guid userId = Guid.NewGuid();
+        context.Procedures.Add(new Procedure
+        {
+            Id = 30,
+            UserId = userId,
+            EmployeeId = Guid.NewGuid(),
+            ServiceId = 1,
+            AppointmentDate = DateTime.Now.AddDays(2),
+            Status = Status.Scheduled
+        });
+        await context.SaveChangesAsync();
+
+        await service.CancelProcedureAsync(30, userId);
+
+        Assert.Equal(Status.Cancelled, context.Procedures.Single(p => p.Id == 30).Status);
+    }
+
+    [Fact]
+    public async Task CancelProcedureAsync_ShouldThrow_WhenUserDoesNotOwnProcedure()
+    {
+        using GlowCareDbContext context = CreateContext();
+        var service = CreateService(context, out _);
+
+        context.Procedures.Add(new Procedure
+        {
+            Id = 31,
+            UserId = Guid.NewGuid(),
+            EmployeeId = Guid.NewGuid(),
+            ServiceId = 1,
+            AppointmentDate = DateTime.Now.AddDays(2),
+            Status = Status.Scheduled
+        });
+        await context.SaveChangesAsync();
+
+        await Assert.ThrowsAsync<UnauthorizedAccessException>(() => service.CancelProcedureAsync(31, Guid.NewGuid()));
+    }
+
+    [Fact]
+    public async Task CancelProcedureAsync_ShouldThrow_WhenProcedureIsPast()
+    {
+        using GlowCareDbContext context = CreateContext();
+        var service = CreateService(context, out _);
+
+        Guid userId = Guid.NewGuid();
+        context.Procedures.Add(new Procedure
+        {
+            Id = 32,
+            UserId = userId,
+            EmployeeId = Guid.NewGuid(),
+            ServiceId = 1,
+            AppointmentDate = DateTime.Now.AddHours(-3),
+            Status = Status.Scheduled
+        });
+        await context.SaveChangesAsync();
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() => service.CancelProcedureAsync(32, userId));
+    }
+
 }

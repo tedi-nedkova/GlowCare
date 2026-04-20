@@ -115,7 +115,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <th>Точки</th>
+                                                    <th>@(Model.IsAdmin ? "" : "Действия")</th>
                                                 }
                                             </tr>
                                         </thead>
@@ -137,7 +137,8 @@
                                                         <td>
                                                             @if (procedure.CanBeRejectedBySpecialist)
                                                             {
-                                                                <form asp-controller="Procedure" asp-action="Reject" asp-route-id="@procedure.Id" method="post" class="d-inline">
+                                                                <form asp-controller="Procedure" asp-action="Cancel" asp-route-id="@procedure.Id" method="post" class="d-inline">
+                                                                    @Html.AntiForgeryToken()
                                                                     <button type="submit" class="danger-action-btn">Откажи час</button>
                                                                 </form>
                                                             }
@@ -150,14 +151,24 @@
                                                     else
                                                     {
                                                         <td>
-                                                            @if (procedure.EarnedPoints > 0)
-                                                            {
-                                                                <span class="points-earned">+@procedure.EarnedPoints</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span class="text-muted">0</span>
-                                                            }
+                                                            <div class="profile-action-stack">
+                                                                @if (procedure.EarnedPoints > 0)
+                                                                {
+                                                                    <span class="points-earned">+@procedure.EarnedPoints точки</span>
+                                                                }
+
+                                                                @if (procedure.CanBeCancelledByUser)
+                                                                {
+                                                                    <form asp-controller="Procedure" asp-action="Cancel" asp-route-id="@procedure.Id" method="post" class="d-inline">
+                                                                        @Html.AntiForgeryToken()
+                                                                        <button type="submit" class="danger-action-btn">Откажи процедура</button>
+                                                                    </form>
+                                                                }
+                                                                else if (procedure.EarnedPoints <= 0)
+                                                                {
+                                                                    <span class="text-muted">—</span>
+                                                                }
+                                                            </div>
                                                         </td>
                                                     }
                                                 </tr>

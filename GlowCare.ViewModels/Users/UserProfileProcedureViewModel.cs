@@ -11,4 +11,5 @@ public class UserProfileProcedureViewModel
     public string AppointmentDate { get; set; } = null!;
     public string Status { get; set; } = null!;
     public bool CanBeRejectedBySpecialist { get; set; }
+    public bool CanBeCancelledByUser { get; set; }
 }

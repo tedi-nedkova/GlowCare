@@ -159,7 +159,8 @@ public class UserService(
                     EarnedPoints = 0,
                     AppointmentDate = p.AppointmentDate.ToString("dd.MM.yyyy HH:mm"),
                     Status = BulgarianTextHelper.GetProcedureStatusText(p.Status!.Value),
-                    CanBeRejectedBySpecialist = p.Status == Status.Scheduled && p.AppointmentDate > DateTime.Now
+                    CanBeRejectedBySpecialist = p.Status == Status.Scheduled && p.AppointmentDate > DateTime.Now,
+                    CanBeCancelledByUser = false
                 })
                 .ToListAsync();
         }
@@ -181,7 +182,8 @@ public class UserService(
                     EarnedPoints = p.Status == Status.Completed ? p.Service.Points : 0,
                     AppointmentDate = p.AppointmentDate.ToString("dd.MM.yyyy HH:mm"),
                     Status = BulgarianTextHelper.GetProcedureStatusText(p.Status!.Value),
-                    CanBeRejectedBySpecialist = false
+                    CanBeRejectedBySpecialist = false,
+                    CanBeCancelledByUser = p.Status == Status.Scheduled && p.AppointmentDate > DateTime.Now
                 })
                 .ToListAsync();
         }

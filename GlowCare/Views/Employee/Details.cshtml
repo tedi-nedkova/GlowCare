@@ -137,6 +137,62 @@
                     }
                 </div>
 
+
+                @if (Model.IsCurrentSpecialistOwner)
+                {
+                    <div class="specialist-section">
+                        <h2 class="specialist-section-title">Записани часове при мен</h2>
+
+                        @if (Model.Procedures.Any())
+                        {
+                            <div class="table-responsive modern-table-wrap specialist-appointments-wrap">
+                                <table class="table modern-table align-middle specialist-appointments-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Процедура</th>
+                                            <th>Клиент</th>
+                                            <th>Дата</th>
+                                            <th>Статус</th>
+                                            <th>Действия</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var procedure in Model.Procedures)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="service-name">@procedure.ServiceName</div>
+                                                    <div class="service-price">@procedure.Price.ToString("F2") €</div>
+                                                </td>
+                                                <td>@procedure.ClientName</td>
+                                                <td>@procedure.AppointmentDate</td>
+                                                <td><span class="modern-badge status-default">@procedure.Status</span></td>
+                                                <td>
+                                                    @if (procedure.CanBeRejectedBySpecialist)
+                                                    {
+                                                        <form asp-controller="Procedure" asp-action="Cancel" asp-route-id="@procedure.Id" method="post" class="d-inline">
+                                                            @Html.AntiForgeryToken()
+                                                            <button type="submit" class="danger-action-btn">Откажи час</button>
+                                                        </form>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-muted">—</span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="specialist-section-text specialist-empty-state">Все още няма записани часове при този специалист.</p>
+                        }
+                    </div>
+                }
+
                 <div class="specialist-section">
                     <h2 class="specialist-section-title">Работно време</h2>
 
