@@ -150,7 +150,7 @@ public class ProcedureControllerTests
         userManager.Setup(x => x.GetUserId(It.IsAny<System.Security.Claims.ClaimsPrincipal>())).Returns((string?)null);
         var controller = ControllerTestHelpers.AttachHttpContext(new ProcedureController(procedureService.Object, Mock.Of<ILogger<ProcedureController>>(), userManager.Object));
 
-        var result = await controller.Reject(7);
+        var result = await controller.Cancel(7);
 
         var redirect = Assert.IsType<RedirectResult>(result);
         Assert.Equal("/Identity/Account/Login", redirect.Url);
@@ -197,9 +197,9 @@ public class ProcedureControllerTests
         userManager.Setup(x => x.GetUserId(It.IsAny<System.Security.Claims.ClaimsPrincipal>())).Returns(userId.ToString());
         var controller = ControllerTestHelpers.AttachHttpContext(new ProcedureController(procedureService.Object, Mock.Of<ILogger<ProcedureController>>(), userManager.Object), userId);
 
-        var result = await controller.Reject(9);
+        var result = await controller.Cancel(9);
 
-        procedureService.Verify(x => x.RejectProcedureAsync(9, userId), Times.Once);
+        procedureService.Verify(x => x.CancelProcedureAsync(9, userId), Times.Once);
         var redirect = Assert.IsType<RedirectToActionResult>(result);
         Assert.Equal("Index", redirect.ActionName);
         Assert.Equal("Profile", redirect.ControllerName);

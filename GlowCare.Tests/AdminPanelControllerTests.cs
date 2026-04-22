@@ -19,6 +19,7 @@ public class AdminPanelControllerTests
         Mock<ISpecialistApplicationService>? appService = null,
         Mock<IServiceService>? serviceService = null,
         Mock<IReviewService>? reviewService = null,
+        Mock<IAdminScheduleService>? adminScheduleService = null,
         Mock<Microsoft.AspNetCore.Identity.UserManager<GlowUser>>? userManager = null)
     {
         return ControllerTestHelpers.AttachHttpContext(
@@ -27,6 +28,7 @@ public class AdminPanelControllerTests
                 (appService ?? new Mock<ISpecialistApplicationService>()).Object,
                 (serviceService ?? new Mock<IServiceService>()).Object,
                 (reviewService ?? new Mock<IReviewService>()).Object,
+                (adminScheduleService ?? new Mock<IAdminScheduleService>()).Object,
                 (userManager ?? ControllerTestHelpers.CreateUserManagerMock()).Object,
                 Mock.Of<ILogger<AdminPanelController>>()),
             Guid.NewGuid());

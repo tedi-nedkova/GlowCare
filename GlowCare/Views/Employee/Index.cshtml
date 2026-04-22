@@ -120,13 +120,24 @@
                             <a asp-area="" asp-controller="Employee" asp-action="Details" asp-route-id="@specialist.Id" class="specialist-btn-outline">
                                 Виж профил
                             </a>
-
-                            <a asp-controller="Review"
-                               asp-action="Add"
-                               asp-route-employeeId="@specialist.Id"
-                               class="specialist-btn">
+                            @if (User.Identity?.IsAuthenticated ?? false && !User.IsInRole("Specialist") && !User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Review"
+                                   asp-action="Add"
+                                   asp-route-employeeId="@specialist.Id"
+                                   class="specialist-btn">
+                                    Остави ревю
+                                </a>
+                            }
+                            else
+                            {
+                            <a asp-area="Identity"
+                               asp-page="/Account/Login"
+                               asp-route-returnUrl="@Url.Action("Add", "Review", new { employeeId = specialist.Id })"
+                               class="reviews-primary-btn">
                                 Остави ревю
                             </a>
+                            }
                         </div>
                     </article>
                 }

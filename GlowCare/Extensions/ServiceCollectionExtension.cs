@@ -23,6 +23,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IEmployeeService, GlowCare.Core.Implementations.EmployeeService>();
         services.AddScoped<IProcedureService, ProcedureService>();
         services.AddScoped<IReviewService, ReviewService>();
+        services.AddScoped<IAdminScheduleService, AdminScheduleService>();
         services.AddScoped<IServiceService, ServiceService>();
         services.AddScoped<ISpecialistApplicationService, SpecialistApplicationService>();
 

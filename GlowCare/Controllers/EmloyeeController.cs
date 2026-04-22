@@ -13,7 +13,6 @@ public class EmployeeController(
     IUserService userService,
     ILogger<EmployeeController> logger) : Controller
 {
-    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> Index(string? searchTerm, string? selectedService)
     {
@@ -102,7 +101,6 @@ public class EmployeeController(
 
     [Authorize]
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Apply(ApplySpecialistViewModel model)
     {
         if (!ModelState.IsValid)

@@ -48,12 +48,24 @@
                 </div>
 
                 <div class="reviews-actions">
-                    <a asp-controller="Review"
-                       asp-action="Add"
-                       asp-route-employeeId="@Model.EmployeeId"
-                       class="reviews-primary-btn">
-                        Остави ревю
-                    </a>
+                    @if (User.Identity?.IsAuthenticated ?? false && !User.IsInRole("Specialist") && !User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Review"
+                           asp-action="Add"
+                           asp-route-employeeId="@Model.EmployeeId"
+                           class="reviews-primary-btn">
+                            Остави ревю
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-area="Identity"
+                           asp-page="/Account/Login"
+                           asp-route-returnUrl="@Url.Action("Add", "Review", new { employeeId = Model.EmployeeId })"
+                           class="reviews-primary-btn">
+                            Остави ревю
+                        </a>
+                    }
 
                     <a asp-controller="Employee"
                        asp-action="Details"

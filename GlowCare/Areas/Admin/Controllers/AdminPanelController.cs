@@ -1,5 +1,6 @@
 ﻿using GlowCare.Core.Contracts;
 using GlowCare.Entities.Models;
+using GlowCare.ViewModels.Admin.Schedules;
 using GlowCare.ViewModels.Reviews;
 using GlowCare.ViewModels.Services;
 using GlowCare.ViewModels.SpecialistRequest;
@@ -17,6 +18,7 @@ namespace GlowCare.Areas.Admin.Controllers
         ISpecialistApplicationService specialistApplicationService,
         IServiceService serviceService,
         IReviewService reviewService,
+        IAdminScheduleService adminScheduleService,
         UserManager<GlowUser> userManager,
         ILogger<AdminPanelController> logger) : Controller
     {
@@ -62,7 +64,6 @@ namespace GlowCare.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ServiceManagement(AdminServiceManagementViewModel model)
         {
             ViewData["Title"] = "Добавяне на услуга";
@@ -91,7 +92,6 @@ namespace GlowCare.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteService(int id, string? searchTerm, int pageNumber = 1)
         {
             try
@@ -172,6 +172,148 @@ namespace GlowCare.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> ScheduleManagement()
+        {
+            ViewData["Title"] = "Управление на работно време";
+
+            try
+            {
+                return View(await adminScheduleService.GetScheduleManagementViewModelAsync());
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while loading schedule management.");
+                TempData["ErrorMessage"] = "Неуспешно зареждане на работното време.";
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddSchedule()
+        {
+            ViewData["Title"] = "Добавяне на работно време";
+
+            try
+            {
+                return View(await adminScheduleService.GetCreateScheduleViewModelAsync());
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while loading add schedule page.");
+                TempData["ErrorMessage"] = "Неуспешно зареждане на формата за работно време.";
+                return RedirectToAction(nameof(ScheduleManagement));
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddSchedule(CreateAdminScheduleViewModel model)
+        {
+            ViewData["Title"] = "Добавяне на работно време";
+
+            if (!ModelState.IsValid)
+            {
+                model = await adminScheduleService.GetCreateScheduleViewModelAsync(model);
+                return View(model);
+            }
+
+            try
+            {
+                await adminScheduleService.CreateScheduleAsync(model);
+                TempData["SuccessMessage"] = "Работното време беше добавено успешно.";
+                return RedirectToAction(nameof(ScheduleManagement));
+            }
+            catch (Exception ex) when (ex is ArgumentException || ex is NullReferenceException)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                model = await adminScheduleService.GetCreateScheduleViewModelAsync(model);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while creating a schedule.");
+                TempData["ErrorMessage"] = "Възникна грешка при създаването на работното време.";
+                model = await adminScheduleService.GetCreateScheduleViewModelAsync(model);
+                return View(model);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditSchedule(int id)
+        {
+            ViewData["Title"] = "Редактиране на работно време";
+
+            try
+            {
+                return View(await adminScheduleService.GetEditScheduleViewModelAsync(id));
+            }
+            catch (Exception ex) when (ex is ArgumentException || ex is NullReferenceException)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction(nameof(ScheduleManagement));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while loading schedule {ScheduleId} for edit.", id);
+                TempData["ErrorMessage"] = "Възникна грешка при зареждането на работното време за редакция.";
+                return RedirectToAction(nameof(ScheduleManagement));
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditSchedule(EditAdminScheduleViewModel model)
+        {
+            ViewData["Title"] = "Редактиране на работно време";
+
+            if (!ModelState.IsValid)
+            {
+                model = await adminScheduleService.GetEditScheduleViewModelAsync(model.Id, model);
+                return View(model);
+            }
+
+            try
+            {
+                await adminScheduleService.EditScheduleAsync(model);
+                TempData["SuccessMessage"] = "Работното време беше редактирано успешно.";
+                return RedirectToAction(nameof(ScheduleManagement));
+            }
+            catch (Exception ex) when (ex is ArgumentException || ex is NullReferenceException)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                model = await adminScheduleService.GetEditScheduleViewModelAsync(model.Id, model);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while editing schedule {ScheduleId}.", model.Id);
+                TempData["ErrorMessage"] = "Възникна грешка при редакцията на работното време.";
+                model = await adminScheduleService.GetEditScheduleViewModelAsync(model.Id, model);
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteSchedule(int id)
+        {
+            try
+            {
+                await adminScheduleService.DeleteScheduleAsync(id);
+                TempData["SuccessMessage"] = "Работното време беше изтрито успешно.";
+            }
+            catch (Exception ex) when (ex is ArgumentException || ex is NullReferenceException)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while deleting schedule {ScheduleId}.", id);
+                TempData["ErrorMessage"] = "Възникна грешка при изтриването на работното време.";
+            }
+
+            return RedirectToAction(nameof(ScheduleManagement));
+        }
+
+        [HttpGet]
         public async Task<IActionResult> ReviewsManagement()
         {
             try
@@ -192,7 +334,6 @@ namespace GlowCare.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteReview(int id)
         {
             try

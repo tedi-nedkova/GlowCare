@@ -82,41 +82,6 @@ public class ProcedureServiceTests
     }
 
     [Fact]
-    public async Task EditProcedureAsync_ShouldUpdateProcedureAndResetCompletedFutureOne()
-    {
-        using GlowCareDbContext context = CreateContext();
-        var service = CreateService(context, out _);
-
-        context.Procedures.Add(new Procedure
-        {
-            Id = 3,
-            EmployeeId = Guid.NewGuid(),
-            ServiceId = 1,
-            AppointmentDate = DateTime.UtcNow.AddDays(-1),
-            Status = Status.Completed,
-            RewardPointsGranted = true,
-            Notes = "Old"
-        });
-        await context.SaveChangesAsync();
-
-        EditProcedureViewModel model = new()
-        {
-            EmployeeId = Guid.NewGuid(),
-            ServiceId = 5,
-            AppointmentDate = DateTime.UtcNow.AddDays(2),
-            Notes = "New"
-        };
-
-        Procedure result = await service.EditProcedureAsync(model, 3);
-
-        Assert.Equal(model.EmployeeId, result.EmployeeId);
-        Assert.Equal(5, result.ServiceId);
-        Assert.Equal(Status.Scheduled, result.Status);
-        Assert.False(result.RewardPointsGranted);
-        Assert.Equal("New", result.Notes);
-    }
-
-    [Fact]
     public async Task GetAllProcedureDetailsByUserIdAsync_ShouldThrow_WhenUserIsMissing()
     {
         using GlowCareDbContext context = CreateContext();
@@ -231,23 +196,6 @@ public class ProcedureServiceTests
         await context.SaveChangesAsync();
 
         await Assert.ThrowsAsync<NullReferenceException>(() => service.GetDeleteProcedureAsync(9, Guid.NewGuid()));
-    }
-
-    [Fact]
-    public async Task GetEditProcedureAsync_ShouldReturnViewModel()
-    {
-        using GlowCareDbContext context = CreateContext();
-        var service = CreateService(context, out _);
-
-        Guid employeeId = Guid.NewGuid();
-        context.Procedures.Add(new Procedure { Id = 10, EmployeeId = employeeId, ServiceId = 4, AppointmentDate = DateTime.UtcNow.AddDays(2), Notes = "Edit me", Status = Status.Scheduled });
-        await context.SaveChangesAsync();
-
-        EditProcedureViewModel result = await service.GetEditProcedureAsync(10);
-
-        Assert.Equal(employeeId, result.EmployeeId);
-        Assert.Equal(4, result.ServiceId);
-        Assert.Equal("Edit me", result.Notes);
     }
 
     [Fact]
@@ -426,7 +374,7 @@ public class ProcedureServiceTests
         });
         await context.SaveChangesAsync();
 
-        await service.RejectProcedureAsync(20, specialistUserId);
+        await service.CancelProcedureAsync(20, specialistUserId);
 
         Assert.Equal(Status.Cancelled, context.Procedures.Single().Status);
     }
@@ -449,7 +397,7 @@ public class ProcedureServiceTests
         });
         await context.SaveChangesAsync();
 
-        await Assert.ThrowsAsync<UnauthorizedAccessException>(() => service.RejectProcedureAsync(21, Guid.NewGuid()));
+        await Assert.ThrowsAsync<UnauthorizedAccessException>(() => service.CancelProcedureAsync(21, Guid.NewGuid()));
     }
 
     [Fact]
@@ -471,7 +419,7 @@ public class ProcedureServiceTests
         });
         await context.SaveChangesAsync();
 
-        await Assert.ThrowsAsync<InvalidOperationException>(() => service.RejectProcedureAsync(22, specialistUserId));
+        await Assert.ThrowsAsync<InvalidOperationException>(() => service.CancelProcedureAsync(22, specialistUserId));
     }
 
     private static GlowCareDbContext CreateContext()

@@ -1,0 +1,129 @@
+@model GlowCare.ViewModels.Admin.Schedules.AdminScheduleManagementViewModel
+
+@{
+    ViewData["Title"] = "Управление на работно време";
+}
+
+<div class="schedule-management-page">
+    <div class="container">
+        <div class="schedule-management-header">
+            <div>
+                <a asp-area="Admin"
+                   asp-controller="AdminPanel"
+                   asp-action="Index"
+                   class="back-link">
+                    <i class="fa fa-arrow-left"></i>
+                    <span>Назад</span>
+                </a>
+
+                <h1 class="page-title">Управление на работно време</h1>
+            </div>
+
+            <a asp-area="Admin"
+               asp-controller="AdminPanel"
+               asp-action="AddSchedule"
+               class="add-schedule-btn">
+                <i class="fa fa-plus"></i>
+                <span>Добави работно време</span>
+            </a>
+        </div>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success status-alert mb-4">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger status-alert mb-4">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        @if (Model.Schedules == null || !Model.Schedules.Any())
+        {
+            <div class="empty-state-card">
+                <h4 class="empty-state-title">Все още няма добавени работни времена</h4>
+                <p class="empty-state-text">
+                    Добавете първия график за специалист, за да започнете.
+                </p>
+
+                <a asp-area="Admin"
+                   asp-controller="AdminPanel"
+                   asp-action="AddSchedule"
+                   class="add-schedule-btn empty-btn">
+                    <i class="fa fa-plus"></i>
+                    <span>Добави работно време</span>
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="schedule-table-card">
+                <div class="table-responsive">
+                    <table class="table schedule-table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Специалист</th>
+                                <th>Ден</th>
+                                <th>От</th>
+                                <th>До</th>
+                                <th class="text-end">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var schedule in Model.Schedules)
+                            {
+                                <tr>
+                                    <td data-label="Специалист">
+                                        <div class="specialist-name">@schedule.SpecialistName</div>
+                                    </td>
+
+                                    <td data-label="Ден">
+                                        <span class="day-badge">@schedule.DayOfWeek</span>
+                                    </td>
+
+                                    <td data-label="От">
+                                        <span class="time-badge">@schedule.StartTime</span>
+                                    </td>
+
+                                    <td data-label="До">
+                                        <span class="time-badge">@schedule.EndTime</span>
+                                    </td>
+
+                                    <td data-label="Действия">
+                                        <div class="actions-wrap">
+                                            <a asp-area="Admin"
+                                               asp-controller="AdminPanel"
+                                               asp-action="EditSchedule"
+                                               asp-route-id="@schedule.Id"
+                                               class="btn btn-edit btn-sm">
+                                                Редактирай
+                                            </a>
+
+                                            <form asp-area="Admin"
+                                                  asp-controller="AdminPanel"
+                                                  asp-action="DeleteSchedule"
+                                                  method="post"
+                                                  class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@schedule.Id" />
+                                                <button type="submit"
+                                                        class="btn btn-delete btn-sm"
+                                                        onclick="return confirm('Сигурни ли сте, че искате да изтриете това работно време?');">
+                                                    Изтрий
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>

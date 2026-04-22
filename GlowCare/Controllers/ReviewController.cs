@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GlowCare.Controllers
 {
-    [Authorize]
+    
     public class ReviewController(
         IReviewService reviewService,
         ILogger<ReviewController> logger,
@@ -43,7 +43,7 @@ namespace GlowCare.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Add(AddReviewViewModel model)
         {
             Guid userId = Guid.Parse(userManager.GetUserId(User)!);

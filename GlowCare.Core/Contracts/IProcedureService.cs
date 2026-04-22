@@ -17,13 +17,6 @@ public interface IProcedureService
         int id,
         Guid userId);
 
-    Task<Procedure> EditProcedureAsync(
-        EditProcedureViewModel model,
-        int id);
-
-    Task<EditProcedureViewModel> GetEditProcedureAsync(
-        int id);
-
     Task<IEnumerable<DetailsProcedureViewModel>> GetAllProcedureDetailsByUserIdAsync(
         Guid userId);
 

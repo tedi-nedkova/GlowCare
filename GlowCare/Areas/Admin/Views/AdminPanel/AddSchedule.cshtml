@@ -1,0 +1,100 @@
+﻿@model GlowCare.ViewModels.Admin.Schedules.CreateAdminScheduleViewModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using GlowCare.ViewModels.Common
+
+@{
+    ViewData["Title"] = "Добавяне на работно време";
+
+    var specialistItems = new SelectList(
+        Model.Specialists,
+        nameof(DropdownItemViewModel.Value),
+        nameof(DropdownItemViewModel.Text),
+        Model.EmployeeId?.ToString());
+
+    var dayItems = new SelectList(
+        Model.Days,
+        nameof(DropdownItemViewModel.Value),
+        nameof(DropdownItemViewModel.Text),
+        Model.DayOfWeek?.ToString());
+}
+
+<div class="schedule-form-page">
+    <div class="container">
+        <div class="schedule-header">
+            <a asp-area="Admin"
+               asp-controller="AdminPanel"
+               asp-action="ScheduleManagement"
+               class="back-link">
+                <i class="fa fa-arrow-left"></i>
+                <span>Назад</span>
+            </a>
+
+            <h1 class="page-title">Добавяне на работно време</h1>
+            <p class="page-subtitle">
+                Създайте нов график за избран специалист, като изберете ден и зададете начален и краен час.
+            </p>
+        </div>
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger status-alert mb-4">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        <div class="schedule-form-card">
+            <form asp-area="Admin" asp-controller="AdminPanel" asp-action="AddSchedule" method="post">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="validation-message mb-3"></div>
+
+                <div class="schedule-field">
+                    <label asp-for="EmployeeId" class="schedule-label"></label>
+                    <select asp-for="EmployeeId" asp-items="specialistItems" class="schedule-select">
+                        <option value="">Изберете специалист</option>
+                    </select>
+                    <span asp-validation-for="EmployeeId" class="validation-message"></span>
+                </div>
+
+                <div class="schedule-field">
+                    <label asp-for="DayOfWeek" class="schedule-label"></label>
+                    <select asp-for="DayOfWeek" asp-items="dayItems" class="schedule-select">
+                        <option value="">Изберете ден</option>
+                    </select>
+                    <span asp-validation-for="DayOfWeek" class="validation-message"></span>
+                </div>
+
+                <div class="schedule-time-grid">
+                    <div class="schedule-field">
+                        <label asp-for="StartTime" class="schedule-label"></label>
+                        <input asp-for="StartTime" class="schedule-input" placeholder="09:00" />
+                        <span asp-validation-for="StartTime" class="validation-message"></span>
+                    </div>
+
+                    <div class="schedule-field">
+                        <label asp-for="EndTime" class="schedule-label"></label>
+                        <input asp-for="EndTime" class="schedule-input" placeholder="18:00" />
+                        <span asp-validation-for="EndTime" class="validation-message"></span>
+                    </div>
+                </div>
+
+                <div class="schedule-actions">
+                    <button type="submit" class="schedule-btn">
+                        Запази
+                    </button>
+
+                    <a asp-area="Admin"
+                       asp-controller="AdminPanel"
+                       asp-action="ScheduleManagement"
+                       class="schedule-btn-secondary">
+                        Отказ
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

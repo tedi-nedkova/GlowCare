@@ -63,34 +63,6 @@ public class ProcedureService(
         await procedureRepository.UpdateAsync(procedure);
     }
 
-    public async Task<Procedure> EditProcedureAsync(
-        EditProcedureViewModel model,
-        int id)
-    {
-        Procedure procedure = await procedureRepository.GetByIdAsync(id)
-            ?? throw new NullReferenceException("Записът не беше намерен.");
-
-        if (procedure.IsDeleted)
-        {
-            throw new ArgumentException("Записът вече е изтрит.");
-        }
-
-        procedure.EmployeeId = model.EmployeeId;
-        procedure.ServiceId = model.ServiceId;
-        procedure.AppointmentDate = model.AppointmentDate;
-        procedure.Notes = model.Notes;
-
-        if (procedure.Status == Status.Completed && procedure.AppointmentDate > DateTime.Now)
-        {
-            procedure.Status = Status.Scheduled;
-            procedure.RewardPointsGranted = false;
-        }
-
-        await procedureRepository.UpdateAsync(procedure);
-
-        return procedure;
-    }
-
     public async Task<IEnumerable<DetailsProcedureViewModel>> GetAllProcedureDetailsByUserIdAsync(Guid userId)
     {
         var user = await userManager.Users
@@ -157,25 +129,6 @@ public class ProcedureService(
             Id = entity.Id,
             ClientName = $"{userEntity!.FirstName} {userEntity!.LastName}",
             ServiceName = service.Name,
-        };
-    }
-
-    public async Task<EditProcedureViewModel> GetEditProcedureAsync(int id)
-    {
-        var entity = await procedureRepository.GetByIdAsync(id)
-            ?? throw new NullReferenceException("Записът не беше намерен.");
-
-        if (entity.IsDeleted)
-        {
-            throw new ArgumentException("Записът вече е изтрит.");
-        }
-
-        return new EditProcedureViewModel
-        {
-            EmployeeId = entity.EmployeeId,
-            ServiceId = entity.ServiceId,
-            AppointmentDate = entity.AppointmentDate,
-            Notes = entity.Notes,
         };
     }
 
