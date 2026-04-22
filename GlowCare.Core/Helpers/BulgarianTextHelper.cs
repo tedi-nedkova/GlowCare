@@ -23,11 +23,13 @@ public static class BulgarianTextHelper
             _ => title.ToString()
         };
 
-    public static string GetProcedureStatusText(Status status)
+    public static string GetProcedureStatusText(Status status, CancelledBy? cancelledBy = null)
         => status switch
         {
             Status.Scheduled => "Планирана",
             Status.Completed => "Завършена",
+            Status.Cancelled when cancelledBy == CancelledBy.User => "Отказана от клиент",
+            Status.Cancelled when cancelledBy == CancelledBy.Employee => "Отказана от специалист",
             Status.Cancelled => "Отказана",
             _ => status.ToString()
         };

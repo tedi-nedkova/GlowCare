@@ -56,32 +56,6 @@ public class ProcedureServiceTests
     }
 
     [Fact]
-    public async Task DeleteProcedureAsync_ShouldSoftDeleteProcedure()
-    {
-        using GlowCareDbContext context = CreateContext();
-        var service = CreateService(context, out _);
-
-        context.Procedures.Add(new Procedure { Id = 1, AppointmentDate = DateTime.UtcNow, Status = Status.Scheduled });
-        await context.SaveChangesAsync();
-
-        await service.DeleteProcedureAsync(new DeleteProcedureViewModel { Id = 1, ClientName = "", ServiceName = "" });
-
-        Assert.True(context.Procedures.Single().IsDeleted);
-    }
-
-    [Fact]
-    public async Task DeleteProcedureAsync_ShouldThrow_WhenProcedureIsAlreadyDeleted()
-    {
-        using GlowCareDbContext context = CreateContext();
-        var service = CreateService(context, out _);
-
-        context.Procedures.Add(new Procedure { Id = 2, AppointmentDate = DateTime.UtcNow, Status = Status.Scheduled, IsDeleted = true });
-        await context.SaveChangesAsync();
-
-        await Assert.ThrowsAsync<ArgumentException>(() => service.DeleteProcedureAsync(new DeleteProcedureViewModel { Id = 2, ClientName = "", ServiceName = "" }));
-    }
-
-    [Fact]
     public async Task GetAllProcedureDetailsByUserIdAsync_ShouldThrow_WhenUserIsMissing()
     {
         using GlowCareDbContext context = CreateContext();
@@ -377,6 +351,8 @@ public class ProcedureServiceTests
         await service.CancelProcedureAsync(20, specialistUserId);
 
         Assert.Equal(Status.Cancelled, context.Procedures.Single().Status);
+        Assert.True(context.Procedures.Single().IsDeleted);
+        Assert.Equal(CancelledBy.Employee, context.Procedures.Single().CancelledBy);
     }
 
     [Fact]
@@ -420,6 +396,63 @@ public class ProcedureServiceTests
         await context.SaveChangesAsync();
 
         await Assert.ThrowsAsync<InvalidOperationException>(() => service.CancelProcedureAsync(22, specialistUserId));
+    }
+
+    [Fact]
+    public async Task GetAllProcedureDetailsByUserIdAsync_ShouldIncludeEmployeeCancelledProceduresForClient()
+    {
+        using GlowCareDbContext context = CreateContext();
+        var service = CreateService(context, out _);
+
+        Membership membership = new() { Id = 1, Title = MembershipTitle.GlowEntry, DiscountPercentage = 5, Points = 10 };
+        GlowUser client = new()
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Raya",
+            LastName = "Client",
+            UserName = "raya2",
+            NormalizedUserName = "RAYA2",
+            Email = "raya2@test.bg",
+            Membership = membership,
+            MembershipId = membership.Id
+        };
+        GlowUser specialistUser = new()
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Miro",
+            LastName = "Spec",
+            UserName = "miro2",
+            NormalizedUserName = "MIRO2",
+            Email = "miro2@test.bg",
+            IsSpecialist = true
+        };
+        Employee employee = new() { Id = Guid.NewGuid(), UserId = specialistUser.Id, User = specialistUser, Occupation = "Therapist", ExperienceYears = 7 };
+        ServiceEntity serviceEntity = new() { Id = 33, Name = "Massage", DurationInMinutes = 60, Price = 100, Points = 15 };
+
+        context.Memberships.Add(membership);
+        context.Users.AddRange(client, specialistUser);
+        context.Employees.Add(employee);
+        context.Services.Add(serviceEntity);
+        context.Procedures.Add(new Procedure
+        {
+            Id = 30,
+            UserId = client.Id,
+            User = client,
+            EmployeeId = employee.Id,
+            Employee = employee,
+            ServiceId = serviceEntity.Id,
+            Service = serviceEntity,
+            AppointmentDate = DateTime.Now.AddDays(1),
+            Status = Status.Cancelled,
+            IsDeleted = true,
+            CancelledBy = CancelledBy.Employee
+        });
+        await context.SaveChangesAsync();
+
+        List<DetailsProcedureViewModel> result = (await service.GetAllProcedureDetailsByUserIdAsync(client.Id)).ToList();
+
+        Assert.Single(result);
+        Assert.Equal("Отказана от специалист", result[0].Status);
     }
 
     private static GlowCareDbContext CreateContext()
@@ -525,20 +558,72 @@ public class ProcedureServiceTests
         var service = CreateService(context, out _);
 
         Guid userId = Guid.NewGuid();
+
+        GlowUser user = new()
+        {
+            Id = userId,
+            FirstName = "Test",
+            LastName = "User",
+            UserName = "testuser",
+            NormalizedUserName = "TESTUSER",
+            Email = "testuser@test.bg"
+        };
+
+        GlowUser specialistUser = new()
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Spec",
+            LastName = "User",
+            UserName = "specuser",
+            NormalizedUserName = "SPECUSER",
+            Email = "specuser@test.bg",
+            IsSpecialist = true
+        };
+
+        Employee employee = new()
+        {
+            Id = Guid.NewGuid(),
+            UserId = specialistUser.Id,
+            User = specialistUser,
+            Occupation = "Therapist",
+            ExperienceYears = 5
+        };
+
+        ServiceEntity serviceEntity = new()
+        {
+            Id = 1,
+            Name = "Massage",
+            DurationInMinutes = 60,
+            Price = 100,
+            Points = 10
+        };
+
+        context.Users.AddRange(user, specialistUser);
+        context.Employees.Add(employee);
+        context.Services.Add(serviceEntity);
         context.Procedures.Add(new Procedure
         {
             Id = 30,
             UserId = userId,
-            EmployeeId = Guid.NewGuid(),
-            ServiceId = 1,
+            User = user,
+            EmployeeId = employee.Id,
+            Employee = employee,
+            ServiceId = serviceEntity.Id,
+            Service = serviceEntity,
             AppointmentDate = DateTime.Now.AddDays(2),
-            Status = Status.Scheduled
+            Status = Status.Scheduled,
+            IsDeleted = false
         });
+
         await context.SaveChangesAsync();
 
         await service.CancelProcedureAsync(30, userId);
 
-        Assert.Equal(Status.Cancelled, context.Procedures.Single(p => p.Id == 30).Status);
+        Procedure procedure = context.Procedures.Single(p => p.Id == 30);
+
+        Assert.Equal(Status.Cancelled, procedure.Status);
+        Assert.True(procedure.IsDeleted);
+        Assert.Equal(CancelledBy.User, procedure.CancelledBy);
     }
 
     [Fact]
@@ -547,18 +632,66 @@ public class ProcedureServiceTests
         using GlowCareDbContext context = CreateContext();
         var service = CreateService(context, out _);
 
+        GlowUser owner = new()
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Owner",
+            LastName = "User",
+            UserName = "owneruser",
+            NormalizedUserName = "OWNERUSER",
+            Email = "owneruser@test.bg"
+        };
+
+        GlowUser specialistUser = new()
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Spec",
+            LastName = "User",
+            UserName = "specuser2",
+            NormalizedUserName = "SPECUSER2",
+            Email = "specuser2@test.bg",
+            IsSpecialist = true
+        };
+
+        Employee employee = new()
+        {
+            Id = Guid.NewGuid(),
+            UserId = specialistUser.Id,
+            User = specialistUser,
+            Occupation = "Therapist",
+            ExperienceYears = 5
+        };
+
+        ServiceEntity serviceEntity = new()
+        {
+            Id = 1,
+            Name = "Massage",
+            DurationInMinutes = 60,
+            Price = 100,
+            Points = 10
+        };
+
+        context.Users.AddRange(owner, specialistUser);
+        context.Employees.Add(employee);
+        context.Services.Add(serviceEntity);
         context.Procedures.Add(new Procedure
         {
             Id = 31,
-            UserId = Guid.NewGuid(),
-            EmployeeId = Guid.NewGuid(),
-            ServiceId = 1,
+            UserId = owner.Id,
+            User = owner,
+            EmployeeId = employee.Id,
+            Employee = employee,
+            ServiceId = serviceEntity.Id,
+            Service = serviceEntity,
             AppointmentDate = DateTime.Now.AddDays(2),
-            Status = Status.Scheduled
+            Status = Status.Scheduled,
+            IsDeleted = false
         });
+
         await context.SaveChangesAsync();
 
-        await Assert.ThrowsAsync<UnauthorizedAccessException>(() => service.CancelProcedureAsync(31, Guid.NewGuid()));
+        await Assert.ThrowsAsync<UnauthorizedAccessException>(
+            () => service.CancelProcedureAsync(31, Guid.NewGuid()));
     }
 
     [Fact]
@@ -568,18 +701,67 @@ public class ProcedureServiceTests
         var service = CreateService(context, out _);
 
         Guid userId = Guid.NewGuid();
+
+        GlowUser user = new()
+        {
+            Id = userId,
+            FirstName = "Past",
+            LastName = "User",
+            UserName = "pastuser",
+            NormalizedUserName = "PASTUSER",
+            Email = "pastuser@test.bg"
+        };
+
+        GlowUser specialistUser = new()
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Spec",
+            LastName = "User",
+            UserName = "specuser3",
+            NormalizedUserName = "SPECUSER3",
+            Email = "specuser3@test.bg",
+            IsSpecialist = true
+        };
+
+        Employee employee = new()
+        {
+            Id = Guid.NewGuid(),
+            UserId = specialistUser.Id,
+            User = specialistUser,
+            Occupation = "Therapist",
+            ExperienceYears = 5
+        };
+
+        ServiceEntity serviceEntity = new()
+        {
+            Id = 1,
+            Name = "Massage",
+            DurationInMinutes = 60,
+            Price = 100,
+            Points = 10
+        };
+
+        context.Users.AddRange(user, specialistUser);
+        context.Employees.Add(employee);
+        context.Services.Add(serviceEntity);
         context.Procedures.Add(new Procedure
         {
             Id = 32,
             UserId = userId,
-            EmployeeId = Guid.NewGuid(),
-            ServiceId = 1,
+            User = user,
+            EmployeeId = employee.Id,
+            Employee = employee,
+            ServiceId = serviceEntity.Id,
+            Service = serviceEntity,
             AppointmentDate = DateTime.Now.AddHours(-3),
-            Status = Status.Scheduled
+            Status = Status.Scheduled,
+            IsDeleted = false
         });
+
         await context.SaveChangesAsync();
 
-        await Assert.ThrowsAsync<InvalidOperationException>(() => service.CancelProcedureAsync(32, userId));
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => service.CancelProcedureAsync(32, userId));
     }
 
 }

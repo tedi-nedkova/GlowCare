@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using GlowCare.Entities.Models.Enums;
 
@@ -32,6 +32,8 @@ public class Procedure
     public bool RewardPointsGranted { get; set; }
 
     public bool IsDeleted { get; set; }
+
+    public CancelledBy? CancelledBy { get; set; }
 
     public ICollection<Review> Reviews { get; set; }
          = new List<Review>();

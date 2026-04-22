@@ -4,8 +4,6 @@
     ViewData["Title"] = "Моят профил";
 }
 
-
-
 <div class="profile-shell">
     <div class="container">
         <div class="row g-4">
@@ -108,15 +106,14 @@
                                                 <th>Процедура</th>
                                                 <th>@(Model.IsSpecialist ? "Клиент" : "Специалист")</th>
                                                 <th>Дата</th>
-                                                <th>Статус</th>
+
                                                 @if (Model.IsSpecialist)
                                                 {
-                                                    <th>Действия</th>
+                                                    <th>Бележки</th>
                                                 }
-                                                else
-                                                {
-                                                    <th>@(Model.IsAdmin ? "" : "Действия")</th>
-                                                }
+
+                                                <th>Статус</th>
+                                                <th>@(Model.IsSpecialist ? "Действия" : "Действия")</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -127,11 +124,31 @@
                                                         <div class="service-name">@procedure.ServiceName</div>
                                                         <div class="service-price">@procedure.Price.ToString("F2") €</div>
                                                     </td>
+
                                                     <td>@(Model.IsSpecialist? procedure.ClientName: procedure.SpecialistName)</td>
+
                                                     <td>@procedure.AppointmentDate</td>
+
+                                                    @if (Model.IsSpecialist)
+                                                    {
+                                                        <td>
+                                                            @if (!string.IsNullOrWhiteSpace(procedure.Notes))
+                                                            {
+                                                                <div style="max-width: 220px; white-space: normal; word-break: break-word;">
+                                                                    @procedure.Notes
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-muted">Няма бележка</span>
+                                                            }
+                                                        </td>
+                                                    }
+
                                                     <td>
                                                         <span class="modern-badge status-default">@procedure.Status</span>
                                                     </td>
+
                                                     @if (Model.IsSpecialist)
                                                     {
                                                         <td>

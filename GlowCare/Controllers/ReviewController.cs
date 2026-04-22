@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GlowCare.Controllers
 {
-    
+
     public class ReviewController(
         IReviewService reviewService,
         ILogger<ReviewController> logger,

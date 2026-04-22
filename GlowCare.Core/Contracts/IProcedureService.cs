@@ -11,8 +11,6 @@ public interface IProcedureService
         IndexViewModel model,
         Guid userId);
 
-    Task DeleteProcedureAsync(
-        DeleteProcedureViewModel model);
     Task<DeleteProcedureViewModel> GetDeleteProcedureAsync(
         int id,
         Guid userId);

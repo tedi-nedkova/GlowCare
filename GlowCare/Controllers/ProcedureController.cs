@@ -120,7 +120,6 @@ public class ProcedureController(
         return Json(services);
     }
 
-
     [Authorize(Roles = "User,Specialist")]
     [HttpPost]
     public async Task<IActionResult> Cancel(int id)
@@ -150,7 +149,7 @@ public class ProcedureController(
         catch (Exception ex)
         {
             logger.LogError(ex, "An error occurred while cancelling a procedure.");
-            TempData["ProfileError"] = "Възникна грешка при отказването на процедурата.";
+            TempData["ProfileError"] = "Възникна грешка при отказването на часа.";
         }
 
         return RedirectToAction("Index", "Profile");

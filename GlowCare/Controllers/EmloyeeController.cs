@@ -20,7 +20,6 @@ public class EmployeeController(
         return View(model);
     }
 
-    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> Details(Guid id)
     {

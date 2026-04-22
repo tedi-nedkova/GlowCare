@@ -140,7 +140,6 @@ namespace GlowCare.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditService(EditServiceViewModel model)
         {
             ViewData["Title"] = "Редактиране на услуга";
@@ -206,7 +205,6 @@ namespace GlowCare.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddSchedule(CreateAdminScheduleViewModel model)
         {
             ViewData["Title"] = "Добавяне на работно време";
@@ -512,7 +510,6 @@ namespace GlowCare.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Approve(int id)
         {
             try
@@ -534,7 +531,6 @@ namespace GlowCare.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Decline(ReviewApplicationViewModel model)
         {
             if (!ModelState.IsValid)

@@ -1,4 +1,4 @@
-﻿using GlowCare.Controllers;
+using GlowCare.Controllers;
 using GlowCare.Core.Contracts;
 using GlowCare.Entities.Models;
 using GlowCare.ViewModels.Procedures;
@@ -203,7 +203,7 @@ public class ProcedureControllerTests
         var redirect = Assert.IsType<RedirectToActionResult>(result);
         Assert.Equal("Index", redirect.ActionName);
         Assert.Equal("Profile", redirect.ControllerName);
-        Assert.Equal("Часът беше отказан успешно.", controller.TempData["ProfileMessage"]);
+        Assert.Equal("Процедурата беше отказана успешно.", controller.TempData["ProfileMessage"]);
     }
 
 }

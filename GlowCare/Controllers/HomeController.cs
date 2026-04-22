@@ -11,8 +11,7 @@ namespace GlowCare.Controllers
 {
     public class HomeController(
        IProcedureService procedureService,
-       IServiceService serviceService,
-       ILogger<HomeController> _logger
+       IServiceService serviceService
         ) : Controller
     {
         [HttpGet]

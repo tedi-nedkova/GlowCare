@@ -311,6 +311,86 @@ public class UserServiceTests
     }
 
     [Fact]
+    public async Task GetUserProfileAsync_ShouldKeepEmployeeCancelledProceduresVisibleForClient()
+    {
+        using GlowCareDbContext context = CreateContext();
+        RoleManager<IdentityRole<Guid>> roleManager = CreateRoleManager(context);
+        UserManager<GlowUser> userManager = CreateUserManager(context);
+
+        GlowUser client = await CreatePersistedUserAsync(userManager, "Raya", "Client", "raya.visibility@test.bg");
+        GlowUser specialistUser = await CreatePersistedUserAsync(userManager, "Miro", "Spec", "miro.visibility@test.bg", isSpecialist: true);
+        Employee employee = new() { Id = Guid.NewGuid(), UserId = specialistUser.Id, User = specialistUser, Occupation = "Therapist", ExperienceYears = 9 };
+        ServiceEntity serviceEntity = new() { Id = 7, Name = "Therapy", DurationInMinutes = 60, Price = 90, Points = 9 };
+
+        context.Employees.Add(employee);
+        context.Services.Add(serviceEntity);
+        context.Procedures.Add(new Procedure
+        {
+            Id = 22,
+            UserId = client.Id,
+            User = client,
+            EmployeeId = employee.Id,
+            Employee = employee,
+            ServiceId = serviceEntity.Id,
+            Service = serviceEntity,
+            AppointmentDate = DateTime.Now.AddDays(1),
+            Status = Status.Cancelled,
+            IsDeleted = true,
+            CancelledBy = CancelledBy.Employee
+        });
+        await context.SaveChangesAsync();
+
+        UserService service = CreateService(context, roleManager, userManager);
+
+        var result = await service.GetUserProfileAsync(client.Id);
+
+        Assert.Single(result.Procedures);
+        Assert.Equal("Отказана от специалист", result.Procedures[0].Status);
+        Assert.False(result.Procedures[0].CanBeCancelledByUser);
+    }
+
+    [Fact]
+    public async Task GetUserProfileAsync_ShouldKeepUserCancelledProceduresVisibleForSpecialist()
+    {
+        using GlowCareDbContext context = CreateContext();
+        RoleManager<IdentityRole<Guid>> roleManager = CreateRoleManager(context);
+        UserManager<GlowUser> userManager = CreateUserManager(context);
+        await EnsureRoleExistsAsync(roleManager, "Specialist");
+
+        GlowUser specialistUser = await CreatePersistedUserAsync(userManager, "Specialist", "User", "specialist.visibility@test.bg", isSpecialist: true);
+        GlowUser client = await CreatePersistedUserAsync(userManager, "Client", "User", "client.visibility@test.bg");
+        Employee employee = new() { Id = Guid.NewGuid(), UserId = specialistUser.Id, User = specialistUser, Occupation = "Therapist", ExperienceYears = 9 };
+        ServiceEntity serviceEntity = new() { Id = 8, Name = "Therapy", DurationInMinutes = 60, Price = 90, Points = 9 };
+
+        context.Employees.Add(employee);
+        context.Services.Add(serviceEntity);
+        context.Procedures.Add(new Procedure
+        {
+            Id = 23,
+            UserId = client.Id,
+            User = client,
+            EmployeeId = employee.Id,
+            Employee = employee,
+            ServiceId = serviceEntity.Id,
+            Service = serviceEntity,
+            AppointmentDate = DateTime.Now.AddDays(1),
+            Status = Status.Cancelled,
+            IsDeleted = true,
+            CancelledBy = CancelledBy.User
+        });
+        await context.SaveChangesAsync();
+        await AssertIdentitySuccessAsync(userManager.AddToRoleAsync(specialistUser, "Specialist"));
+
+        UserService service = CreateService(context, roleManager, userManager);
+
+        var result = await service.GetUserProfileAsync(specialistUser.Id);
+
+        Assert.Single(result.Procedures);
+        Assert.Equal("Отказана от клиент", result.Procedures[0].Status);
+        Assert.False(result.Procedures[0].CanBeRejectedBySpecialist);
+    }
+
+    [Fact]
     public async Task GetUserProfileAsync_ShouldReturnAdminProfile()
     {
         using GlowCareDbContext context = CreateContext();

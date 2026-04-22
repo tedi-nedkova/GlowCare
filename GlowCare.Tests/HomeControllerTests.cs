@@ -20,7 +20,7 @@ public class HomeControllerTests
         var serviceService = new Mock<IServiceService>();
         procedureService.Setup(x => x.GetEmployeeSelectListAsync()).ReturnsAsync(new List<SelectListItem> { new() { Value = "1", Text = "Emp" } });
         serviceService.Setup(x => x.GetAllServicesAsync()).ReturnsAsync(new List<ServiceInfoViewModel> { new() { Id = 1, Name = "Massage" } });
-        var controller = new HomeController(procedureService.Object, serviceService.Object, Mock.Of<ILogger<HomeController>>());
+        var controller = new HomeController(procedureService.Object, serviceService.Object);
         controller.ControllerContext = new ControllerContext { HttpContext = new Microsoft.AspNetCore.Http.DefaultHttpContext() };
 
         var result = await controller.Index();
@@ -34,7 +34,7 @@ public class HomeControllerTests
     [Fact]
     public void Error_ShouldReturnErrorViewModel()
     {
-        var controller = new HomeController(new Mock<IProcedureService>().Object, new Mock<IServiceService>().Object, Mock.Of<ILogger<HomeController>>());
+        var controller = new HomeController(new Mock<IProcedureService>().Object, new Mock<IServiceService>().Object);
         controller.ControllerContext = new ControllerContext { HttpContext = new Microsoft.AspNetCore.Http.DefaultHttpContext() };
 
         var result = controller.Error();

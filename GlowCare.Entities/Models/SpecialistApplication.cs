@@ -1,6 +1,7 @@
 ﻿using GlowCare.Entities.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static GlowCare.Common.Constants.SpecialistApplicationConstants;
 
 namespace GlowCare.Entities.Models;
 
@@ -20,9 +21,11 @@ public class SpecialistApplication
     public string Occupation { get; set; } = null!;
 
     [Required]
-    [Range(0, 60)]
+    [Range(ExperienceYearsMinCount, ExperienceYearsMaxCount)]
     public int ExperienceYears { get; set; }
 
+    [MinLength(BiographyMinLength)]
+    [MaxLength(BiographyMaxLength)]
     public string? Biography { get; set; }
 
     public RequestStatus Status { get; set; } = RequestStatus.Pending;

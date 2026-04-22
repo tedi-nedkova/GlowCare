@@ -20,7 +20,7 @@ public class ServiceControllerTests
         serviceService.Setup(x => x.GetCategoryOptionsAsync())
             .ReturnsAsync(new List<ServiceCategoryOptionViewModel> { new() { Id = 2, Name = "Massage" } });
 
-        var controller = new ServiceController(procedureService.Object, serviceService.Object, Mock.Of<ILogger<HomeController>>());
+        var controller = new ServiceController( serviceService.Object);
 
         var result = await controller.Index(2, "50-100", "morning", 2);
 

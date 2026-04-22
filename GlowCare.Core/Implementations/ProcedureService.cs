@@ -1,4 +1,4 @@
-﻿using GlowCare.Core.Contracts;
+using GlowCare.Core.Contracts;
 using GlowCare.Core.Helpers;
 using GlowCare.Entities.Contracts.Interfaces;
 using GlowCare.Entities.Models;
@@ -82,7 +82,8 @@ public class ProcedureService(
             .Include(p => p.Employee)
                 .ThenInclude(e => e!.User)
             .Include(p => p.Service)
-            .Where(p => !p.IsDeleted && p.UserId == userId)
+            .Where(p => p.UserId == userId
+                && (!p.IsDeleted || (p.Status == Status.Cancelled && p.CancelledBy == CancelledBy.Employee)))
             .OrderByDescending(p => p.AppointmentDate)
             .Select(p => new DetailsProcedureViewModel
             {
@@ -92,7 +93,7 @@ public class ProcedureService(
                 Service = p.Service!.Name,
                 Price = p.Service.Price,
                 AppointmentDate = p.AppointmentDate.ToString(AppointmentDateFormat),
-                Status = BulgarianTextHelper.GetProcedureStatusText(p.Status!.Value),
+                Status = BulgarianTextHelper.GetProcedureStatusText(p.Status!.Value, p.CancelledBy),
                 EarnedPoints = p.Status == Status.Completed ? p.Service.Points : 0
             })
             .ToListAsync();
@@ -295,6 +296,7 @@ public class ProcedureService(
 
         procedure.Status = Status.Cancelled;
         procedure.IsDeleted = true;
+        procedure.CancelledBy = isClient ? CancelledBy.User : CancelledBy.Employee;
 
         await procedureRepository.UpdateAsync(procedure);
     }

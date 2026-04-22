@@ -1,4 +1,4 @@
-﻿using GlowCare.Core.Contracts;
+using GlowCare.Core.Contracts;
 using GlowCare.Core.Helpers;
 using GlowCare.Entities.Contracts.Interfaces;
 using GlowCare.Entities.Models;
@@ -143,32 +143,36 @@ public class UserService(
         {
             procedures = await procedureRepository
                 .GetAllAttached()
-                .Where(p => !p.IsDeleted && p.Employee != null && p.Employee.UserId == userId)
+                .Where(p => p.Employee != null
+                    && p.Employee.UserId == userId
+                    && (!p.IsDeleted || (p.Status == Status.Cancelled && p.CancelledBy == CancelledBy.User)))
                 .Include(p => p.Service)
                 .Include(p => p.User)
                 .Include(p => p.Employee)
                     .ThenInclude(e => e!.User)
                 .OrderByDescending(p => p.AppointmentDate)
-                .Select(p => new UserProfileProcedureViewModel
-                {
-                    Id = p.Id,
-                    ServiceName = p.Service!.Name,
-                    SpecialistName = $"{p.Employee!.User.FirstName} {p.Employee.User.LastName}",
-                    ClientName = $"{p.User!.FirstName} {p.User.LastName}",
-                    Price = p.Service.Price,
-                    EarnedPoints = 0,
-                    AppointmentDate = p.AppointmentDate.ToString("dd.MM.yyyy HH:mm"),
-                    Status = BulgarianTextHelper.GetProcedureStatusText(p.Status!.Value),
-                    CanBeRejectedBySpecialist = p.Status == Status.Scheduled && p.AppointmentDate > DateTime.Now,
-                    CanBeCancelledByUser = false
-                })
+               .Select(p => new UserProfileProcedureViewModel
+               {
+                   Id = p.Id,
+                   ServiceName = p.Service!.Name,
+                   SpecialistName = $"{p.Employee!.User.FirstName} {p.Employee.User.LastName}",
+                   ClientName = $"{p.User!.FirstName} {p.User.LastName}",
+                   Price = p.Service.Price,
+                   EarnedPoints = 0,
+                   AppointmentDate = p.AppointmentDate.ToString("dd.MM.yyyy HH:mm"),
+                   Status = BulgarianTextHelper.GetProcedureStatusText(p.Status!.Value, p.CancelledBy),
+                   Notes = p.Notes,
+                   CanBeRejectedBySpecialist = p.Status == Status.Scheduled && p.AppointmentDate > DateTime.Now,
+                   CanBeCancelledByUser = false
+               })
                 .ToListAsync();
         }
         else if (!isAdmin)
         {
             procedures = await procedureRepository
                 .GetAllAttached()
-                .Where(p => p.UserId == userId && !p.IsDeleted)
+                .Where(p => p.UserId == userId
+                    && (!p.IsDeleted || (p.Status == Status.Cancelled && p.CancelledBy == CancelledBy.Employee)))
                 .Include(p => p.Service)
                 .Include(p => p.Employee)
                     .ThenInclude(e => e!.User)
@@ -181,7 +185,7 @@ public class UserService(
                     Price = p.Service.Price,
                     EarnedPoints = p.Status == Status.Completed ? p.Service.Points : 0,
                     AppointmentDate = p.AppointmentDate.ToString("dd.MM.yyyy HH:mm"),
-                    Status = BulgarianTextHelper.GetProcedureStatusText(p.Status!.Value),
+                    Status = BulgarianTextHelper.GetProcedureStatusText(p.Status!.Value, p.CancelledBy),
                     CanBeRejectedBySpecialist = false,
                     CanBeCancelledByUser = p.Status == Status.Scheduled && p.AppointmentDate > DateTime.Now
                 })

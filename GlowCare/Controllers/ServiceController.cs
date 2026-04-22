@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GlowCare.Controllers
 {
     public class ServiceController(
-        IProcedureService procedureService,
-        IServiceService serviceService,
-        ILogger<HomeController> logger
+        IServiceService serviceService
     ) : Controller
     {
         [HttpGet]
